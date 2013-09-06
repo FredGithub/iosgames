@@ -36,6 +36,10 @@
     return scene;
 }
 
+- (void) initWithUI {
+    
+}
+
 - (void) addMonster {
     
     CCSprite * monster = [CCSprite spriteWithFile:@"monster.png"];
@@ -86,6 +90,14 @@
         CCSprite *player = [CCSprite spriteWithFile:@"player.png"];
         player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
+        
+        _level = 0;
+        _monstersGoals = [[NSArray arrayWithObjects:@(10), @(15), @(20), @(25), nil] retain];
+        
+        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [_monstersGoals[_level] intValue]] fontName:@"Helvetica" fontSize:12];
+        _monstersLabel.color = ccc3(0, 0, 0);
+        _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
+        [self addChild:_monstersLabel];
         
         [self schedule:@selector(gameLogic:) interval:1.0];
         
@@ -169,7 +181,8 @@
             [self removeChild:monster cleanup:YES];
             
             _monstersDestroyed++;
-            if (_monstersDestroyed > 30) {
+            [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [_monstersGoals[_level] intValue]]];
+            if (_monstersDestroyed > [_monstersGoals[_level] intValue]) {
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
                 [[CCDirector sharedDirector] replaceScene:gameOverScene];
             }
@@ -196,6 +209,7 @@
     _monsters = nil;
     [_projectiles release];
     _projectiles = nil;
+    [_monstersGoals release];
     [super dealloc];
 }
 
