@@ -148,6 +148,7 @@
 		35DC32641653184500862E62 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35DC325C1653184500862E62 /* background-music-aac.caf */; };
 		35DC32651653184500862E62 /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35DC325D1653184500862E62 /* pew-pew-lei.caf */; };
 		35DC32681653249C00862E62 /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35DC32671653249C00862E62 /* GameOverLayer.m */; };
+		AF0B794517E11BC800829143 /* LevelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0B794417E11BC800829143 /* LevelManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -435,6 +436,8 @@
 		35DC325D1653184500862E62 /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 		35DC32661653249C00862E62 /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
 		35DC32671653249C00862E62 /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
+		AF0B794317E11BC800829143 /* LevelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelManager.h; sourceTree = "<group>"; };
+		AF0B794417E11BC800829143 /* LevelManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +508,8 @@
 				35DC30B616530C7500862E62 /* Resources */,
 				35DC30D416530C7A00862E62 /* libs */,
 				35DC323B16530CA300862E62 /* Supporting Files */,
+				AF0B794317E11BC800829143 /* LevelManager.h */,
+				AF0B794417E11BC800829143 /* LevelManager.m */,
 			);
 			path = Cocos2DSimpleGame;
 			sourceTree = "<group>";
@@ -1108,6 +1113,7 @@
 				35DC324416530CA400862E62 /* HelloWorldLayer.m in Sources */,
 				35DC324716530CA400862E62 /* IntroLayer.m in Sources */,
 				35DC32681653249C00862E62 /* GameOverLayer.m in Sources */,
+				AF0B794517E11BC800829143 /* LevelManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1217,7 @@
 				35DC324C16530CA500862E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

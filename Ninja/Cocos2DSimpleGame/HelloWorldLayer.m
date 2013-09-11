@@ -11,6 +11,7 @@
 #import "HelloWorldLayer.h"
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
+#import "LevelManager.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -91,13 +92,17 @@
         player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
         
-        _level = 0;
-        _monstersGoals = [[NSArray arrayWithObjects:@(10), @(15), @(20), @(25), nil] retain];
+        _monstersGoals = [[NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil] retain];
         
-        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [_monstersGoals[_level] intValue]] fontName:@"Helvetica" fontSize:12];
+        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]] fontName:@"Helvetica" fontSize:12];
         _monstersLabel.color = ccc3(0, 0, 0);
         _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
         [self addChild:_monstersLabel];
+        
+        _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:12];
+        _levelLabel.color = ccc3(0, 0, 0);
+        _levelLabel.position = ccp(winSize.width - _levelLabel.contentSize.width/2 - 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
+        [self addChild:_levelLabel];
         
         [self schedule:@selector(gameLogic:) interval:1.0];
         
@@ -181,8 +186,9 @@
             [self removeChild:monster cleanup:YES];
             
             _monstersDestroyed++;
-            [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [_monstersGoals[_level] intValue]]];
-            if (_monstersDestroyed > [_monstersGoals[_level] intValue]) {
+            [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]]];
+            if (_monstersDestroyed >= [self levelObjective]) {
+                [LevelManager sharedLevelManager].level++;
                 CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
                 [[CCDirector sharedDirector] replaceScene:gameOverScene];
             }
@@ -226,4 +232,14 @@
     AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
     [[app navController] dismissModalViewControllerAnimated:YES];
 }
+
+-(int) levelObjective
+{
+    int level = [LevelManager sharedLevelManager].level;
+    if(level >= [_monstersGoals count]){
+        level = [_monstersGoals count] - 1;
+    }
+    return [_monstersGoals[level] intValue];
+}
+
 @end
