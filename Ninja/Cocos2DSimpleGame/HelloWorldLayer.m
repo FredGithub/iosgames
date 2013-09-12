@@ -69,8 +69,13 @@
         [_monsters removeObject:node];
         [node removeFromParentAndCleanup:YES];
         
-        CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
-        [[CCDirector sharedDirector] replaceScene:gameOverScene];
+        if(_lifes == 0){
+            CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
+            [[CCDirector sharedDirector] replaceScene:gameOverScene];
+        }else{
+            _lifes--;
+            [self refreshLives];
+        }
     }];
     [monster runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
     
@@ -79,8 +84,39 @@
     
 }
 
+-(void) addBonus
+{
+    CCSprite *bonus = [CCSprite spriteWithFile:@"heart.png"];
+    bonus.scale = 0.5;
+    
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    int minY = bonus.contentSize.height / 2;
+    int maxY = winSize.height - bonus.contentSize.height/2;
+    int rangeY = maxY - minY;
+    int actualY = (arc4random() % rangeY) + minY;
+    
+    bonus.position = ccp(winSize.width + bonus.contentSize.width/2, actualY);
+    [self addChild:bonus];
+    
+    CCMoveTo * actionMove = [CCMoveTo actionWithDuration:6 position:ccp(-bonus.contentSize.width/2, actualY)];
+    CCCallBlockN * actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node) {
+        [_bonuses removeObject:node];
+        [node removeFromParentAndCleanup:YES];
+    }];
+    [bonus runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
+    
+    bonus.tag = 3;
+    [_bonuses addObject:bonus];
+}
+
 -(void)gameLogic:(ccTime)dt {
-    [self addMonster];
+    float bonusPercentage = 0.1;
+    float rand = arc4random_uniform(100)/100.0;
+    if(rand > bonusPercentage){
+        [self addMonster];
+    }else{
+        [self addBonus];
+    }
 }
  
 - (id) init
@@ -94,22 +130,38 @@
         
         _monstersGoals = [[NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil] retain];
         
-        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]] fontName:@"Helvetica" fontSize:12];
+        _lifes = 3;
+        _lifeSprites = [[NSMutableArray alloc] init];
+        for(int i=0; i<3; i++){
+            CCSprite *life = [CCSprite spriteWithFile:@"heart.png"];
+            life.position = ccp(winSize.width/2 + (i - 1)*(life.contentSize.width + 5), winSize.height - life.contentSize.height/2 - 10);
+            [self addChild:life];
+            [_lifeSprites addObject:life];
+        }
+        [self refreshLives];
+        
+        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]] fontName:@"Helvetica" fontSize:15];
         _monstersLabel.color = ccc3(0, 0, 0);
         _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
         [self addChild:_monstersLabel];
         
-        _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:12];
+        _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:15];
         _levelLabel.color = ccc3(0, 0, 0);
         _levelLabel.position = ccp(winSize.width - _levelLabel.contentSize.width/2 - 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
         [self addChild:_levelLabel];
         
+        _comboLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:12];
+        _comboLabel.color = ccc3(0, 0, 0);
+        _comboLabel.position = ccp(winSize.width/2, winSize.height - _monstersLabel.contentSize.height/2 - 40);
+        [self addChild:_comboLabel];
+    
         [self schedule:@selector(gameLogic:) interval:1.0];
         
         [self setTouchEnabled:YES];
         
         _monsters = [[NSMutableArray alloc] init];
         _projectiles = [[NSMutableArray alloc] init];
+        _bonuses = [[NSMutableArray alloc] init];
 
         [self schedule:@selector(update:)];
         
@@ -159,6 +211,7 @@
       [CCCallBlockN actionWithBlock:^(CCNode *node) {
          [_projectiles removeObject:node];
          [node removeFromParentAndCleanup:YES];
+         [self setCombo:0];
     }],
       nil]];
     
@@ -175,7 +228,6 @@
         
         NSMutableArray *monstersToDelete = [[NSMutableArray alloc] init];
         for (CCSprite *monster in _monsters) {
-            
             if (CGRectIntersectsRect(projectile.boundingBox, monster.boundingBox)) {
                 [monstersToDelete addObject:monster];
             }
@@ -184,8 +236,8 @@
         for (CCSprite *monster in monstersToDelete) {
             [_monsters removeObject:monster];
             [self removeChild:monster cleanup:YES];
-            
             _monstersDestroyed++;
+            [self setCombo:_combo + 1];
             [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]]];
             if (_monstersDestroyed >= [self levelObjective]) {
                 [LevelManager sharedLevelManager].level++;
@@ -194,10 +246,27 @@
             }
         }
         
-        if (monstersToDelete.count > 0) {
+        NSMutableArray *bonusesToDelete = [[NSMutableArray alloc] init];
+        for (CCSprite *bonus in _bonuses) {
+            if (CGRectIntersectsRect(projectile.boundingBox, bonus.boundingBox)) {
+                [bonusesToDelete addObject:bonus];
+            }
+        }
+        
+        for (CCSprite *bonus in bonusesToDelete) {
+            [_bonuses removeObject:bonus];
+            [self removeChild:bonus cleanup:YES];
+            if(_lifes < 3){
+                _lifes++;
+                [self refreshLives];
+            }
+        }
+        
+        if (monstersToDelete.count > 0 || bonusesToDelete.count > 0) {
             [projectilesToDelete addObject:projectile];
         }
         [monstersToDelete release];
+        [bonusesToDelete release];
     }
     
     for (CCSprite *projectile in projectilesToDelete) {
@@ -240,6 +309,27 @@
         level = [_monstersGoals count] - 1;
     }
     return [_monstersGoals[level] intValue];
+}
+
+-(void) refreshLives
+{
+    for(int i=0; i<3; i++){
+        if(_lifes > i){
+            [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heart.png"]];
+        }else{
+            [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heartempty.png"]];
+        }
+    }
+}
+
+-(void) setCombo:(int) combo
+{
+    _combo = combo;
+    if(_combo > 0) {
+        [_comboLabel setString:[NSString stringWithFormat:@"Combo x%d", _combo]];
+    }else{
+        [_comboLabel setString:@""];
+    }
 }
 
 @end

@@ -17,10 +17,15 @@
 {
     NSMutableArray * _monsters;
     NSMutableArray * _projectiles;
+    NSMutableArray *_bonuses;
     int _monstersDestroyed;
+    int _lifes;
+    int _combo;
+    NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
     CCLabelTTF *_monstersLabel;
     CCLabelTTF *_levelLabel;
+    CCLabelTTF *_comboLabel;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
