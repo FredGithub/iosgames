@@ -15,8 +15,8 @@
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayerColor
 {
-    NSMutableArray * _monsters;
-    NSMutableArray * _projectiles;
+    NSMutableArray *_monsters;
+    NSMutableArray *_projectiles;
     NSMutableArray *_bonuses;
     int _monstersDestroyed;
     int _lifes;
@@ -29,6 +29,8 @@
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++ (CCScene *)scene;
+
+- (void)looseLife;
 
 @end

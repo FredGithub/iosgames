@@ -12,6 +12,7 @@
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
 #import "LevelManager.h"
+#import "Ghost.h"
 
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
@@ -41,51 +42,28 @@
     
 }
 
-- (void) addMonster {
-    
-    CCSprite * monster = [CCSprite spriteWithFile:@"monster.png"];
+- (void)addMonster {
+    int rand = arc4random()%2;
+    NSLog(@"%d", rand);
+    Ghost *ghost = [[Ghost alloc] initWithLayer:self file:@"monster.png" speed:2 type:rand];
     
     // Determine where to spawn the monster along the Y axis
     CGSize winSize = [CCDirector sharedDirector].winSize;
-    int minY = monster.contentSize.height / 2;
-    int maxY = winSize.height - monster.contentSize.height/2;
+    int minY = ghost.contentSize.height / 2;
+    int maxY = winSize.height - ghost.contentSize.height/2;
     int rangeY = maxY - minY;
     int actualY = (arc4random() % rangeY) + minY;
     
     // Create the monster slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
-    monster.position = ccp(winSize.width + monster.contentSize.width/2, actualY);
-    [self addChild:monster];
+    ghost.position = ccp(winSize.width + ghost.contentSize.width/2, actualY);
+    [self addChild:ghost];
     
-    // Determine speed of the monster
-    int minDuration = 2.0;
-    int maxDuration = 4.0;
-    int rangeDuration = maxDuration - minDuration;
-    int actualDuration = (arc4random() % rangeDuration) + minDuration;
-    
-    // Create the actions
-    CCMoveTo * actionMove = [CCMoveTo actionWithDuration:actualDuration position:ccp(-monster.contentSize.width/2, actualY)];
-    CCCallBlockN * actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node) {
-        [_monsters removeObject:node];
-        [node removeFromParentAndCleanup:YES];
-        
-        if(_lifes == 0){
-            CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
-            [[CCDirector sharedDirector] replaceScene:gameOverScene];
-        }else{
-            _lifes--;
-            [self refreshLives];
-        }
-    }];
-    [monster runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-    
-    monster.tag = 1;
-    [_monsters addObject:monster];
-    
+    ghost.tag = 1;
+    [_monsters addObject:ghost];
 }
 
--(void) addBonus
-{
+- (void)addBonus {
     CCSprite *bonus = [CCSprite spriteWithFile:@"heart.png"];
     bonus.scale = 0.5;
     
@@ -109,7 +87,7 @@
     [_bonuses addObject:bonus];
 }
 
--(void)gameLogic:(ccTime)dt {
+- (void)gameLogic:(ccTime)dt {
     float bonusPercentage = 0.1;
     float rand = arc4random_uniform(100)/100.0;
     if(rand > bonusPercentage){
@@ -118,17 +96,28 @@
         [self addBonus];
     }
 }
- 
-- (id) init
-{
-    if ((self = [super initWithColor:ccc4(255,255,255,255)])) {
 
+- (void)looseLife {
+    _lifes--;
+    if (_lifes == 0) {
+        CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
+        [[CCDirector sharedDirector] replaceScene:gameOverScene];
+    } else {
+        _lifes--;
+        [self refreshLives];
+    }
+}
+ 
+- (id)init {
+    self = [super initWithColor:ccc4(255,255,255,255)];
+    
+    if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CCSprite *player = [CCSprite spriteWithFile:@"player.png"];
         player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
         
-        _monstersGoals = [[NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil] retain];
+        _monstersGoals = [NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil];
         
         _lifes = 3;
         _lifeSprites = [[NSMutableArray alloc] init];
@@ -166,13 +155,12 @@
         [self schedule:@selector(update:)];
         
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
-        
     }
+    
     return self;
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
     // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint location = [self convertTouchToNodeSpace:touch];
@@ -222,7 +210,6 @@
 }
 
 - (void)update:(ccTime)dt {
-    
     NSMutableArray *projectilesToDelete = [[NSMutableArray alloc] init];
     for (CCSprite *projectile in _projectiles) {
         
@@ -265,27 +252,33 @@
         if (monstersToDelete.count > 0 || bonusesToDelete.count > 0) {
             [projectilesToDelete addObject:projectile];
         }
-        [monstersToDelete release];
-        [bonusesToDelete release];
     }
     
     for (CCSprite *projectile in projectilesToDelete) {
         [_projectiles removeObject:projectile];
         [self removeChild:projectile cleanup:YES];
     }
-    [projectilesToDelete release];
+    
+    NSMutableArray *monstersToDelete = [[NSMutableArray alloc] init];
+    for (Ghost *ghost in _monsters) {
+        [ghost update:dt];
+        if (!ghost.active) {
+            [monstersToDelete addObject:ghost];
+        }
+    }
+    
+    for (CCSprite *monster in monstersToDelete) {
+        [_monsters removeObject:monster];
+        [self removeChild:monster cleanup:YES];
+    }
 }
 
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
 {
-    [_monsters release];
     _monsters = nil;
-    [_projectiles release];
     _projectiles = nil;
-    [_monstersGoals release];
-    [super dealloc];
 }
 
 #pragma mark GameKit delegate
