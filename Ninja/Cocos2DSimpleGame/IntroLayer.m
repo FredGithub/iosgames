@@ -6,11 +6,9 @@
 //  Copyright Razeware LLC 2012. All rights reserved.
 //
 
-
 // Import the interfaces
 #import "IntroLayer.h"
 #import "HelloWorldLayer.h"
-
 
 #pragma mark - IntroLayer
 
@@ -18,12 +16,8 @@
 @implementation IntroLayer
 
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
-+(CCScene *) scene
-{
-    // 'scene' is an autorelease object.
++ (CCScene *)scene {
     CCScene *scene = [CCScene node];
-    
-    // 'layer' is an autorelease object.
     IntroLayer *layer = [IntroLayer node];
     
     // add layer as a child to scene
@@ -33,11 +27,10 @@
     return scene;
 }
 
-//
--(id) init
-{
-    if( (self=[super init])) {
-        
+- (id)init {
+    self = [super init];
+    
+    if (self != nil) {
         // ask director for the window size
         CGSize size = [[CCDirector sharedDirector] winSize];
         
@@ -58,9 +51,9 @@
     return self;
 }
 
--(void) onEnter
-{
+- (void)onEnter {
     [super onEnter];
-    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene] ]];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:[HelloWorldLayer scene]]];
 }
+
 @end

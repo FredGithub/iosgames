@@ -10,12 +10,11 @@
 
 @implementation Ghost
 
-- (id)initWithLayer:(HelloWorldLayer *)layer file:(NSString *)filename speed:(float)speed type:(int)type {
-    self = [super initWithFile:filename];
+- (id)initWithLayer:(HelloWorldLayer *)layer speed:(float)speed type:(int)type {
+    self = [super initWithFile:@"monster.png"];
     
     if (self != nil) {
         _layer = layer;
-        _active = true;
         _speed = speed;
         _type = type;
         _initY = -1;
@@ -25,7 +24,7 @@
     return self;
 }
 
-- (void) update:(ccTime)delta {
+- (void)update:(ccTime)delta {
     _timer += delta;
     
     if (_initY < 0) {
@@ -35,12 +34,12 @@
     if (_type == 0) {
         self.position = ccp(self.position.x - _speed, self.position.y);
     } else if (_type == 1) {
-        self.position = ccp(self.position.x - _speed, _initY + sinf(_timer*_speed*3)*20);
+        self.position = ccp(self.position.x - _speed, _initY + sinf(_timer * _speed * 3) * 20);
     }
     
     if (self.position.x < -self.contentSize.width/2) {
         [_layer looseLife];
-        _active = false;
+        self.active = false;
     }
 }
 

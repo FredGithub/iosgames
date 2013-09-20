@@ -8,9 +8,10 @@
 
 #import "cocos2d.h"
 
+#import "GameObject.h"
 #import "HelloWorldLayer.h"
 
-@interface Ghost : CCSprite {
+@interface Ghost : GameObject {
     HelloWorldLayer *_layer;
     float _speed;
     int _type;
@@ -18,9 +19,7 @@
     float _timer;
 }
 
-@property bool active;
-
-- (id)initWithLayer:(HelloWorldLayer *)layer file:(NSString *)filename speed:(float)speed type:(int)type;
+- (id)initWithLayer:(HelloWorldLayer *)layer speed:(float)speed type:(int)type;
 - (void)update:(ccTime)delta;
 
 @end

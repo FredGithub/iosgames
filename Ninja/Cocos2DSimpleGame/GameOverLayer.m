@@ -11,7 +11,7 @@
 
 @implementation GameOverLayer
 
-+(CCScene *) sceneWithWon:(BOOL)won {
++ (CCScene *)sceneWithWon:(BOOL)won {
     CCScene *scene = [CCScene node];
     GameOverLayer *layer = [[GameOverLayer alloc] initWithWon:won];
     [scene addChild: layer];
@@ -19,8 +19,9 @@
 }
 
 - (id)initWithWon:(BOOL)won {
-    if ((self = [super initWithColor:ccc4(255, 255, 255, 255)])) {
-        
+    self = [super initWithColor:ccc4(255, 255, 255, 255)];
+    
+    if (self != nil) {
         NSString * message;
         if (won) {
             message = @"You Won!";
@@ -39,9 +40,9 @@
           [CCDelayTime actionWithDuration:3],
           [CCCallBlockN actionWithBlock:^(CCNode *node) {
              [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer scene]];
-        }],
-          nil]];
+        }], nil]];
     }
+    
     return self;
 }
 

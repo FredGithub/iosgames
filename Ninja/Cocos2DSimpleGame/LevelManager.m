@@ -10,20 +10,20 @@
 
 @implementation LevelManager
 
-+ (LevelManager*)sharedLevelManager
-{
++ (LevelManager*)sharedLevelManager {
     static LevelManager* sharedLevelManager = nil;
     
-    if(sharedLevelManager == nil){
+    if (sharedLevelManager == nil) {
         sharedLevelManager = [[LevelManager alloc] init];
     }
     
     return sharedLevelManager;	
 }
 
-- (id)init
-{
-    if(self = [super init]){
+- (id)init {
+    self = [super init];
+    
+    if(self != nil){
         _level = 0;
     }
     
