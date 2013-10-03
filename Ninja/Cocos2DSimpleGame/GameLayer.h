@@ -15,6 +15,9 @@
     int _monstersDestroyed;
     int _levelObjective;
     int _currentWeapon;
+    float _lastShootTime;
+    BOOL _mouseDown;
+    CGPoint _mousePos;
     NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
     NSArray *_weaponReloadTimes;
@@ -25,6 +28,7 @@
 
 @property int lifes;
 @property int combo;
+@property float time;
 
 + (CCScene *)scene;
 

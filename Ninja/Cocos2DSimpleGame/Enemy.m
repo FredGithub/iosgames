@@ -27,7 +27,6 @@
         _layer = layer;
         _type = type;
         _initY = -1;
-        _timer = 0;
         self.speed = ccp(-120, 0);
     }
     
@@ -35,8 +34,6 @@
 }
 
 - (void)update:(ccTime)delta {
-    _timer += delta;
-    
     if (_initY < 0) {
         _initY = self.position.y;
     }
@@ -44,7 +41,7 @@
     if (_type == 0) {
         self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
     } else if (_type == 1) {
-        self.position = ccp(self.position.x + self.speed.x * delta, _initY + sinf(_timer * 4) * 24);
+        self.position = ccp(self.position.x + self.speed.x * delta, _initY + sinf(_layer.time * 4) * 24);
     }
     
     if (self.position.x < -self.contentSize.width/2) {

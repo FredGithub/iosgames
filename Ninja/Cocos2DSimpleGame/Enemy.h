@@ -14,7 +14,6 @@
 @interface Enemy : GameObject {
     GameLayer *_layer;
     int _initY;
-    float _timer;
 }
 
 @property int type;

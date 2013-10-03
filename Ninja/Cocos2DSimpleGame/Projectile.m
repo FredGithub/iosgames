@@ -34,12 +34,7 @@
 - (void)update:(ccTime)delta {
     CGSize winSize = [CCDirector sharedDirector].winSize;
     
-    if (_type == 0) {
-        self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
-    } else if (_type == 1) {
-        self.speed = ccp(self.speed.x + 2000 * delta, self.speed.y);
-        self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
-    }
+    self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
     
     if (self.position.x > winSize.width + self.contentSize.width/2 || self.position.y < -self.contentSize.height/2
         || self.position.y > winSize.height + self.contentSize.height/2) {

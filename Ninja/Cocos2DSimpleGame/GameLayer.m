@@ -56,6 +56,10 @@
         _levelObjective = [_monstersGoals[level] intValue];
         _lifes = 3;
         _currentWeapon = 0;
+        _time = 0;
+        _lastShootTime = -1000;
+        _mouseDown = NO;
+        _mousePos = ccp(0, 0);
         
         // create the UI
         _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective] fontName:@"Helvetica" fontSize:15];
@@ -136,25 +140,58 @@
     }
 }
 
+- (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    _mousePos = [self convertTouchToNodeSpace:touch];
+}
+
+- (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    _mousePos = [self convertTouchToNodeSpace:touch];
+    _mouseDown = YES;
+}
+
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
-    CGPoint location = [self convertTouchToNodeSpace:touch];
-    if (location.x <= 20) {
-        return;
-    }
-    
-    Projectile *projectile = [Projectile createProjectileWithLayer:self type:1];
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    projectile.position = ccp(20, winSize.height/2);
-    projectile.speed = ccpMult(ccpNormalize(ccpSub(location, projectile.position)), 500);
-    projectile.tag = 2;
-    [_projectiles addObject:projectile];
-    [self addChild:projectile];
-    
-    [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+    _mousePos = [self convertTouchToNodeSpace:touch];
+    _mouseDown = NO;
 }
 
 - (void)update:(ccTime)dt {
+    _time += dt;
+    
+    // handle shoot
+    if (_mouseDown && _mousePos.x > 20) {
+        
+        // if the weapon is reloaded
+        if ((_time - _lastShootTime) * 1000 >= [_weaponReloadTimes[_currentWeapon+1] intValue]) {
+            if (_currentWeapon == 0) {
+                Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
+                CGSize winSize = [[CCDirector sharedDirector] winSize];
+                projectile.position = ccp(20, winSize.height/2);
+                projectile.speed = ccpMult(ccpNormalize(ccpSub(_mousePos, projectile.position)), 500);
+                projectile.tag = 2;
+                
+                [_projectiles addObject:projectile];
+                [self addChild:projectile];
+                
+                [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+            } else if (_currentWeapon == 1) {
+                Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
+                CGSize winSize = [[CCDirector sharedDirector] winSize];
+                projectile.position = ccp(20, winSize.height/2);
+                projectile.speed = ccpMult(ccpNormalize(ccpSub(_mousePos, projectile.position)), 500);
+                projectile.tag = 2;
+                
+                [_projectiles addObject:projectile];
+                [self addChild:projectile];
+                
+                [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
+            }
+            _lastShootTime = _time;
+        }
+    }
+    
     NSMutableArray *inactive = [[NSMutableArray alloc] init];
     
     // update projectiles
