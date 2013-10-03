@@ -37,7 +37,7 @@
     if (_type == 0) {
         self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
     } else if (_type == 1) {
-        self.speed = ccp(self.speed.x + 1500 * delta, self.speed.y);
+        self.speed = ccp(self.speed.x + 2000 * delta, self.speed.y);
         self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
     }
     

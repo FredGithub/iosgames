@@ -6,7 +6,6 @@
 //  Copyright Razeware LLC 2012. All rights reserved.
 //
 
-// Import the interfaces
 #import "GameLayer.h"
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
@@ -34,28 +33,31 @@
     self = [super initWithColor:ccc4(255,255,255,255)];
     
     if (self != nil) {
+        // init game constants
+        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
+        _weaponReloadTimes = [NSArray arrayWithObjects:@(100), @(500), nil];
+        
+        // create the player
         CGSize winSize = [CCDirector sharedDirector].winSize;
         CCSprite *player = [CCSprite spriteWithFile:@"player.png"];
         player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
         
-        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
+        // init the game object arrays
+        _monsters = [[NSMutableArray alloc] init];
+        _projectiles = [[NSMutableArray alloc] init];
+        _bonuses = [[NSMutableArray alloc] init];
+        
+        // setup the level
         int level = [LevelManager sharedLevelManager].level;
         if (level >= [_monstersGoals count]) {
             level = [_monstersGoals count] - 1;
         }
         _levelObjective = [_monstersGoals[level] intValue];
-        
         _lifes = 3;
-        _lifeSprites = [[NSMutableArray alloc] init];
-        for(int i=0; i<3; i++){
-            CCSprite *life = [CCSprite spriteWithFile:@"heart.png"];
-            life.position = ccp(winSize.width/2 + (i - 1)*(life.contentSize.width + 5), winSize.height - life.contentSize.height/2 - 10);
-            [self addChild:life];
-            [_lifeSprites addObject:life];
-        }
-        [self refreshLives];
+        _currentWeapon = 0;
         
+        // create the UI
         _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective] fontName:@"Helvetica" fontSize:15];
         _monstersLabel.color = ccc3(0, 0, 0);
         _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
@@ -71,16 +73,23 @@
         _comboLabel.position = ccp(winSize.width/2, winSize.height - _monstersLabel.contentSize.height/2 - 40);
         [self addChild:_comboLabel];
         
+        _lifeSprites = [[NSMutableArray alloc] init];
+        for(int i=0; i<3; i++){
+            CCSprite *life = [CCSprite spriteWithFile:@"heart.png"];
+            life.position = ccp(winSize.width/2 + (i - 1)*(life.contentSize.width + 5), winSize.height - life.contentSize.height/2 - 10);
+            [self addChild:life];
+            [_lifeSprites addObject:life];
+        }
+        [self refreshLives];
+        
+        // set the intervals
         [self schedule:@selector(gameLogic:) interval:1.0];
-        
-        [self setTouchEnabled:YES];
-        
-        _monsters = [[NSMutableArray alloc] init];
-        _projectiles = [[NSMutableArray alloc] init];
-        _bonuses = [[NSMutableArray alloc] init];
-        
         [self schedule:@selector(update:)];
         
+        // enable touch
+        [self setTouchEnabled:YES];
+        
+        // play the music
         [[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"background-music-aac.caf"];
     }
     
@@ -118,8 +127,8 @@
 }
 
 - (void)gameLogic:(ccTime)dt {
-    float bonusPercentage = 0.1;
-    float rand = arc4random_uniform(100)/100.0;
+    float bonusPercentage = 0.1f;
+    float rand = arc4random_uniform(100)/100.0f;
     if (rand > bonusPercentage) {
         [self addMonster];
     } else {
@@ -245,18 +254,6 @@
     } else {
         [_comboLabel setString:@""];
     }
-}
-
-#pragma mark GameKit delegate
-
-- (void)achievementViewControllerDidFinish:(GKAchievementViewController *)viewController {
-    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-    [[app navController] dismissModalViewControllerAnimated:YES];
-}
-
-- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
-    AppController *app = (AppController*) [[UIApplication sharedApplication] delegate];
-    [[app navController] dismissModalViewControllerAnimated:YES];
 }
 
 @end

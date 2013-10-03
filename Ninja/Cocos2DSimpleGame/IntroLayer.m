@@ -6,16 +6,11 @@
 //  Copyright Razeware LLC 2012. All rights reserved.
 //
 
-// Import the interfaces
 #import "IntroLayer.h"
 #import "GameLayer.h"
 
-#pragma mark - IntroLayer
-
-// HelloWorldLayer implementation
 @implementation IntroLayer
 
-// Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 + (CCScene *)scene {
     CCScene *scene = [CCScene node];
     IntroLayer *layer = [IntroLayer node];

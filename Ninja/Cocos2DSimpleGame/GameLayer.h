@@ -6,9 +6,6 @@
 //  Copyright Razeware LLC 2012. All rights reserved.
 //
 
-#import <GameKit/GameKit.h>
-
-// When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
 @interface GameLayer : CCLayerColor {
@@ -17,8 +14,10 @@
     NSMutableArray *_bonuses;
     int _monstersDestroyed;
     int _levelObjective;
+    int _currentWeapon;
     NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
+    NSArray *_weaponReloadTimes;
     CCLabelTTF *_monstersLabel;
     CCLabelTTF *_levelLabel;
     CCLabelTTF *_comboLabel;
