@@ -10,11 +10,12 @@
 
 @implementation GameObject
 
-- (id)initWithFile:(NSString*)filename {
+- (id)initWithFile:(NSString *)filename {
     self = [super initWithFile:filename];
     
     if (self != nil) {
         _active = true;
+        _speed = ccp(0, 0);
     }
     
     return self;

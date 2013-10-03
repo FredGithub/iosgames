@@ -7,26 +7,21 @@
 //
 
 // Import the interfaces
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 #import "SimpleAudioEngine.h"
 #import "GameOverLayer.h"
 #import "LevelManager.h"
-#import "Ghost.h"
+#import "Enemy.h"
 #import "Bonus.h"
 #import "Projectile.h"
 
-// Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 
-#pragma mark - HelloWorldLayer
+@implementation GameLayer
 
-// HelloWorldLayer implementation
-@implementation HelloWorldLayer
-
-// Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 + (CCScene *)scene {
     CCScene *scene = [CCScene node];
-    HelloWorldLayer *layer = [HelloWorldLayer node];
+    GameLayer *layer = [GameLayer node];
     
     // add layer as a child to scene
     [scene addChild: layer];
@@ -44,7 +39,12 @@
         player.position = ccp(player.contentSize.width/2, winSize.height/2);
         [self addChild:player];
         
-        _monstersGoals = [NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil];
+        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
+        int level = [LevelManager sharedLevelManager].level;
+        if (level >= [_monstersGoals count]) {
+            level = [_monstersGoals count] - 1;
+        }
+        _levelObjective = [_monstersGoals[level] intValue];
         
         _lifes = 3;
         _lifeSprites = [[NSMutableArray alloc] init];
@@ -56,7 +56,7 @@
         }
         [self refreshLives];
         
-        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]] fontName:@"Helvetica" fontSize:15];
+        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective] fontName:@"Helvetica" fontSize:15];
         _monstersLabel.color = ccc3(0, 0, 0);
         _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
         [self addChild:_monstersLabel];
@@ -88,28 +88,22 @@
 }
 
 - (void)addMonster {
-    int rand = arc4random()%2;
-    Ghost *ghost = [[Ghost alloc] initWithLayer:self speed:2 type:rand];
+    Enemy *enemy = [Enemy createEnemyWithLayer:self type:arc4random()%2];
     
-    // Determine where to spawn the monster along the Y axis
     CGSize winSize = [CCDirector sharedDirector].winSize;
-    int minY = ghost.contentSize.height / 2;
-    int maxY = winSize.height - ghost.contentSize.height/2;
+    int minY = enemy.contentSize.height / 2;
+    int maxY = winSize.height - enemy.contentSize.height/2;
     int rangeY = maxY - minY;
     int actualY = (arc4random() % rangeY) + minY;
     
-    // Create the monster slightly off-screen along the right edge,
-    // and along a random position along the Y axis as calculated above
-    ghost.position = ccp(winSize.width + ghost.contentSize.width/2, actualY);
-    [self addChild:ghost];
-    
-    ghost.tag = 1;
-    [_monsters addObject:ghost];
+    enemy.position = ccp(winSize.width + enemy.contentSize.width/2, actualY);
+    enemy.tag = 1;
+    [_monsters addObject:enemy];
+    [self addChild:enemy];
 }
 
 - (void)addBonus {
-    Bonus *bonus = [[Bonus alloc] init];
-    bonus.scale = 0.5;
+    Bonus *bonus = [Bonus createBonusWithLayer:self type:arc4random()%2];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     int minY = bonus.contentSize.height / 2;
@@ -118,17 +112,9 @@
     int actualY = (arc4random() % rangeY) + minY;
     
     bonus.position = ccp(winSize.width + bonus.contentSize.width/2, actualY);
-    [self addChild:bonus];
-    
-    CCMoveTo * actionMove = [CCMoveTo actionWithDuration:6 position:ccp(-bonus.contentSize.width/2, actualY)];
-    CCCallBlockN * actionMoveDone = [CCCallBlockN actionWithBlock:^(CCNode *node) {
-        [_bonuses removeObject:node];
-        [node removeFromParentAndCleanup:YES];
-    }];
-    [bonus runAction:[CCSequence actions:actionMove, actionMoveDone, nil]];
-    
     bonus.tag = 3;
     [_bonuses addObject:bonus];
+    [self addChild:bonus];
 }
 
 - (void)gameLogic:(ccTime)dt {
@@ -141,59 +127,20 @@
     }
 }
 
-- (void)looseLife {
-    _lifes--;
-    if (_lifes == 0) {
-        CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
-        [[CCDirector sharedDirector] replaceScene:gameOverScene];
-    } else {
-        [self refreshLives];
-    }
-}
-
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    // Choose one of the touches to work with
     UITouch *touch = [touches anyObject];
     CGPoint location = [self convertTouchToNodeSpace:touch];
+    if (location.x <= 20) {
+        return;
+    }
     
-    // Set up initial location of projectile
+    Projectile *projectile = [Projectile createProjectileWithLayer:self type:1];
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    Projectile *projectile = [[Projectile alloc] initWithFile:@"projectile.png"];
     projectile.position = ccp(20, winSize.height/2);
-    
-    // Determine offset of location to projectile
-    CGPoint offset = ccpSub(location, projectile.position);
-    
-    // Bail out if you are shooting down or backwards
-    if (offset.x <= 0) return;
-    
-    // Ok to add now - we've double checked position
-    [self addChild:projectile];
-    
-    int realX = winSize.width + (projectile.contentSize.width/2);
-    float ratio = (float) offset.y / (float) offset.x;
-    int realY = (realX * ratio) + projectile.position.y;
-    CGPoint realDest = ccp(realX, realY);
-    
-    // Determine the length of how far you're shooting
-    int offRealX = realX - projectile.position.x;
-    int offRealY = realY - projectile.position.y;
-    float length = sqrtf((offRealX*offRealX)+(offRealY*offRealY));
-    float velocity = 480/1; // 480pixels/1sec
-    float realMoveDuration = length/velocity;
-    
-    // Move projectile to actual endpoint
-    [projectile runAction:
-     [CCSequence actions:
-      [CCMoveTo actionWithDuration:realMoveDuration position:realDest],
-      [CCCallBlockN actionWithBlock:^(CCNode *node) {
-         [_projectiles removeObject:node];
-         [node removeFromParentAndCleanup:YES];
-         [self setCombo:0];
-    }], nil]];
-    
+    projectile.speed = ccpMult(ccpNormalize(ccpSub(location, projectile.position)), 500);
     projectile.tag = 2;
     [_projectiles addObject:projectile];
+    [self addChild:projectile];
     
     [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
 }
@@ -202,26 +149,34 @@
     NSMutableArray *inactive = [[NSMutableArray alloc] init];
     
     // update projectiles
-    [inactive removeAllObjects];
     for (GameObject *projectile in _projectiles) {
         [projectile update:dt];
         
         // collisions with ennemies
-        for (Ghost *monster in _monsters) {
-            if (CGRectIntersectsRect(projectile.boundingBox, monster.boundingBox)) {
+        for (Enemy *enemy in _monsters) {
+            if (CGRectIntersectsRect(projectile.boundingBox, enemy.boundingBox)) {
                 projectile.active = false;
-                monster.active = false;
+                enemy.active = false;
                 _monstersDestroyed++;
-                [self setCombo:_combo + 1];
-                [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, [self levelObjective]]];
+                _combo++;
+                [self refreshCombo];
+                [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective]];
             }
         }
         
         // collision with bonuses
-        for (GameObject *bonus in _bonuses) {
+        for (Bonus *bonus in _bonuses) {
             if (CGRectIntersectsRect(projectile.boundingBox, bonus.boundingBox)) {
                 projectile.active = false;
                 bonus.active = false;
+                if (bonus.type == 0) {
+                    if (_lifes < 3) {
+                        _lifes++;
+                        [self refreshLives];
+                    }
+                } else if (bonus.type == 1) {
+                    NSLog(@"SHOTGUN");
+                }
             }
         }
         
@@ -230,30 +185,16 @@
         }
     }
     
-    // remove inactive projectiles
-    for (GameObject *gameObject in inactive) {
-        [_projectiles removeObject:gameObject];
-        [self removeChild:gameObject cleanup:YES];
-    }
-    
     // update ennemies
-    [inactive removeAllObjects];
-    for (Ghost *ghost in _monsters) {
-        [ghost update:dt];
+    for (Enemy *enemy in _monsters) {
+        [enemy update:dt];
         
-        if (!ghost.active) {
-            [inactive addObject:ghost];
+        if (!enemy.active) {
+            [inactive addObject:enemy];
         }
     }
     
-    // remove inactive ennemies
-    for (GameObject *gameObject in inactive) {
-        [_monsters removeObject:gameObject];
-        [self removeChild:gameObject cleanup:YES];
-    }
-    
     // update bonuses
-    [inactive removeAllObjects];
     for (GameObject *bonus in _bonuses) {
         [bonus update:dt];
         
@@ -262,26 +203,30 @@
         }
     }
     
-    // remove inactive bonuses
+    // remove inactive game objects
     for (GameObject *gameObject in inactive) {
-        [_bonuses removeObject:gameObject];
+        if ([gameObject isKindOfClass:[Projectile class]]) {
+            [_projectiles removeObject:gameObject];
+        } else if ([gameObject isKindOfClass:[Enemy class]]) {
+            [_monsters removeObject:gameObject];
+        } else if ([gameObject isKindOfClass:[Bonus class]]) {
+            [_bonuses removeObject:gameObject];
+        }
         [self removeChild:gameObject cleanup:YES];
     }
     
     // handle winning
-    if (_monstersDestroyed >= [self levelObjective]) {
+    if (_monstersDestroyed >= _levelObjective) {
         [LevelManager sharedLevelManager].level++;
         CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
         [[CCDirector sharedDirector] replaceScene:gameOverScene];
     }
-}
-
-- (int)levelObjective {
-    int level = [LevelManager sharedLevelManager].level;
-    if (level >= [_monstersGoals count]) {
-        level = [_monstersGoals count] - 1;
+    
+    // handle loosing
+    if (_lifes < 0) {
+        CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
+        [[CCDirector sharedDirector] replaceScene:gameOverScene];
     }
-    return [_monstersGoals[level] intValue];
 }
 
 - (void)refreshLives {
@@ -294,8 +239,7 @@
     }
 }
 
-- (void)setCombo:(int)combo {
-    _combo = combo;
+- (void)refreshCombo {
     if (_combo > 0) {
         [_comboLabel setString:[NSString stringWithFormat:@"Combo x%d", _combo]];
     } else {

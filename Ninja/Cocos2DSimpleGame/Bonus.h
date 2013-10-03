@@ -9,9 +9,14 @@
 #import "cocos2d.h"
 
 #import "GameObject.h"
+#import "GameLayer.h"
 
 @interface Bonus : GameObject
 
-- (id)init;
+@property int type;
+
++ (id)createBonusWithLayer:(GameLayer *)layer type:(int)type;
+
+- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file;
 
 @end

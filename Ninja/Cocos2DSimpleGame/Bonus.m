@@ -10,13 +10,34 @@
 
 @implementation Bonus
 
-- (id)init {
-    self = [super initWithFile:@"heart.png"];
++ (id)createBonusWithLayer:(GameLayer *)layer type:(int)type {
+    Bonus *bonus = nil;
+    if (type == 0) {
+        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"heart.png"];
+        bonus.scale = 0.5f;
+    } else if (type == 1) {
+        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"player.png"];
+    }
+    return bonus;
+}
+
+- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file {
+    self = [super initWithFile:file];
     
     if (self != nil) {
+        _type = type;
+        self.speed = ccp(-80, 0);
     }
     
     return self;
+}
+
+- (void)update:(ccTime)delta {
+    self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
+    
+    if (self.position.x < -self.contentSize.width/2) {
+        self.active = false;
+    }
 }
 
 @end

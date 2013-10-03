@@ -9,9 +9,16 @@
 #import "cocos2d.h"
 
 #import "GameObject.h"
+#import "GameLayer.h"
 
-@interface Projectile : GameObject
+@interface Projectile : GameObject {
+    GameLayer *_layer;
+}
 
-- (id)init;
+@property int type;
+
++ (id)createProjectileWithLayer:(GameLayer *)layer type:(int)type;
+
+- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file;
 
 @end

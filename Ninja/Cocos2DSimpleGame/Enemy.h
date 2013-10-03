@@ -9,17 +9,19 @@
 #import "cocos2d.h"
 
 #import "GameObject.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 
-@interface Ghost : GameObject {
-    HelloWorldLayer *_layer;
-    float _speed;
-    int _type;
+@interface Enemy : GameObject {
+    GameLayer *_layer;
     int _initY;
     float _timer;
 }
 
-- (id)initWithLayer:(HelloWorldLayer *)layer speed:(float)speed type:(int)type;
+@property int type;
+
++ (id)createEnemyWithLayer:(GameLayer *)layer type:(int)type;
+
+- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file;
 - (void)update:(ccTime)delta;
 
 @end

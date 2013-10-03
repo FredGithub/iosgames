@@ -11,14 +11,12 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 
-// HelloWorldLayer
-@interface HelloWorldLayer : CCLayerColor {
+@interface GameLayer : CCLayerColor {
     NSMutableArray *_monsters;
     NSMutableArray *_projectiles;
     NSMutableArray *_bonuses;
     int _monstersDestroyed;
-    int _lifes;
-    int _combo;
+    int _levelObjective;
     NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
     CCLabelTTF *_monstersLabel;
@@ -26,9 +24,12 @@
     CCLabelTTF *_comboLabel;
 }
 
-// returns a CCScene that contains the HelloWorldLayer as the only child
+@property int lifes;
+@property int combo;
+
 + (CCScene *)scene;
 
-- (void)looseLife;
+- (void) refreshLives;
+- (void) refreshCombo;
 
 @end

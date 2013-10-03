@@ -7,7 +7,7 @@
 //
 
 #import "GameOverLayer.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 
 @implementation GameOverLayer
 
@@ -39,7 +39,7 @@
          [CCSequence actions:
           [CCDelayTime actionWithDuration:3],
           [CCCallBlockN actionWithBlock:^(CCNode *node) {
-             [[CCDirector sharedDirector] replaceScene:[HelloWorldLayer scene]];
+             [[CCDirector sharedDirector] replaceScene:[GameLayer scene]];
         }], nil]];
     }
     
