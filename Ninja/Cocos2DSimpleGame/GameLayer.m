@@ -35,7 +35,7 @@
     if (self != nil) {
         // init game constants
         _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
-        _weaponReloadTimes = [NSArray arrayWithObjects:@(100), @(500), nil];
+        _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(500), nil];
         
         // create the player
         CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -55,7 +55,7 @@
         }
         _levelObjective = [_monstersGoals[level] intValue];
         _lifes = 3;
-        _currentWeapon = 1;
+        _currentWeapon = 0;
         _time = 0;
         _lastShootTime = -1000;
         _mouseDown = NO;
@@ -223,7 +223,7 @@
                         [self refreshLives];
                     }
                 } else if (bonus.type == 1) {
-                    NSLog(@"SHOTGUN");
+                    _currentWeapon = 1;
                 }
             }
         }
