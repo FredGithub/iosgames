@@ -39,9 +39,9 @@
         
         // create the player
         CGSize winSize = [CCDirector sharedDirector].winSize;
-        CCSprite *player = [CCSprite spriteWithFile:@"player.png"];
-        player.position = ccp(player.contentSize.width/2, winSize.height/2);
-        [self addChild:player];
+        _player = [CCSprite spriteWithFile:@"player.png"];
+        _player.position = ccp(_player.contentSize.width/2, winSize.height/2);
+        [self addChild:_player];
         
         // init the game object arrays
         _monsters = [[NSMutableArray alloc] init];
@@ -55,7 +55,7 @@
         }
         _levelObjective = [_monstersGoals[level] intValue];
         _lifes = 3;
-        _currentWeapon = 0;
+        _currentWeapon = 1;
         _time = 0;
         _lastShootTime = -1000;
         _mouseDown = NO;
@@ -164,12 +164,12 @@
     if (_mouseDown && _mousePos.x > 20) {
         
         // if the weapon is reloaded
-        if ((_time - _lastShootTime) * 1000 >= [_weaponReloadTimes[_currentWeapon+1] intValue]) {
+        if ((_time - _lastShootTime) * 1000 >= [_weaponReloadTimes[_currentWeapon] intValue]) {
             if (_currentWeapon == 0) {
+                CGPoint dir = ccpNormalize(ccpSub(_mousePos, _player.position));
                 Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                CGSize winSize = [[CCDirector sharedDirector] winSize];
-                projectile.position = ccp(20, winSize.height/2);
-                projectile.speed = ccpMult(ccpNormalize(ccpSub(_mousePos, projectile.position)), 500);
+                projectile.position = _player.position;
+                projectile.speed = ccpMult(dir, 500);
                 projectile.tag = 2;
                 
                 [_projectiles addObject:projectile];
@@ -177,14 +177,16 @@
                 
                 [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
             } else if (_currentWeapon == 1) {
-                Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                CGSize winSize = [[CCDirector sharedDirector] winSize];
-                projectile.position = ccp(20, winSize.height/2);
-                projectile.speed = ccpMult(ccpNormalize(ccpSub(_mousePos, projectile.position)), 500);
-                projectile.tag = 2;
-                
-                [_projectiles addObject:projectile];
-                [self addChild:projectile];
+                float angle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
+                for(float a = angle - 0.2f; a <= angle + 0.2f; a += 0.2f) {
+                    Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
+                    projectile.position = _player.position;
+                    projectile.speed = ccp(cosf(a) * 500, sinf(a) * 500);
+                    projectile.tag = 2;
+                    
+                    [_projectiles addObject:projectile];
+                    [self addChild:projectile];
+                }
                 
                 [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
             }

@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 
 @interface GameLayer : CCLayerColor {
+    CCSprite *_player;
     NSMutableArray *_monsters;
     NSMutableArray *_projectiles;
     NSMutableArray *_bonuses;
