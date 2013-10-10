@@ -152,6 +152,11 @@
 		AF0EAA6D17EBA3ED0008E9C9 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EAA6C17EBA3ED0008E9C9 /* GameObject.m */; };
 		AF0EAA7017EBAAEE0008E9C9 /* Bonus.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EAA6F17EBAAEE0008E9C9 /* Bonus.m */; };
 		AF0EAA7317EBAB230008E9C9 /* Projectile.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0EAA7217EBAB230008E9C9 /* Projectile.m */; };
+		AF2B7E631807476D00BAEDA5 /* caveman.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2B7E621807476D00BAEDA5 /* caveman.png */; };
+		AF2B7E6518074C6800BAEDA5 /* caveman.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF2B7E6418074C6800BAEDA5 /* caveman.plist */; };
+		AF2B7E6718075DDD00BAEDA5 /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2B7E6618075DDD00BAEDA5 /* fire.png */; };
+		AF2B7E6918075FA300BAEDA5 /* particle.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2B7E6818075FA300BAEDA5 /* particle.png */; };
+		AF2B7E6B1807622C00BAEDA5 /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = AF2B7E6A1807622C00BAEDA5 /* grass.png */; };
 		AF7E806817E25A210089563B /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7E806717E25A210089563B /* heart.png */; };
 		AF7E806A17E263F80089563B /* heart-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7E806917E263F80089563B /* heart-hd.png */; };
 		AF7E806D17E2654A0089563B /* heartempty-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = AF7E806B17E2654A0089563B /* heartempty-hd.png */; };
@@ -452,6 +457,11 @@
 		AF0EAA6F17EBAAEE0008E9C9 /* Bonus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bonus.m; sourceTree = "<group>"; };
 		AF0EAA7117EBAB230008E9C9 /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		AF0EAA7217EBAB230008E9C9 /* Projectile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Projectile.m; sourceTree = "<group>"; };
+		AF2B7E621807476D00BAEDA5 /* caveman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = caveman.png; sourceTree = "<group>"; };
+		AF2B7E6418074C6800BAEDA5 /* caveman.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = caveman.plist; sourceTree = "<group>"; };
+		AF2B7E6618075DDD00BAEDA5 /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		AF2B7E6818075FA300BAEDA5 /* particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle.png; sourceTree = "<group>"; };
+		AF2B7E6A1807622C00BAEDA5 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
 		AF7E806717E25A210089563B /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		AF7E806917E263F80089563B /* heart-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart-hd.png"; sourceTree = "<group>"; };
 		AF7E806B17E2654A0089563B /* heartempty-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heartempty-hd.png"; sourceTree = "<group>"; };
@@ -922,6 +932,11 @@
 		35DC32541653184500862E62 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				AF2B7E6A1807622C00BAEDA5 /* grass.png */,
+				AF2B7E6818075FA300BAEDA5 /* particle.png */,
+				AF2B7E6618075DDD00BAEDA5 /* fire.png */,
+				AF2B7E6418074C6800BAEDA5 /* caveman.plist */,
+				AF2B7E621807476D00BAEDA5 /* caveman.png */,
 				AF7E806B17E2654A0089563B /* heartempty-hd.png */,
 				AF7E806C17E2654A0089563B /* heartempty.png */,
 				AF7E806917E263F80089563B /* heart-hd.png */,
@@ -1038,6 +1053,11 @@
 				AF7E806A17E263F80089563B /* heart-hd.png in Resources */,
 				AF7E806D17E2654A0089563B /* heartempty-hd.png in Resources */,
 				AF7E806E17E2654A0089563B /* heartempty.png in Resources */,
+				AF2B7E631807476D00BAEDA5 /* caveman.png in Resources */,
+				AF2B7E6518074C6800BAEDA5 /* caveman.plist in Resources */,
+				AF2B7E6718075DDD00BAEDA5 /* fire.png in Resources */,
+				AF2B7E6918075FA300BAEDA5 /* particle.png in Resources */,
+				AF2B7E6B1807622C00BAEDA5 /* grass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

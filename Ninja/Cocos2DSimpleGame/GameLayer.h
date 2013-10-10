@@ -22,6 +22,7 @@
     NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
     NSArray *_weaponReloadTimes;
+    CCSpriteBatchNode *_cavemanBatch;
     CCLabelTTF *_monstersLabel;
     CCLabelTTF *_levelLabel;
     CCLabelTTF *_comboLabel;

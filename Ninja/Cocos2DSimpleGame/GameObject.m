@@ -21,4 +21,15 @@
     return self;
 }
 
+- (id)initWithSpriteFrameName:(NSString *)spriteFrameName {
+    self = [super initWithSpriteFrameName:spriteFrameName];
+    
+    if (self != nil) {
+        _active = true;
+        _speed = ccp(0, 0);
+    }
+    
+    return self;
+}
+
 @end

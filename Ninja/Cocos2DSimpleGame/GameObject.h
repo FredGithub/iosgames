@@ -14,5 +14,6 @@
 @property CGPoint speed;
 
 - (id)initWithFile:(NSString *)filename;
+- (id)initWithSpriteFrameName:(NSString *)spriteFrameName;
 
 @end

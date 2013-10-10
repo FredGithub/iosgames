@@ -33,12 +33,18 @@
     self = [super initWithColor:ccc4(255,255,255,255)];
     
     if (self != nil) {
+        CGSize winSize = [CCDirector sharedDirector].winSize;
+        
         // init game constants
         _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
         _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(500), nil];
         
+        // setup the background
+        CCSprite *background = [[CCSprite alloc] initWithFile:@"grass.png"];
+        background.position = ccp(winSize.width / 2, winSize.height / 2);
+        [self addChild:background];
+        
         // create the player
-        CGSize winSize = [CCDirector sharedDirector].winSize;
         _player = [CCSprite spriteWithFile:@"player.png"];
         _player.position = ccp(_player.contentSize.width/2, winSize.height/2);
         [self addChild:_player];
@@ -60,6 +66,18 @@
         _lastShootTime = -1000;
         _mouseDown = NO;
         _mousePos = ccp(0, 0);
+        
+        
+        
+        // setup the sprite sheets
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"caveman.plist"];
+        _cavemanBatch = [CCSpriteBatchNode batchNodeWithFile:@"caveman.png"];
+        [self addChild:_cavemanBatch];
+        
+        CCParticleFire *p = [[CCParticleFire alloc] initWithTotalParticles:50];
+        [p setTexture:[[CCTextureCache sharedTextureCache] addImage: @"particle.png"]];
+        p.position = ccp(150, 50);
+        [self addChild:p];
         
         // create the UI
         _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective] fontName:@"Helvetica" fontSize:15];
@@ -101,7 +119,9 @@
 }
 
 - (void)addMonster {
-    Enemy *enemy = [Enemy createEnemyWithLayer:self type:arc4random()%2];
+    int type = arc4random()%2;
+    type = 1;
+    Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     int minY = enemy.contentSize.height / 2;
@@ -112,11 +132,12 @@
     enemy.position = ccp(winSize.width + enemy.contentSize.width/2, actualY);
     enemy.tag = 1;
     [_monsters addObject:enemy];
-    [self addChild:enemy];
+    [_cavemanBatch addChild:enemy];
 }
 
 - (void)addBonus {
-    Bonus *bonus = [Bonus createBonusWithLayer:self type:arc4random()%2];
+    int type = arc4random()%2;
+    Bonus *bonus = [Bonus createBonusWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     int minY = bonus.contentSize.height / 2;
@@ -255,12 +276,14 @@
     for (GameObject *gameObject in inactive) {
         if ([gameObject isKindOfClass:[Projectile class]]) {
             [_projectiles removeObject:gameObject];
+            [self removeChild:gameObject cleanup:YES];
         } else if ([gameObject isKindOfClass:[Enemy class]]) {
             [_monsters removeObject:gameObject];
+            [_cavemanBatch removeChild:gameObject cleanup:YES];
         } else if ([gameObject isKindOfClass:[Bonus class]]) {
             [_bonuses removeObject:gameObject];
+            [self removeChild:gameObject cleanup:YES];
         }
-        [self removeChild:gameObject cleanup:YES];
     }
     
     // handle winning
