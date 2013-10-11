@@ -25,6 +25,7 @@
     
     if(self != nil){
         _level = 0;
+        _score = 0;
     }
     
     return self;

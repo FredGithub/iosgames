@@ -66,7 +66,7 @@
 - (void)damage:(int)dmg {
     _life -= dmg;
     if (_life <= 0) {
-        [_layer monsterKilled];
+        [_layer monsterKilled:_type];
         self.active = false;
     }
 }

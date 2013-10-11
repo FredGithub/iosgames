@@ -66,6 +66,7 @@
         _lastShootTime = -1000;
         _mouseDown = NO;
         _mousePos = ccp(0, 0);
+        _combo = 1;
         
         // setup the sprite sheets
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"caveman.plist"];
@@ -85,18 +86,24 @@
         menu.position = ccp(0, 0);
         [self addChild:menu];
         
-        _monstersLabel = [CCLabelTTF labelWithString:@"Monsters --/--" fontName:@"Helvetica" fontSize:15];
+        _monstersLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:15 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentLeft];
         _monstersLabel.color = ccc3(0, 0, 0);
-        _monstersLabel.position = ccp(_monstersLabel.contentSize.width / 2 + 10, winSize.height - _monstersLabel.contentSize.height / 2 - 10);
+        _monstersLabel.position = ccp(_monstersLabel.dimensions.width / 2 + 10, winSize.height - _monstersLabel.dimensions.height / 2 - 10);
         [self addChild:_monstersLabel];
         [self refreshMonstersUI];
         
-        _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:15];
+        _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:15 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentRight];
         _levelLabel.color = ccc3(0, 0, 0);
-        _levelLabel.position = ccp(winSize.width - _levelLabel.contentSize.width / 2 - 10, winSize.height - _monstersLabel.contentSize.height / 2 - 10);
+        _levelLabel.position = ccp(winSize.width - _levelLabel.dimensions.width / 2 - 10, winSize.height - _levelLabel.dimensions.height / 2 - 10);
         [self addChild:_levelLabel];
         
-        _comboLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:12];
+        _scoreLabel = [CCLabelTTF labelWithString:@"0" fontName:@"Helvetica" fontSize:15 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentRight];
+        _scoreLabel.color = ccc3(0, 0, 0);
+        _scoreLabel.position = ccp(winSize.width - _scoreLabel.dimensions.width / 2 - 10, winSize.height - _scoreLabel.dimensions.height / 2 - 30);
+        [self addChild:_scoreLabel];
+        [self refreshScoreUI];
+        
+        _comboLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:12 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentCenter];
         _comboLabel.color = ccc3(0, 0, 0);
         _comboLabel.position = ccp(winSize.width / 2, winSize.height - _monstersLabel.contentSize.height / 2 - 40);
         [self addChild:_comboLabel];
@@ -210,7 +217,6 @@
                     Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
                     projectile.position = _player.position;
                     projectile.speed = ccp(cosf(angle) * 500, sinf(angle) * 500);
-                    NSLog(@"speed %f %f", projectile.speed.x, projectile.speed.y);
                     projectile.tag = 2;
                     
                     [_projectiles addObject:projectile];
@@ -244,6 +250,7 @@
             if (CGRectIntersectsRect(projectile.boundingBox, bonus.boundingBox)) {
                 projectile.active = false;
                 bonus.active = false;
+                [self addScore:200];
                 if (bonus.type == 0) {
                     if (_lifes < 3) {
                         _lifes++;
@@ -304,9 +311,10 @@
     }
 }
 
-- (void)monsterKilled {
+- (void)monsterKilled:(int)type {
     _monstersDestroyed++;
     [self refreshMonstersUI];
+    [self addScore:500 * (type + 1) * _combo];
     
     // handle winning
     if (_monstersDestroyed >= _levelObjective) {
@@ -315,7 +323,7 @@
 }
 
 - (void)resetCombo {
-    _combo = 0;
+    _combo = 1;
     [self refreshComboUI];
 }
 
@@ -330,7 +338,7 @@
 }
 
 - (void)refreshComboUI {
-    if (_combo > 0) {
+    if (_combo > 1) {
         [_comboLabel setString:[NSString stringWithFormat:@"Combo x%d", _combo]];
     } else {
         [_comboLabel setString:@""];
@@ -339,6 +347,15 @@
 
 - (void)refreshMonstersUI {
     [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective]];
+}
+
+- (void)addScore:(int)value {
+    [LevelManager sharedLevelManager].score += value;
+    [self refreshScoreUI];
+}
+
+- (void)refreshScoreUI {
+    [_scoreLabel setString:[NSString stringWithFormat:@"%d", [LevelManager sharedLevelManager].score]];
 }
 
 - (void)clickNextLevel:(id)sender {

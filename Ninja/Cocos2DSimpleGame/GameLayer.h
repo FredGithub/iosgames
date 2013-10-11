@@ -25,6 +25,7 @@
     CCSpriteBatchNode *_cavemanBatch;
     CCLabelTTF *_monstersLabel;
     CCLabelTTF *_levelLabel;
+    CCLabelTTF *_scoreLabel;
     CCLabelTTF *_comboLabel;
 }
 
@@ -35,7 +36,7 @@
 + (CCScene *)scene;
 
 - (void)looseLife;
-- (void)monsterKilled;
+- (void)monsterKilled:(int)type;
 - (void)resetCombo;
 
 @end

@@ -11,6 +11,7 @@
 @interface LevelManager : NSObject
 
 @property int level;
+@property int score;
 
 + (LevelManager*) sharedLevelManager;
 
