@@ -133,7 +133,6 @@
 
 - (void)addMonster {
     int type = arc4random()%2;
-    //type = 1;
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -326,6 +325,8 @@
     _combo = 1;
     [self refreshComboUI];
 }
+
+/* Private methods */
 
 - (void)refreshLifesUI {
     for (int i=0; i<3; i++) {
