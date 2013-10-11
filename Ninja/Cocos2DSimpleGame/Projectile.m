@@ -39,7 +39,7 @@
     if (self.position.x > winSize.width + self.contentSize.width/2 || self.position.y < -self.contentSize.height/2
         || self.position.y > winSize.height + self.contentSize.height/2) {
         _layer.combo = 0;
-        [_layer refreshCombo];
+        [_layer resetCombo];
         self.active = false;
     }
 }

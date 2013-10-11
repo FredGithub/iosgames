@@ -46,7 +46,7 @@
         
         // create the player
         _player = [CCSprite spriteWithFile:@"player.png"];
-        _player.position = ccp(_player.contentSize.width/2, winSize.height/2);
+        _player.position = ccp(_player.contentSize.width / 2, winSize.height / 2);
         [self addChild:_player];
         
         // init the game object arrays
@@ -67,42 +67,48 @@
         _mouseDown = NO;
         _mousePos = ccp(0, 0);
         
-        
-        
         // setup the sprite sheets
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"caveman.plist"];
         _cavemanBatch = [CCSpriteBatchNode batchNodeWithFile:@"caveman.png"];
         [self addChild:_cavemanBatch];
         
-        CCParticleFire *p = [[CCParticleFire alloc] initWithTotalParticles:50];
+        CCParticleSystem *p = [[CCParticleSnow alloc] initWithTotalParticles:50];
         [p setTexture:[[CCTextureCache sharedTextureCache] addImage: @"particle.png"]];
         p.position = ccp(150, 50);
         [self addChild:p];
         
         // create the UI
-        _monstersLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective] fontName:@"Helvetica" fontSize:15];
+        CCMenuItem *nextLevelItem = [CCMenuItemImage itemWithNormalImage:@"heart.png" selectedImage:@"heart.png" target:self selector:@selector(clickNextLevel:)];
+        nextLevelItem.position = ccp(winSize.width - nextLevelItem.contentSize.width / 2, nextLevelItem.contentSize.height / 2);
+        
+        CCMenu *menu = [CCMenu menuWithItems:nextLevelItem, nil];
+        menu.position = ccp(0, 0);
+        [self addChild:menu];
+        
+        _monstersLabel = [CCLabelTTF labelWithString:@"Monsters --/--" fontName:@"Helvetica" fontSize:15];
         _monstersLabel.color = ccc3(0, 0, 0);
-        _monstersLabel.position = ccp(_monstersLabel.contentSize.width/2 + 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
+        _monstersLabel.position = ccp(_monstersLabel.contentSize.width / 2 + 10, winSize.height - _monstersLabel.contentSize.height / 2 - 10);
         [self addChild:_monstersLabel];
+        [self refreshMonstersUI];
         
         _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:15];
         _levelLabel.color = ccc3(0, 0, 0);
-        _levelLabel.position = ccp(winSize.width - _levelLabel.contentSize.width/2 - 10, winSize.height - _monstersLabel.contentSize.height/2 - 10);
+        _levelLabel.position = ccp(winSize.width - _levelLabel.contentSize.width / 2 - 10, winSize.height - _monstersLabel.contentSize.height / 2 - 10);
         [self addChild:_levelLabel];
         
         _comboLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:12];
         _comboLabel.color = ccc3(0, 0, 0);
-        _comboLabel.position = ccp(winSize.width/2, winSize.height - _monstersLabel.contentSize.height/2 - 40);
+        _comboLabel.position = ccp(winSize.width / 2, winSize.height - _monstersLabel.contentSize.height / 2 - 40);
         [self addChild:_comboLabel];
         
         _lifeSprites = [[NSMutableArray alloc] init];
         for(int i=0; i<3; i++){
             CCSprite *life = [CCSprite spriteWithFile:@"heart.png"];
-            life.position = ccp(winSize.width/2 + (i - 1)*(life.contentSize.width + 5), winSize.height - life.contentSize.height/2 - 10);
+            life.position = ccp(winSize.width / 2 + (i - 1)*(life.contentSize.width + 5), winSize.height - life.contentSize.height / 2 - 10);
             [self addChild:life];
             [_lifeSprites addObject:life];
         }
-        [self refreshLives];
+        [self refreshLifesUI];
         
         // set the intervals
         [self schedule:@selector(gameLogic:) interval:1.0];
@@ -120,16 +126,16 @@
 
 - (void)addMonster {
     int type = arc4random()%2;
-    type = 1;
+    //type = 1;
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     int minY = enemy.contentSize.height / 2;
-    int maxY = winSize.height - enemy.contentSize.height/2;
+    int maxY = winSize.height - enemy.contentSize.height / 2;
     int rangeY = maxY - minY;
     int actualY = (arc4random() % rangeY) + minY;
     
-    enemy.position = ccp(winSize.width + enemy.contentSize.width/2, actualY);
+    enemy.position = ccp(winSize.width + enemy.contentSize.width / 2, actualY);
     enemy.tag = 1;
     [_monsters addObject:enemy];
     [_cavemanBatch addChild:enemy];
@@ -141,11 +147,11 @@
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
     int minY = bonus.contentSize.height / 2;
-    int maxY = winSize.height - bonus.contentSize.height/2;
+    int maxY = winSize.height - bonus.contentSize.height / 2;
     int rangeY = maxY - minY;
     int actualY = (arc4random() % rangeY) + minY;
     
-    bonus.position = ccp(winSize.width + bonus.contentSize.width/2, actualY);
+    bonus.position = ccp(winSize.width + bonus.contentSize.width / 2, actualY);
     bonus.tag = 3;
     [_bonuses addObject:bonus];
     [self addChild:bonus];
@@ -198,11 +204,13 @@
                 
                 [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
             } else if (_currentWeapon == 1) {
-                float angle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
-                for(float a = angle - 0.2f; a <= angle + 0.2f; a += 0.2f) {
+                float shootAngle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
+                for(int i = -1; i < 2; i++) {
+                    float angle = shootAngle + i * 0.2f;
                     Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
                     projectile.position = _player.position;
-                    projectile.speed = ccp(cosf(a) * 500, sinf(a) * 500);
+                    projectile.speed = ccp(cosf(angle) * 500, sinf(angle) * 500);
+                    NSLog(@"speed %f %f", projectile.speed.x, projectile.speed.y);
                     projectile.tag = 2;
                     
                     [_projectiles addObject:projectile];
@@ -225,11 +233,9 @@
         for (Enemy *enemy in _monsters) {
             if (CGRectIntersectsRect(projectile.boundingBox, enemy.boundingBox)) {
                 projectile.active = false;
-                enemy.active = false;
-                _monstersDestroyed++;
+                [enemy damage:100];
                 _combo++;
-                [self refreshCombo];
-                [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective]];
+                [self refreshComboUI];
             }
         }
         
@@ -241,7 +247,7 @@
                 if (bonus.type == 0) {
                     if (_lifes < 3) {
                         _lifes++;
-                        [self refreshLives];
+                        [self refreshLifesUI];
                     }
                 } else if (bonus.type == 1) {
                     _currentWeapon = 1;
@@ -285,13 +291,11 @@
             [self removeChild:gameObject cleanup:YES];
         }
     }
-    
-    // handle winning
-    if (_monstersDestroyed >= _levelObjective) {
-        [LevelManager sharedLevelManager].level++;
-        CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
-        [[CCDirector sharedDirector] replaceScene:gameOverScene];
-    }
+}
+
+- (void)looseLife {
+    _lifes--;
+    [self refreshLifesUI];
     
     // handle loosing
     if (_lifes < 0) {
@@ -300,7 +304,22 @@
     }
 }
 
-- (void)refreshLives {
+- (void)monsterKilled {
+    _monstersDestroyed++;
+    [self refreshMonstersUI];
+    
+    // handle winning
+    if (_monstersDestroyed >= _levelObjective) {
+        [self win];
+    }
+}
+
+- (void)resetCombo {
+    _combo = 0;
+    [self refreshComboUI];
+}
+
+- (void)refreshLifesUI {
     for (int i=0; i<3; i++) {
         if (_lifes > i) {
             [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heart.png"]];
@@ -310,12 +329,26 @@
     }
 }
 
-- (void)refreshCombo {
+- (void)refreshComboUI {
     if (_combo > 0) {
         [_comboLabel setString:[NSString stringWithFormat:@"Combo x%d", _combo]];
     } else {
         [_comboLabel setString:@""];
     }
+}
+
+- (void)refreshMonstersUI {
+    [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective]];
+}
+
+- (void)clickNextLevel:(id)sender {
+    [self win];
+}
+
+- (void)win {
+    [LevelManager sharedLevelManager].level++;
+    CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
+    [[CCDirector sharedDirector] replaceScene:gameOverScene];
 }
 
 @end

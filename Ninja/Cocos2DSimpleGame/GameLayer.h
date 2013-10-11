@@ -34,7 +34,8 @@
 
 + (CCScene *)scene;
 
-- (void) refreshLives;
-- (void) refreshCombo;
+- (void)looseLife;
+- (void)monsterKilled;
+- (void)resetCombo;
 
 @end

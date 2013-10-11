@@ -16,14 +16,15 @@
     int _initY;
     int _animIndex;
     float _animTime;
-}
+};
 
 @property int type;
+@property int life;
 
 + (id)createEnemyWithLayer:(GameLayer *)layer type:(int)type;
 
-- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file;
-- (id)initWithLayer:(GameLayer *)layer type:(int)type spriteFrameName:(NSString *)spriteFrameName;
+- (id)initWithLayer:(GameLayer *)layer type:(int)type life:(int)life spriteFrameName:(NSString *)spriteFrameName;
 - (void)update:(ccTime)delta;
+- (void)damage:(int)dmg;
 
 @end

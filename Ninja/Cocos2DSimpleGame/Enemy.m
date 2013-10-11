@@ -13,29 +13,15 @@
 + (id)createEnemyWithLayer:(GameLayer *)layer type:(int)type {
     Enemy *enemy = nil;
     if (type == 0) {
-        enemy = [[Enemy alloc] initWithLayer:layer type:type file:@"ghost.png"];
+        enemy = [[Enemy alloc] initWithLayer:layer type:type life:100 spriteFrameName:@"caveman1.png"];
     } else if (type == 1) {
-        enemy = [[Enemy alloc] initWithLayer:layer type:type spriteFrameName:@"caveman1.png"];
+        enemy = [[Enemy alloc] initWithLayer:layer type:type life:200 spriteFrameName:@"caveman1.png"];
+        [enemy setScale:1.5f];
     }
     return enemy;
 }
 
-- (id)initWithLayer:(GameLayer *)layer type:(int)type file:(NSString *)file {
-    self = [super initWithFile:file];
-    
-    if (self != nil) {
-        _layer = layer;
-        _type = type;
-        _initY = -1;
-        _animIndex = 0;
-        _animTime = 0;
-        self.speed = ccp(-120, 0);
-    }
-    
-    return self;
-}
-
-- (id)initWithLayer:(GameLayer *)layer type:(int)type spriteFrameName:(NSString *)spriteFrameName {
+- (id)initWithLayer:(GameLayer *)layer type:(int)type life:(int)life spriteFrameName:(NSString *)spriteFrameName {
     self = [super initWithSpriteFrameName:spriteFrameName];
     
     if (self != nil) {
@@ -44,6 +30,7 @@
         _initY = -1;
         _animIndex = 0;
         _animTime = 0;
+        _life = life;
         self.speed = ccp(-120, 0);
     }
     
@@ -71,8 +58,15 @@
     
     // out of screen
     if (self.position.x < -self.contentSize.width/2) {
-        _layer.lifes--;
-        [_layer refreshLives];
+        [_layer looseLife];
+        self.active = false;
+    }
+}
+
+- (void)damage:(int)dmg {
+    _life -= dmg;
+    if (_life <= 0) {
+        [_layer monsterKilled];
         self.active = false;
     }
 }
