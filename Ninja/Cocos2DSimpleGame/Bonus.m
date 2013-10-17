@@ -13,10 +13,9 @@
 + (id)createBonusWithLayer:(GameLayer *)layer type:(int)type {
     Bonus *bonus = nil;
     if (type == 0) {
-        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"heart.png"];
-        bonus.scale = 0.5f;
+        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"bonus_heart.png"];
     } else if (type == 1) {
-        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"player.png"];
+        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"bonus_bullet.png"];
     }
     return bonus;
 }

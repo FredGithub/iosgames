@@ -36,7 +36,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // init game constants
-        _monstersGoals = [NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil];
+        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
         _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(500), nil];
         
         // setup the background
@@ -136,8 +136,17 @@
 }
 
 - (void)addMonster {
-    int type = arc4random()%3;
-    //type = 2;
+    // get the monster type
+    int ran = arc4random()%7;
+    int type;
+    if (ran < 3) {
+        type = 0;
+    } else if (ran < 6) {
+        type = 2;
+    } else {
+        type = 1;
+    }
+    
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -152,17 +161,10 @@
     [_cavemanBatch addChild:enemy];
 }
 
-- (void)addBonus {
+- (void)addBonusWithPosition:(CGPoint)pos {
     int type = arc4random()%2;
     Bonus *bonus = [Bonus createBonusWithLayer:self type:type];
-    
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    int minY = bonus.contentSize.height / 2;
-    int maxY = winSize.height - bonus.contentSize.height / 2;
-    int rangeY = maxY - minY;
-    int actualY = (arc4random() % rangeY) + minY;
-    
-    bonus.position = ccp(winSize.width + bonus.contentSize.width / 2, actualY);
+    bonus.position = pos;
     bonus.tag = 3;
     [_bonuses addObject:bonus];
     [self addChild:bonus];
@@ -313,10 +315,15 @@
     }
 }
 
-- (void)monsterKilled:(int)type {
+- (void)monsterKilled:(Enemy *)enemy {
+    // add bonus if necessary
+    if (enemy.type == 1) {
+        [self addBonusWithPosition:enemy.position];
+    }
+    
     _monstersDestroyed++;
     [self refreshMonstersUI];
-    [self addScore:500 * (type + 1) * _combo];
+    [self addScore:500 * (enemy.type + 1) * _combo];
     
     // handle winning
     if (_monstersDestroyed >= _levelObjective) {

@@ -8,6 +8,8 @@
 
 #import "cocos2d.h"
 
+@class Enemy;
+
 @interface GameLayer : CCLayerColor {
     CCSprite *_player;
     CCSprite *_playerCannon;
@@ -37,7 +39,7 @@
 + (CCScene *)scene;
 
 - (void)looseLife;
-- (void)monsterKilled:(int)type;
+- (void)monsterKilled:(Enemy *)enemy;
 - (void)resetCombo;
 
 @end

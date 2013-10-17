@@ -15,7 +15,7 @@
     if (type == 0) {
         enemy = [[Enemy alloc] initWithLayer:layer type:type life:100 speed:ccp(-85, 0) spriteFrameName:@"carrot0001.png"];
     } else if (type == 1) {
-        enemy = [[Enemy alloc] initWithLayer:layer type:type life:300 speed:ccp(-50, 0) spriteFrameName:@"eggplant0001.png"];
+        enemy = [[Enemy alloc] initWithLayer:layer type:type life:600 speed:ccp(-50, 0) spriteFrameName:@"eggplant0001.png"];
     } else if (type == 2) {
         enemy = [[Enemy alloc] initWithLayer:layer type:type life:100 speed:ccp(-100, 0) spriteFrameName:@"brocoli.png"];
     }
@@ -80,7 +80,7 @@
 - (void)damage:(int)dmg {
     _life -= dmg;
     if (_life <= 0) {
-        [_layer monsterKilled:_type];
+        [_layer monsterKilled:self];
         self.active = false;
     }
 }

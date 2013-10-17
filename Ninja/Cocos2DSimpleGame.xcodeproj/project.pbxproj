@@ -158,6 +158,8 @@
 		AFE55AE31810900600AC4DEE /* enemies.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE55AE11810900600AC4DEE /* enemies.png */; };
 		AFE55AE61810986300AC4DEE /* game_over.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE55AE41810986300AC4DEE /* game_over.png */; };
 		AFE55AE71810986300AC4DEE /* you_win.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE55AE51810986300AC4DEE /* you_win.png */; };
+		AFE55AEA18109CE000AC4DEE /* bonus_bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE55AE818109CE000AC4DEE /* bonus_bullet.png */; };
+		AFE55AEB18109CE000AC4DEE /* bonus_heart.png in Resources */ = {isa = PBXBuildFile; fileRef = AFE55AE918109CE000AC4DEE /* bonus_heart.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -460,6 +462,8 @@
 		AFE55AE11810900600AC4DEE /* enemies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = enemies.png; sourceTree = "<group>"; };
 		AFE55AE41810986300AC4DEE /* game_over.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_over.png; sourceTree = "<group>"; };
 		AFE55AE51810986300AC4DEE /* you_win.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = you_win.png; sourceTree = "<group>"; };
+		AFE55AE818109CE000AC4DEE /* bonus_bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bonus_bullet.png; sourceTree = "<group>"; };
+		AFE55AE918109CE000AC4DEE /* bonus_heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bonus_heart.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -924,6 +928,8 @@
 		35DC32541653184500862E62 /* Art */ = {
 			isa = PBXGroup;
 			children = (
+				AFE55AE818109CE000AC4DEE /* bonus_bullet.png */,
+				AFE55AE918109CE000AC4DEE /* bonus_heart.png */,
 				AFE55AE41810986300AC4DEE /* game_over.png */,
 				AFE55AE51810986300AC4DEE /* you_win.png */,
 				AFE55AE01810900600AC4DEE /* enemies.plist */,
@@ -1042,6 +1048,8 @@
 				AFE55AE31810900600AC4DEE /* enemies.png in Resources */,
 				AFE55AE61810986300AC4DEE /* game_over.png in Resources */,
 				AFE55AE71810986300AC4DEE /* you_win.png in Resources */,
+				AFE55AEA18109CE000AC4DEE /* bonus_bullet.png in Resources */,
+				AFE55AEB18109CE000AC4DEE /* bonus_heart.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
