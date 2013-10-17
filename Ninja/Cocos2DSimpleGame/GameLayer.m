@@ -36,17 +36,21 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // init game constants
-        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
+        _monstersGoals = [NSArray arrayWithObjects:@(5), @(10), @(15), @(20), @(30), nil];
         _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(500), nil];
         
         // setup the background
-        CCSprite *background = [[CCSprite alloc] initWithFile:@"grass.png"];
+        CCSprite *background = [[CCSprite alloc] initWithFile:@"background.png"];
         background.position = ccp(winSize.width / 2, winSize.height / 2);
         [self addChild:background];
         
         // create the player
-        _player = [CCSprite spriteWithFile:@"player.png"];
+        _player = [CCSprite spriteWithFile:@"tower_body.png"];
         _player.position = ccp(_player.contentSize.width / 2, winSize.height / 2);
+        _playerCannon = [CCSprite spriteWithFile:@"tower_cannon.png"];
+        _playerCannon.anchorPoint = ccp(-0.5f, 0.5f);
+        _playerCannon.position = ccp(_player.contentSize.width / 2, _player.contentSize.height / 2);
+        [_player addChild:_playerCannon];
         [self addChild:_player];
         
         // init the game object arrays
@@ -69,14 +73,14 @@
         _combo = 1;
         
         // setup the sprite sheets
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"caveman.plist"];
-        _cavemanBatch = [CCSpriteBatchNode batchNodeWithFile:@"caveman.png"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"enemies.plist"];
+        _cavemanBatch = [CCSpriteBatchNode batchNodeWithFile:@"enemies.png"];
         [self addChild:_cavemanBatch];
         
         CCParticleSystem *p = [[CCParticleSnow alloc] initWithTotalParticles:50];
         [p setTexture:[[CCTextureCache sharedTextureCache] addImage: @"particle.png"]];
         p.position = ccp(150, 50);
-        [self addChild:p];
+        //[self addChild:p];
         
         // create the UI
         CCMenuItem *nextLevelItem = [CCMenuItemImage itemWithNormalImage:@"heart.png" selectedImage:@"heart.png" target:self selector:@selector(clickNextLevel:)];
@@ -132,7 +136,8 @@
 }
 
 - (void)addMonster {
-    int type = arc4random()%2;
+    int type = arc4random()%3;
+    //type = 2;
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -164,24 +169,22 @@
 }
 
 - (void)gameLogic:(ccTime)dt {
-    float bonusPercentage = 0.1f;
-    float rand = arc4random_uniform(100)/100.0f;
-    if (rand > bonusPercentage) {
-        [self addMonster];
-    } else {
-        [self addBonus];
-    }
+    [self addMonster];
 }
 
 - (void)ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     _mousePos = [self convertTouchToNodeSpace:touch];
+    float angle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
+    _playerCannon.rotation = -angle * 180 / M_PI;
 }
 
 - (void)ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     _mousePos = [self convertTouchToNodeSpace:touch];
     _mouseDown = YES;
+    float angle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
+    _playerCannon.rotation = -angle * 180 / M_PI;
 }
 
 - (void)ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -194,14 +197,14 @@
     _time += dt;
     
     // handle shoot
-    if (_mouseDown && _mousePos.x > 20) {
+    if (_mouseDown) {
         
         // if the weapon is reloaded
         if ((_time - _lastShootTime) * 1000 >= [_weaponReloadTimes[_currentWeapon] intValue]) {
             if (_currentWeapon == 0) {
                 CGPoint dir = ccpNormalize(ccpSub(_mousePos, _player.position));
                 Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                projectile.position = _player.position;
+                projectile.position = [_playerCannon convertToWorldSpace:ccp(_playerCannon.contentSize.width, _playerCannon.contentSize.height / 2)];
                 projectile.speed = ccpMult(dir, 500);
                 projectile.tag = 2;
                 
@@ -214,7 +217,7 @@
                 for(int i = -1; i < 2; i++) {
                     float angle = shootAngle + i * 0.2f;
                     Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                    projectile.position = _player.position;
+                    projectile.position = [_playerCannon convertToWorldSpace:ccp(_playerCannon.contentSize.width, _playerCannon.contentSize.height / 2)];
                     projectile.speed = ccp(cosf(angle) * 500, sinf(angle) * 500);
                     projectile.tag = 2;
                     
@@ -333,7 +336,7 @@
         if (_lifes > i) {
             [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heart.png"]];
         } else {
-            [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heartempty.png"]];
+            [_lifeSprites[i] setTexture:[[CCTextureCache sharedTextureCache] addImage:@"heart_empty.png"]];
         }
     }
 }

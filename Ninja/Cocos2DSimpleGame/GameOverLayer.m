@@ -22,18 +22,22 @@
     self = [super initWithColor:ccc4(255, 255, 255, 255)];
     
     if (self != nil) {
-        NSString * message;
-        if (won) {
-            message = @"You Won!";
-        } else {
-            message = @"You Lose :[";
-        }
-
         CGSize winSize = [[CCDirector sharedDirector] winSize];
-        CCLabelTTF * label = [CCLabelTTF labelWithString:message fontName:@"Arial" fontSize:32];
-        label.color = ccc3(0,0,0);
-        label.position = ccp(winSize.width/2, winSize.height/2);
-        [self addChild:label];
+        
+        // setup the background
+        CCSprite *background = [[CCSprite alloc] initWithFile:@"background.png"];
+        background.position = ccp(winSize.width / 2, winSize.height / 2);
+        [self addChild:background];
+        
+        // setup the popup message
+        CCSprite *message;
+        if (won) {
+            message = [[CCSprite alloc] initWithFile:@"you_win.png"];
+        } else {
+            message = [[CCSprite alloc] initWithFile:@"game_over.png"];
+        }
+        message.position = ccp(winSize.width / 2, winSize.height / 2);
+        [self addChild:message];
         
         [self runAction:
          [CCSequence actions:

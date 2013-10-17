@@ -16,6 +16,7 @@
 }
 
 @property int type;
+@property CGPoint speed;
 
 + (id)createProjectileWithLayer:(GameLayer *)layer type:(int)type;
 

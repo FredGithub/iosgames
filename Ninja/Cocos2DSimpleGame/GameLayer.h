@@ -10,6 +10,7 @@
 
 @interface GameLayer : CCLayerColor {
     CCSprite *_player;
+    CCSprite *_playerCannon;
     NSMutableArray *_monsters;
     NSMutableArray *_projectiles;
     NSMutableArray *_bonuses;

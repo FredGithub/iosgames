@@ -13,9 +13,9 @@
 + (id)createProjectileWithLayer:(GameLayer *)layer type:(int)type {
     Projectile *projectile = nil;
     if (type == 0) {
-        projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"projectile.png"];
+        projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"bullet.png"];
     } else if (type == 1) {
-        projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"heart.png"];
+        projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"bullet.png"];
     }
     return projectile;
 }

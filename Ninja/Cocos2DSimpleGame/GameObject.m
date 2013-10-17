@@ -15,7 +15,6 @@
     
     if (self != nil) {
         _active = true;
-        _speed = ccp(0, 0);
     }
     
     return self;
@@ -26,7 +25,6 @@
     
     if (self != nil) {
         _active = true;
-        _speed = ccp(0, 0);
     }
     
     return self;

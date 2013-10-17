@@ -26,15 +26,12 @@
     
     if (self != nil) {
         _type = type;
-        self.speed = ccp(-80, 0);
     }
     
     return self;
 }
 
 - (void)update:(ccTime)delta {
-    self.position = ccp(self.position.x + self.speed.x * delta, self.position.y + self.speed.y * delta);
-    
     if (self.position.x < -self.contentSize.width/2) {
         self.active = false;
     }

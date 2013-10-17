@@ -11,7 +11,6 @@
 @interface GameObject : CCSprite
 
 @property bool active;
-@property CGPoint speed;
 
 - (id)initWithFile:(NSString *)filename;
 - (id)initWithSpriteFrameName:(NSString *)spriteFrameName;
