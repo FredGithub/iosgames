@@ -74,13 +74,8 @@
         
         // setup the sprite sheets
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"enemies.plist"];
-        _cavemanBatch = [CCSpriteBatchNode batchNodeWithFile:@"enemies.png"];
-        [self addChild:_cavemanBatch];
-        
-        CCParticleSystem *p = [[CCParticleSnow alloc] initWithTotalParticles:50];
-        [p setTexture:[[CCTextureCache sharedTextureCache] addImage: @"particle.png"]];
-        p.position = ccp(150, 50);
-        //[self addChild:p];
+        _enemyBatch = [CCSpriteBatchNode batchNodeWithFile:@"enemies.png"];
+        [self addChild:_enemyBatch];
         
         // create the UI
         CCMenuItem *nextLevelItem = [CCMenuItemImage itemWithNormalImage:@"heart.png" selectedImage:@"heart.png" target:self selector:@selector(clickNextLevel:)];
@@ -146,6 +141,7 @@
     } else {
         type = 1;
     }
+    type = 2;
     
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
@@ -158,7 +154,7 @@
     enemy.position = ccp(winSize.width + enemy.contentSize.width / 2, actualY);
     enemy.tag = 1;
     [_monsters addObject:enemy];
-    [_cavemanBatch addChild:enemy];
+    [_enemyBatch addChild:enemy];
 }
 
 - (void)addBonusWithPosition:(CGPoint)pos {
@@ -203,33 +199,52 @@
         
         // if the weapon is reloaded
         if ((_time - _lastShootTime) * 1000 >= [_weaponReloadTimes[_currentWeapon] intValue]) {
+            _lastShootTime = _time;
+            CGPoint cannonPos = [_playerCannon convertToWorldSpace:ccp(_playerCannon.contentSize.width, _playerCannon.contentSize.height / 2)];
+            float shootAngle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
+            
+            // spawn the bullets
             if (_currentWeapon == 0) {
                 CGPoint dir = ccpNormalize(ccpSub(_mousePos, _player.position));
                 Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                projectile.position = [_playerCannon convertToWorldSpace:ccp(_playerCannon.contentSize.width, _playerCannon.contentSize.height / 2)];
+                projectile.position = cannonPos;
                 projectile.speed = ccpMult(dir, 500);
                 projectile.tag = 2;
-                
                 [_projectiles addObject:projectile];
                 [self addChild:projectile];
-                
-                [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
             } else if (_currentWeapon == 1) {
-                float shootAngle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
                 for(int i = -1; i < 2; i++) {
                     float angle = shootAngle + i * 0.2f;
                     Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
-                    projectile.position = [_playerCannon convertToWorldSpace:ccp(_playerCannon.contentSize.width, _playerCannon.contentSize.height / 2)];
+                    projectile.position = cannonPos;
                     projectile.speed = ccp(cosf(angle) * 500, sinf(angle) * 500);
                     projectile.tag = 2;
-                    
                     [_projectiles addObject:projectile];
                     [self addChild:projectile];
                 }
-                
-                [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
             }
-            _lastShootTime = _time;
+            
+            // explosion particles
+            CCParticleSystem *explosion = [[CCParticleExplosion alloc] initWithTotalParticles:10];
+            explosion.position = cannonPos;
+            explosion.texture = [[CCTextureCache sharedTextureCache] addImage: @"particle2.png"];
+            explosion.startSize = 4;
+            explosion.endSize = 3;
+            explosion.posVar = ccp(0, 0);
+            explosion.gravity = ccp(0, 0);
+            explosion.startColor = ccc4f(0.5f, 0.5f, 0.5f, 0.8f);
+            explosion.startColorVar = ccc4f(0, 0, 0, 0);
+            explosion.endColor = ccc4f(0.5f, 0.5f, 0.5f, 0);
+            explosion.endColorVar = ccc4f(0, 0, 0, 0);
+            explosion.life = 0.3f;
+            explosion.lifeVar = 0;
+            explosion.angle = shootAngle * 180 / M_PI;
+            explosion.angleVar = 50;
+            explosion.autoRemoveOnFinish = YES;
+            [self addChild:explosion];
+            
+            // play weapon sound
+            [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
         }
     }
     
@@ -296,7 +311,7 @@
             [self removeChild:gameObject cleanup:YES];
         } else if ([gameObject isKindOfClass:[Enemy class]]) {
             [_monsters removeObject:gameObject];
-            [_cavemanBatch removeChild:gameObject cleanup:YES];
+            [_enemyBatch removeChild:gameObject cleanup:YES];
         } else if ([gameObject isKindOfClass:[Bonus class]]) {
             [_bonuses removeObject:gameObject];
             [self removeChild:gameObject cleanup:YES];

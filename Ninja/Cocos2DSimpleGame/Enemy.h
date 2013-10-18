@@ -17,6 +17,7 @@
     float _angleOffset;
     int _animIndex;
     float _animTime;
+    CCParticleSystem *_emitter;
 };
 
 @property int type;

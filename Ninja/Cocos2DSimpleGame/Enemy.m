@@ -34,9 +34,33 @@
         _animTime = 0;
         _life = life;
         _speed = speed;
+        _emitter = nil;
+        
+        // best would be to create enemy subclasses for each type
+        if (type == 2) {
+            _emitter = [[CCParticleFire alloc] initWithTotalParticles:70];
+            _emitter.texture = [[CCTextureCache sharedTextureCache] addImage: @"particle2.png"];
+            _emitter.startSize = 2;
+            _emitter.endSize = 1;
+            _emitter.posVar = ccp(0, 0);
+            _emitter.speed = 0;
+            _emitter.gravity = ccp(1, 0);
+            _emitter.startColor = ccc4f(0, 1, 0, 1);
+            _emitter.endColor = ccc4f(0, 1, 0, 1);
+            _emitter.life = 1;
+            _emitter.autoRemoveOnFinish = YES;
+            [_layer addChild:_emitter];
+        }
     }
     
     return self;
+}
+
+- (void)cleanup {
+    if (_emitter != nil) {
+        [_emitter stopSystem];
+    }
+    [super cleanup];
 }
 
 - (void)update:(ccTime)delta {
@@ -68,6 +92,7 @@
         CGPoint oldPos = self.position;
         self.position = ccp(self.position.x + _speed.x * delta, _initY + sinf(_layer.time * 4 + _angleOffset) * 24);
         self.rotation = (self.position.y - oldPos.y) * 8;
+        _emitter.position = ccp(self.position.x + self.contentSize.width / 2, self.position.y);
     }
     
     // out of screen
