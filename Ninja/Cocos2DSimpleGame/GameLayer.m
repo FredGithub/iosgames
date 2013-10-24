@@ -37,7 +37,8 @@
         
         // init game constants
         _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
-        _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(500), nil];
+        _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(100), @(500), nil];
+        _weaponAmmos = [NSArray arrayWithObjects:@(-1), @(50), @(15), nil];
         
         // setup the background
         CCSprite *background = [[CCSprite alloc] initWithFile:@"background.png"];
@@ -66,6 +67,7 @@
         _levelObjective = [_monstersGoals[level] intValue];
         _lifes = 3;
         _currentWeapon = 0;
+        _ammo = -1;
         _time = 0;
         _lastShootTime = -1000;
         _mouseDown = NO;
@@ -78,8 +80,8 @@
         [self addChild:_enemyBatch];
         
         // create the UI
-        CCMenuItem *nextLevelItem = [CCMenuItemImage itemWithNormalImage:@"heart.png" selectedImage:@"heart.png" target:self selector:@selector(clickNextLevel:)];
-        nextLevelItem.position = ccp(winSize.width - nextLevelItem.contentSize.width / 2, nextLevelItem.contentSize.height / 2);
+        CCMenuItem *nextLevelItem = [CCMenuItemImage itemWithNormalImage:@"next.png" selectedImage:@"next.png" target:self selector:@selector(clickNextLevel:)];
+        nextLevelItem.position = ccp(winSize.width - nextLevelItem.contentSize.width / 2 - 5, nextLevelItem.contentSize.height / 2 + 5);
         
         CCMenu *menu = [CCMenu menuWithItems:nextLevelItem, nil];
         menu.position = ccp(0, 0);
@@ -90,6 +92,12 @@
         _monstersLabel.position = ccp(_monstersLabel.dimensions.width / 2 + 10, winSize.height - _monstersLabel.dimensions.height / 2 - 10);
         [self addChild:_monstersLabel];
         [self refreshMonstersUI];
+        
+        _ammoLabel = [CCLabelTTF labelWithString:@"" fontName:@"Helvetica" fontSize:15 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentLeft];
+        _ammoLabel.color = ccc3(0, 0, 0);
+        _ammoLabel.position = ccp(_ammoLabel.dimensions.width / 2 + 10, winSize.height - _ammoLabel.dimensions.height / 2 - 30);
+        [self addChild:_ammoLabel];
+        [self refreshAmmoUI];
         
         _levelLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Level %d", [LevelManager sharedLevelManager].level + 1] fontName:@"Helvetica" fontSize:15 dimensions:CGSizeMake(150, 20) hAlignment:kCCTextAlignmentRight];
         _levelLabel.color = ccc3(0, 0, 0);
@@ -141,7 +149,6 @@
     } else {
         type = 1;
     }
-    type = 2;
     
     Enemy *enemy = [Enemy createEnemyWithLayer:self type:type];
     
@@ -158,7 +165,7 @@
 }
 
 - (void)addBonusWithPosition:(CGPoint)pos {
-    int type = arc4random()%2;
+    int type = arc4random()%3;
     Bonus *bonus = [Bonus createBonusWithLayer:self type:type];
     bonus.position = pos;
     bonus.tag = 3;
@@ -204,7 +211,7 @@
             float shootAngle = ccpAngleSigned(ccp(1, 0), ccpSub(_mousePos, _player.position));
             
             // spawn the bullets
-            if (_currentWeapon == 0) {
+            if (_currentWeapon == 0 || _currentWeapon == 1) {
                 CGPoint dir = ccpNormalize(ccpSub(_mousePos, _player.position));
                 Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
                 projectile.position = cannonPos;
@@ -212,7 +219,7 @@
                 projectile.tag = 2;
                 [_projectiles addObject:projectile];
                 [self addChild:projectile];
-            } else if (_currentWeapon == 1) {
+            } else if (_currentWeapon == 2) {
                 for(int i = -1; i < 2; i++) {
                     float angle = shootAngle + i * 0.2f;
                     Projectile *projectile = [Projectile createProjectileWithLayer:self type:_currentWeapon];
@@ -242,6 +249,15 @@
             explosion.angleVar = 50;
             explosion.autoRemoveOnFinish = YES;
             [self addChild:explosion];
+            
+            // update ammo
+            if (_ammo != -1) {
+                _ammo--;
+                if (_ammo == 0) {
+                    [self pickupWeapon:0];
+                }
+            }
+            [self refreshAmmoUI];
             
             // play weapon sound
             [[SimpleAudioEngine sharedEngine] playEffect:@"pew-pew-lei.caf"];
@@ -276,7 +292,11 @@
                         [self refreshLifesUI];
                     }
                 } else if (bonus.type == 1) {
-                    _currentWeapon = 1;
+                    [self pickupWeapon:1];
+                    [self refreshAmmoUI];
+                } else if (bonus.type == 2) {
+                    [self pickupWeapon:2];
+                    [self refreshAmmoUI];
                 }
             }
         }
@@ -375,6 +395,14 @@
     [_monstersLabel setString:[NSString stringWithFormat:@"Monsters %d/%d", _monstersDestroyed, _levelObjective]];
 }
 
+- (void)refreshAmmoUI {
+    if (_ammo == -1) {
+        [_ammoLabel setString:@"Ammo: Inf."];
+    } else {
+        [_ammoLabel setString:[NSString stringWithFormat:@"Ammo: %d", _ammo]];
+    }
+}
+
 - (void)addScore:(int)value {
     [LevelManager sharedLevelManager].score += value;
     [self refreshScoreUI];
@@ -392,6 +420,15 @@
     [LevelManager sharedLevelManager].level++;
     CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
     [[CCDirector sharedDirector] replaceScene:gameOverScene];
+}
+
+- (void)pickupWeapon:(int)weapon {
+    if (weapon != 0 && _currentWeapon == weapon) {
+        _ammo += [_weaponAmmos[weapon] intValue];
+    } else {
+        _ammo = [_weaponAmmos[weapon] intValue];
+    }
+    _currentWeapon = weapon;
 }
 
 @end

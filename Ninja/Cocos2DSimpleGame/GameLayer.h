@@ -19,14 +19,17 @@
     int _monstersDestroyed;
     int _levelObjective;
     int _currentWeapon;
+    int _ammo;
     float _lastShootTime;
     BOOL _mouseDown;
     CGPoint _mousePos;
     NSMutableArray *_lifeSprites;
     NSArray *_monstersGoals;
     NSArray *_weaponReloadTimes;
+    NSArray *_weaponAmmos;
     CCSpriteBatchNode *_enemyBatch;
     CCLabelTTF *_monstersLabel;
+    CCLabelTTF *_ammoLabel;
     CCLabelTTF *_levelLabel;
     CCLabelTTF *_scoreLabel;
     CCLabelTTF *_comboLabel;

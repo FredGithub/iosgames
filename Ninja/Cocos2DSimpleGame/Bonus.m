@@ -15,6 +15,8 @@
     if (type == 0) {
         bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"bonus_heart.png"];
     } else if (type == 1) {
+        bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"bonus_uzi.png"];
+    } else if (type == 2) {
         bonus = [[Bonus alloc] initWithLayer:layer type:type file:@"bonus_bullet.png"];
     }
     return bonus;

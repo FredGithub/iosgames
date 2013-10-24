@@ -16,6 +16,8 @@
         projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"bullet.png"];
     } else if (type == 1) {
         projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"bullet.png"];
+    } else if (type == 2) {
+        projectile = [[Projectile alloc] initWithLayer:layer type:type file:@"bullet.png"];
     }
     return projectile;
 }
