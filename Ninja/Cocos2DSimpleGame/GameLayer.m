@@ -36,7 +36,7 @@
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
         // init game constants
-        _monstersGoals = [NSArray arrayWithObjects:@(500), @(10), @(15), @(20), @(30), nil];
+        _monstersGoals = [NSArray arrayWithObjects:@(10), @(15), @(20), @(25), @(30), nil];
         _weaponReloadTimes = [NSArray arrayWithObjects:@(350), @(100), @(500), nil];
         _weaponAmmos = [NSArray arrayWithObjects:@(-1), @(50), @(15), nil];
         
