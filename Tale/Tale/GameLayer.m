@@ -9,6 +9,7 @@
 #import "GameLayer.h"
 #import "AppDelegate.h"
 #import "GameObject.h"
+#import "Player.h"
 
 @implementation GameLayer
 
@@ -28,6 +29,18 @@
     
     if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
+        
+        _tileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"map1.tmx"];
+        [self addChild:_tileMap];
+        _background = [_tileMap layerNamed:@"Background"];
+        
+        // create the player
+        _player = [[Player alloc] initWithLayer:self];
+        [self addChild:_player];
+        //[self setViewPointCenter:_player.position];
+        
+        // init the game object arrays
+        _enemies = [[NSMutableArray alloc] init];
         
         // set the intervals
         [self schedule:@selector(update:)];

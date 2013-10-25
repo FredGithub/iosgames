@@ -142,6 +142,10 @@
 		AF012F691819D02900904A04 /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F681819D02900904A04 /* GameLayer.m */; };
 		AF012F6C1819D02900904A04 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F6B1819D02900904A04 /* IntroLayer.m */; };
 		AF012F781819E13200904A04 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F771819D7FE00904A04 /* GameObject.m */; };
+		AF012F7C1819EF2900904A04 /* map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7B1819EF2900904A04 /* map1.tmx */; };
+		AF012F7E1819F09B00904A04 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7D1819F09B00904A04 /* bullet.png */; };
+		AF012F811819F0D600904A04 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F801819F0D600904A04 /* Player.m */; };
+		AF012F831819F54C00904A04 /* tmw_desert_spacing.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F821819F54C00904A04 /* tmw_desert_spacing.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -428,6 +432,11 @@
 		AF012F6B1819D02900904A04 /* IntroLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntroLayer.m; sourceTree = "<group>"; };
 		AF012F761819D7FD00904A04 /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		AF012F771819D7FE00904A04 /* GameObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
+		AF012F7B1819EF2900904A04 /* map1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map1.tmx; sourceTree = "<group>"; };
+		AF012F7D1819F09B00904A04 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
+		AF012F7F1819F0D600904A04 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		AF012F801819F0D600904A04 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		AF012F821819F54C00904A04 /* tmw_desert_spacing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmw_desert_spacing.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +497,7 @@
 		AF012DD31819D02600904A04 /* Tale */ = {
 			isa = PBXGroup;
 			children = (
+				AF012F7A1819EF2900904A04 /* Maps */,
 				AF012F751819D7B200904A04 /* GameObjects */,
 				AF012F721819D0E200904A04 /* Images */,
 				AF012F641819D02900904A04 /* AppDelegate.h */,
@@ -887,6 +897,8 @@
 		AF012F721819D0E200904A04 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AF012F821819F54C00904A04 /* tmw_desert_spacing.png */,
+				AF012F7D1819F09B00904A04 /* bullet.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -896,8 +908,18 @@
 			children = (
 				AF012F761819D7FD00904A04 /* GameObject.h */,
 				AF012F771819D7FE00904A04 /* GameObject.m */,
+				AF012F7F1819F0D600904A04 /* Player.h */,
+				AF012F801819F0D600904A04 /* Player.m */,
 			);
 			name = GameObjects;
+			sourceTree = "<group>";
+		};
+		AF012F7A1819EF2900904A04 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				AF012F7B1819EF2900904A04 /* map1.tmx */,
+			);
+			path = Maps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -963,6 +985,9 @@
 				AF012DE81819D02600904A04 /* Icon@2x.png in Resources */,
 				AF012DEB1819D02600904A04 /* iTunesArtwork in Resources */,
 				AF012F441819D02900904A04 /* ChangeLog in Resources */,
+				AF012F7C1819EF2900904A04 /* map1.tmx in Resources */,
+				AF012F7E1819F09B00904A04 /* bullet.png in Resources */,
+				AF012F831819F54C00904A04 /* tmw_desert_spacing.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1086,6 +1111,7 @@
 				AF012F691819D02900904A04 /* GameLayer.m in Sources */,
 				AF012F6C1819D02900904A04 /* IntroLayer.m in Sources */,
 				AF012F781819E13200904A04 /* GameObject.m in Sources */,
+				AF012F811819F0D600904A04 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

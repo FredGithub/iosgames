@@ -8,7 +8,12 @@
 
 #import "cocos2d.h"
 
+@class Player;
+
 @interface GameLayer : CCLayerColor {
+    CCTMXTiledMap *_tileMap;
+    CCTMXLayer *_background;
+    Player *_player;
     NSMutableArray *_enemies;
     CCSpriteBatchNode *_enemyBatch;
     
