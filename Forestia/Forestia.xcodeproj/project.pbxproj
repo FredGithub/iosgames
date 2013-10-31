@@ -149,7 +149,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AF012DBC1819D02600904A04 /* Tale.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tale.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF012DBC1819D02600904A04 /* Forestia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Forestia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF012DBF1819D02600904A04 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AF012DC11819D02600904A04 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		AF012DC31819D02600904A04 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -463,7 +463,7 @@
 		AF012DB31819D02600904A04 = {
 			isa = PBXGroup;
 			children = (
-				AF012DD31819D02600904A04 /* Tale */,
+				AF012DD31819D02600904A04 /* Forestia */,
 				AF012DBE1819D02600904A04 /* Frameworks */,
 				AF012DBD1819D02600904A04 /* Products */,
 			);
@@ -472,7 +472,7 @@
 		AF012DBD1819D02600904A04 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AF012DBC1819D02600904A04 /* Tale.app */,
+				AF012DBC1819D02600904A04 /* Forestia.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -494,7 +494,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AF012DD31819D02600904A04 /* Tale */ = {
+		AF012DD31819D02600904A04 /* Forestia */ = {
 			isa = PBXGroup;
 			children = (
 				AF012F7A1819EF2900904A04 /* Maps */,
@@ -510,7 +510,7 @@
 				AF012DEC1819D02600904A04 /* libs */,
 				AF012F601819D02900904A04 /* Supporting Files */,
 			);
-			path = Tale;
+			path = Forestia;
 			sourceTree = "<group>";
 		};
 		AF012DD41819D02600904A04 /* Resources */ = {
@@ -925,9 +925,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AF012DBB1819D02600904A04 /* Tale */ = {
+		AF012DBB1819D02600904A04 /* Forestia */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AF012F6F1819D02900904A04 /* Build configuration list for PBXNativeTarget "Tale" */;
+			buildConfigurationList = AF012F6F1819D02900904A04 /* Build configuration list for PBXNativeTarget "Forestia" */;
 			buildPhases = (
 				AF012DB81819D02600904A04 /* Sources */,
 				AF012DB91819D02600904A04 /* Frameworks */,
@@ -937,9 +937,9 @@
 			);
 			dependencies = (
 			);
-			name = Tale;
+			name = Forestia;
 			productName = Tale;
-			productReference = AF012DBC1819D02600904A04 /* Tale.app */;
+			productReference = AF012DBC1819D02600904A04 /* Forestia.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -951,7 +951,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = AdminMacLC04;
 			};
-			buildConfigurationList = AF012DB71819D02600904A04 /* Build configuration list for PBXProject "Tale" */;
+			buildConfigurationList = AF012DB71819D02600904A04 /* Build configuration list for PBXProject "Forestia" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -963,7 +963,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AF012DBB1819D02600904A04 /* Tale */,
+				AF012DBB1819D02600904A04 /* Forestia */,
 			);
 		};
 /* End PBXProject section */
@@ -1173,7 +1173,7 @@
 					"-lsqlite3",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Forestia;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1192,7 +1192,7 @@
 					"-lsqlite3",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Forestia;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1201,7 +1201,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AF012DB71819D02600904A04 /* Build configuration list for PBXProject "Tale" */ = {
+		AF012DB71819D02600904A04 /* Build configuration list for PBXProject "Forestia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AF012F6D1819D02900904A04 /* Debug */,
@@ -1210,7 +1210,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AF012F6F1819D02900904A04 /* Build configuration list for PBXNativeTarget "Tale" */ = {
+		AF012F6F1819D02900904A04 /* Build configuration list for PBXNativeTarget "Forestia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AF012F701819D02900904A04 /* Debug */,

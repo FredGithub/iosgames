@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AF012DBB1819D02600904A04"
-               BuildableName = "Tale.app"
-               BlueprintName = "Tale"
-               ReferencedContainer = "container:Tale.xcodeproj">
+               BuildableName = "Forestia.app"
+               BlueprintName = "Forestia"
+               ReferencedContainer = "container:Forestia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF012DBB1819D02600904A04"
-            BuildableName = "Tale.app"
-            BlueprintName = "Tale"
-            ReferencedContainer = "container:Tale.xcodeproj">
+            BuildableName = "Forestia.app"
+            BlueprintName = "Forestia"
+            ReferencedContainer = "container:Forestia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -52,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF012DBB1819D02600904A04"
-            BuildableName = "Tale.app"
-            BlueprintName = "Tale"
-            ReferencedContainer = "container:Tale.xcodeproj">
+            BuildableName = "Forestia.app"
+            BlueprintName = "Forestia"
+            ReferencedContainer = "container:Forestia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF012DBB1819D02600904A04"
-            BuildableName = "Tale.app"
-            BlueprintName = "Tale"
-            ReferencedContainer = "container:Tale.xcodeproj">
+            BuildableName = "Forestia.app"
+            BlueprintName = "Forestia"
+            ReferencedContainer = "container:Forestia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
