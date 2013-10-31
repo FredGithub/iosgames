@@ -1122,6 +1122,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1132,6 +1136,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
@@ -1143,6 +1148,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1151,6 +1160,7 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				SDKROOT = iphoneos;
@@ -1165,9 +1175,9 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tale/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"Tale/libs/kazmath/include\"";
-				INFOPLIST_FILE = Tale/Resources/Info.plist;
+				GCC_PREFIX_HEADER = Forestia/Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"Forestia/libs/kazmath/include\"";
+				INFOPLIST_FILE = "$(SRCROOT)/Forestia/Resources/Info.plist";
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1184,9 +1194,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Tale/Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"Tale/libs/kazmath/include\"";
-				INFOPLIST_FILE = Tale/Resources/Info.plist;
+				GCC_PREFIX_HEADER = Forestia/Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"Forestia/libs/kazmath/include\"";
+				INFOPLIST_FILE = "$(SRCROOT)/Forestia/Resources/Info.plist";
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
