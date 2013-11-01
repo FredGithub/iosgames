@@ -145,7 +145,13 @@
 		AF012F7C1819EF2900904A04 /* map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7B1819EF2900904A04 /* map1.tmx */; };
 		AF012F7E1819F09B00904A04 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7D1819F09B00904A04 /* bullet.png */; };
 		AF012F811819F0D600904A04 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F801819F0D600904A04 /* Player.m */; };
-		AF012F831819F54C00904A04 /* tmw_desert_spacing.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F821819F54C00904A04 /* tmw_desert_spacing.png */; };
+		AFDE34A6182303810028A7DD /* tmw_desert_spacing.png in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34A5182303810028A7DD /* tmw_desert_spacing.png */; };
+		AFDE34A8182308320028A7DD /* map0.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34A7182308320028A7DD /* map0.tmx */; };
+		AFDE34AC182309290028A7DD /* forest.png in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34AB182309290028A7DD /* forest.png */; };
+		AFDE34AF182317B10028A7DD /* PathGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34AE182317B10028A7DD /* PathGraph.m */; };
+		AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B1182317BE0028A7DD /* PathNode.m */; };
+		AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B418231DB10028A7DD /* PathEdge.m */; };
+		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -436,7 +442,17 @@
 		AF012F7D1819F09B00904A04 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		AF012F7F1819F0D600904A04 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AF012F801819F0D600904A04 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
-		AF012F821819F54C00904A04 /* tmw_desert_spacing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmw_desert_spacing.png; sourceTree = "<group>"; };
+		AFDE34A5182303810028A7DD /* tmw_desert_spacing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmw_desert_spacing.png; sourceTree = "<group>"; };
+		AFDE34A7182308320028A7DD /* map0.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map0.tmx; sourceTree = "<group>"; };
+		AFDE34AB182309290028A7DD /* forest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forest.png; sourceTree = "<group>"; };
+		AFDE34AD182317B10028A7DD /* PathGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathGraph.h; sourceTree = "<group>"; };
+		AFDE34AE182317B10028A7DD /* PathGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathGraph.m; sourceTree = "<group>"; };
+		AFDE34B0182317BE0028A7DD /* PathNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathNode.h; sourceTree = "<group>"; };
+		AFDE34B1182317BE0028A7DD /* PathNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathNode.m; sourceTree = "<group>"; };
+		AFDE34B318231DB10028A7DD /* PathEdge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathEdge.h; sourceTree = "<group>"; };
+		AFDE34B418231DB10028A7DD /* PathEdge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathEdge.m; sourceTree = "<group>"; };
+		AFDE34B618232AD10028A7DD /* PathAStarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAStarNode.h; sourceTree = "<group>"; };
+		AFDE34B718232AD20028A7DD /* PathAStarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAStarNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -509,6 +525,14 @@
 				AF012DD41819D02600904A04 /* Resources */,
 				AF012DEC1819D02600904A04 /* libs */,
 				AF012F601819D02900904A04 /* Supporting Files */,
+				AFDE34AD182317B10028A7DD /* PathGraph.h */,
+				AFDE34AE182317B10028A7DD /* PathGraph.m */,
+				AFDE34B0182317BE0028A7DD /* PathNode.h */,
+				AFDE34B1182317BE0028A7DD /* PathNode.m */,
+				AFDE34B318231DB10028A7DD /* PathEdge.h */,
+				AFDE34B418231DB10028A7DD /* PathEdge.m */,
+				AFDE34B618232AD10028A7DD /* PathAStarNode.h */,
+				AFDE34B718232AD20028A7DD /* PathAStarNode.m */,
 			);
 			path = Forestia;
 			sourceTree = "<group>";
@@ -897,7 +921,6 @@
 		AF012F721819D0E200904A04 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				AF012F821819F54C00904A04 /* tmw_desert_spacing.png */,
 				AF012F7D1819F09B00904A04 /* bullet.png */,
 			);
 			path = Images;
@@ -917,6 +940,9 @@
 		AF012F7A1819EF2900904A04 /* Maps */ = {
 			isa = PBXGroup;
 			children = (
+				AFDE34AB182309290028A7DD /* forest.png */,
+				AFDE34A7182308320028A7DD /* map0.tmx */,
+				AFDE34A5182303810028A7DD /* tmw_desert_spacing.png */,
 				AF012F7B1819EF2900904A04 /* map1.tmx */,
 			);
 			path = Maps;
@@ -987,7 +1013,9 @@
 				AF012F441819D02900904A04 /* ChangeLog in Resources */,
 				AF012F7C1819EF2900904A04 /* map1.tmx in Resources */,
 				AF012F7E1819F09B00904A04 /* bullet.png in Resources */,
-				AF012F831819F54C00904A04 /* tmw_desert_spacing.png in Resources */,
+				AFDE34A6182303810028A7DD /* tmw_desert_spacing.png in Resources */,
+				AFDE34A8182308320028A7DD /* map0.tmx in Resources */,
+				AFDE34AC182309290028A7DD /* forest.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1112,6 +1140,10 @@
 				AF012F6C1819D02900904A04 /* IntroLayer.m in Sources */,
 				AF012F781819E13200904A04 /* GameObject.m in Sources */,
 				AF012F811819F0D600904A04 /* Player.m in Sources */,
+				AFDE34AF182317B10028A7DD /* PathGraph.m in Sources */,
+				AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */,
+				AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */,
+				AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,7 +1170,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1162,7 +1194,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1172,12 +1204,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Forestia/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Forestia/libs/kazmath/include\"";
 				INFOPLIST_FILE = "$(SRCROOT)/Forestia/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",
@@ -1192,11 +1226,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Forestia/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"Forestia/libs/kazmath/include\"";
 				INFOPLIST_FILE = "$(SRCROOT)/Forestia/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = (
 					"-lz",
 					"-lsqlite3",

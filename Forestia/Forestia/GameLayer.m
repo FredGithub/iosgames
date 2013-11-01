@@ -30,14 +30,24 @@
     if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        _tileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"map1.tmx"];
+        // load the map
+        _tileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"map0.tmx"];
         [self addChild:_tileMap];
-        _background = [_tileMap layerNamed:@"Background"];
+        _background = [_tileMap layerNamed:@"background"];
+        
+        // load the object layer
+        CCTMXObjectGroup *objectGroup = [_tileMap objectGroupNamed:@"objects"];
+        NSAssert(objectGroup != nil, @"the map needs an object layer");
         
         // create the player
         _player = [[Player alloc] initWithLayer:self];
         [self addChild:_player];
-        //[self setViewPointCenter:_player.position];
+        
+        // position the player at spawn point
+        NSDictionary *spawnPoint = [objectGroup objectNamed:@"spawn"];
+        int x = [spawnPoint[@"x"] integerValue];
+        int y = [spawnPoint[@"y"] integerValue];
+        _player.position = ccp(x, y);
         
         // init the game object arrays
         _enemies = [[NSMutableArray alloc] init];
@@ -67,12 +77,17 @@
     UITouch *touch = [touches anyObject];
     _mousePos = [self convertTouchToNodeSpace:touch];
     _mouseDown = NO;
+    
+    [_player targetWithPoint:_mousePos];
 }
 
 - (void)update:(ccTime)dt {
     _time += dt;
     
     NSMutableArray *inactive = [[NSMutableArray alloc] init];
+    
+    // update player
+    [_player update:dt];
     
     // update enemies
     for (GameObject *enemy in _enemies) {
@@ -97,6 +112,16 @@
 - (void)win {
     //CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
     //[[CCDirector sharedDirector] replaceScene:gameOverScene];
+}
+
+- (void)loadMap:(NSString *)map {
+    if (_tileMap != nil) {
+        [self removeChild:_tileMap cleanup:YES];
+    }
+    
+    
+    
+   
 }
 
 @end

@@ -11,9 +11,15 @@
 #import "GameObject.h"
 #import "GameLayer.h"
 
-@interface Player : GameObject
+@interface Player : GameObject {
+    float _speed;
+}
+
+@property CGPoint targetPoint;
+@property int state;
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)update:(ccTime)delta;
+- (void)targetWithPoint:(CGPoint)target;
 
 @end
