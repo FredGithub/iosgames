@@ -8,11 +8,13 @@
 
 #import "cocos2d.h"
 
+#import "PathNode.h"
+
 @interface PathGraph : NSObject
 
 @property (nonatomic, strong) NSMutableArray *nodes;
 
 - (id)initWithMap:(CCTMXTiledMap *)map tileLayer:(CCTMXLayer *)layer;
-- (void)renderDebugWithTileSize:(CGSize)tileSize;
+- (NSArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB;
 
 @end

@@ -7,10 +7,11 @@
 //
 
 #import "PathGraph.h"
-#import "PathNode.h"
-#import "PathEdge.h"
 #import "CCTMXTiledMap.h"
 #import "CCTMXLayer.h"
+#import "PathNode.h"
+#import "PathEdge.h"
+#import "PathAStarNode.h"
 
 @implementation PathGraph
 
@@ -66,26 +67,87 @@
     return self;
 }
 
-- (NSMutableArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB {
-    NSMutableArray *path = [NSMutableArray array];
-    NSMutableArray *openList = [NSMutableArray array];
-    PathNode *lowestNode = nil;
+- (NSArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB {
+    NSMutableArray *openedList = [NSMutableArray array];
+    NSMutableArray *closedList = [NSMutableArray array];
+    PathAStarNode *lowestNode = nil;
     
-    [openList addObject:nodeA];
+    // add initial node to opened list
+    [openedList addObject:[[PathAStarNode alloc] initWithNode:nodeA g:0 h:[self calcH:nodeA dest:nodeB] parent:nil]];
     
-    while (lowestNode != nodeB || [openList count] > 0) {
-        lowestNode = [self nodeWithLowestF];
+    while (lowestNode.node != nodeB || [openedList count] > 0) {
+        // get node with lowest f
+        lowestNode = [self nodeWithLowestF:openedList];
+        
+        // pass it from opened list to closed list
+        [openedList removeObject:lowestNode];
+        [closedList addObject:lowestNode];
+        
+        // process all neighbors
+        for (PathEdge *edge in lowestNode.node.edges) {
+            if ([self findAStarNodeForNode:edge.node inList:closedList] == nil) {
+                PathAStarNode *neighborNode = [self findAStarNodeForNode:edge.node inList:openedList];
+                if (neighborNode == nil) {
+                    float estimated = [self calcH:edge.node dest:nodeB];
+                    neighborNode = [[PathAStarNode alloc] initWithNode:edge.node g:lowestNode.g + edge.cost h:estimated parent:lowestNode];
+                    [openedList addObject:neighborNode];
+                } else {
+                    if (lowestNode.g + edge.cost < neighborNode.g) {
+                        neighborNode.g = lowestNode.g + edge.cost;
+                        neighborNode.parent = lowestNode;
+                    }
+                }
+            }
+        }
     }
     
-    return path;
+    // get the node path if we reached destination
+    if (lowestNode.node == nodeB) {
+        NSMutableArray *path = [NSMutableArray array];
+        while (lowestNode.parent != nil) {
+            [path addObject:lowestNode.node];
+            lowestNode = lowestNode.parent;
+        }
+        NSArray *orderedPath = [[path reverseObjectEnumerator] allObjects];
+        [self printPath:orderedPath];
+        return orderedPath;
+    } else {
+        return nil;
+    }
 }
 
-- (PathNode *)nodeWithLowestF {
+- (PathAStarNode *)nodeWithLowestF:(NSMutableArray *)list {
+    PathAStarNode *foundNode = nil;
+    float min = INFINITY;
+    
+    for (PathAStarNode *node in list) {
+        if (node.g + node.h < min ) {
+            foundNode = node;
+            min = node.g + node.h;
+        }
+    }
+    
+    return foundNode;
+}
+
+- (float)calcH:(PathNode *)node dest:(PathNode *)dest {
+    return abs(dest.col - node.col) + abs(dest.row - node.row);
+}
+
+- (PathAStarNode *)findAStarNodeForNode:(PathNode *)node inList:(NSMutableArray *)list {
+    for (PathAStarNode *aStarNode in list) {
+        if (aStarNode.node == node) {
+            return aStarNode;
+        }
+    }
     return nil;
 }
 
-- (float)calcH:(PathNode *)node destination:(PathNode *)dest {
-    return 0;
+- (void)printPath:(NSArray *)path {
+    NSLog(@"%@", path);
+    for (PathNode *node in path) {
+        
+    }
 }
 
 @end

@@ -13,7 +13,10 @@
 @interface PathAStarNode : NSObject
 
 @property (nonatomic, weak) PathNode *node;
+@property (nonatomic) float g;
+@property (nonatomic) float h;
+@property (nonatomic, weak) PathAStarNode *parent;
 
-- (id)initWithNode:(PathNode *)node;
+- (id)initWithNode:(PathNode *)node g:(float)g h:(float)h parent:(PathAStarNode *)parent;
 
 @end
