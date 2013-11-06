@@ -6,13 +6,15 @@
 //  Copyright (c) 2013 AdminMacLC04. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 #import "PathNode.h"
 
 @interface PathEdge : NSObject
 
-@property (nonatomic, weak) PathNode *to;
+@property (nonatomic, weak) PathNode *node;
 @property (nonatomic) float cost;
+
+- (id)initWithNode:(PathNode *)node cost:(float)cost;
 
 @end

@@ -10,4 +10,14 @@
 
 @implementation PathAStarNode
 
+- (id)initWithNode:(PathNode *)node {
+    self = [super init];
+    
+    if (self != nil) {
+        _node = node;
+    }
+    
+    return self;
+}
+
 @end

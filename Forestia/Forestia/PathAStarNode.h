@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 AdminMacLC04. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 #import "PathNode.h"
 
 @interface PathAStarNode : NSObject
 
 @property (nonatomic, weak) PathNode *node;
+
+- (id)initWithNode:(PathNode *)node;
 
 @end

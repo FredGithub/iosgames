@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "GameObject.h"
 #import "Player.h"
+#import "PathDebugRenderer.h"
 
 @implementation GameLayer
 
@@ -38,6 +39,11 @@
         // load the object layer
         CCTMXObjectGroup *objectGroup = [_tileMap objectGroupNamed:@"objects"];
         NSAssert(objectGroup != nil, @"the map needs an object layer");
+        
+        // init the graph and the debug renderer
+        _graph = [[PathGraph alloc] initWithMap:_tileMap tileLayer:_background];
+        PathDebugRenderer *renderer = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_tileMap.tileSize];
+        [self addChild:renderer];
         
         // create the player
         _player = [[Player alloc] initWithLayer:self];
@@ -89,6 +95,9 @@
     // update player
     [_player update:dt];
     
+    // center camera on player
+    [self setViewPointCenter:_player.position];
+    
     // update enemies
     for (GameObject *enemy in _enemies) {
         [enemy update:dt];
@@ -109,19 +118,23 @@
 
 /* Private methods */
 
+- (void)setViewPointCenter:(CGPoint)position {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    
+    int x = MAX(position.x, winSize.width / 2);
+    int y = MAX(position.y, winSize.height / 2);
+    x = MIN(x, (_tileMap.mapSize.width * _tileMap.tileSize.width) - winSize.width / 2);
+    y = MIN(y, (_tileMap.mapSize.height * _tileMap.tileSize.height) - winSize.height / 2);
+    CGPoint actualPosition = ccp(x, y);
+    
+    CGPoint centerOfView = ccp(winSize.width / 2, winSize.height / 2);
+    CGPoint viewPoint = ccpSub(centerOfView, actualPosition);
+    self.position = viewPoint;
+}
+
 - (void)win {
     //CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
     //[[CCDirector sharedDirector] replaceScene:gameOverScene];
-}
-
-- (void)loadMap:(NSString *)map {
-    if (_tileMap != nil) {
-        [self removeChild:_tileMap cleanup:YES];
-    }
-    
-    
-    
-   
 }
 
 @end

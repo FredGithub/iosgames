@@ -145,6 +145,8 @@
 		AF012F7C1819EF2900904A04 /* map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7B1819EF2900904A04 /* map1.tmx */; };
 		AF012F7E1819F09B00904A04 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7D1819F09B00904A04 /* bullet.png */; };
 		AF012F811819F0D600904A04 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F801819F0D600904A04 /* Player.m */; };
+		AF15E750182A9EA700684628 /* PathDebugRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E74F182A9EA600684628 /* PathDebugRenderer.m */; };
+		AF15E753182AA70200684628 /* DrawUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E752182AA70200684628 /* DrawUtils.m */; };
 		AFDE34A6182303810028A7DD /* tmw_desert_spacing.png in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34A5182303810028A7DD /* tmw_desert_spacing.png */; };
 		AFDE34A8182308320028A7DD /* map0.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34A7182308320028A7DD /* map0.tmx */; };
 		AFDE34AC182309290028A7DD /* forest.png in Resources */ = {isa = PBXBuildFile; fileRef = AFDE34AB182309290028A7DD /* forest.png */; };
@@ -442,6 +444,10 @@
 		AF012F7D1819F09B00904A04 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		AF012F7F1819F0D600904A04 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AF012F801819F0D600904A04 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		AF15E74E182A9EA600684628 /* PathDebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathDebugRenderer.h; sourceTree = "<group>"; };
+		AF15E74F182A9EA600684628 /* PathDebugRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathDebugRenderer.m; sourceTree = "<group>"; };
+		AF15E751182AA70100684628 /* DrawUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawUtils.h; sourceTree = "<group>"; };
+		AF15E752182AA70200684628 /* DrawUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawUtils.m; sourceTree = "<group>"; };
 		AFDE34A5182303810028A7DD /* tmw_desert_spacing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tmw_desert_spacing.png; sourceTree = "<group>"; };
 		AFDE34A7182308320028A7DD /* map0.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map0.tmx; sourceTree = "<group>"; };
 		AFDE34AB182309290028A7DD /* forest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forest.png; sourceTree = "<group>"; };
@@ -513,6 +519,7 @@
 		AF012DD31819D02600904A04 /* Forestia */ = {
 			isa = PBXGroup;
 			children = (
+				AF15E74D182A917600684628 /* Path */,
 				AF012F7A1819EF2900904A04 /* Maps */,
 				AF012F751819D7B200904A04 /* GameObjects */,
 				AF012F721819D0E200904A04 /* Images */,
@@ -525,14 +532,8 @@
 				AF012DD41819D02600904A04 /* Resources */,
 				AF012DEC1819D02600904A04 /* libs */,
 				AF012F601819D02900904A04 /* Supporting Files */,
-				AFDE34AD182317B10028A7DD /* PathGraph.h */,
-				AFDE34AE182317B10028A7DD /* PathGraph.m */,
-				AFDE34B0182317BE0028A7DD /* PathNode.h */,
-				AFDE34B1182317BE0028A7DD /* PathNode.m */,
-				AFDE34B318231DB10028A7DD /* PathEdge.h */,
-				AFDE34B418231DB10028A7DD /* PathEdge.m */,
-				AFDE34B618232AD10028A7DD /* PathAStarNode.h */,
-				AFDE34B718232AD20028A7DD /* PathAStarNode.m */,
+				AF15E751182AA70100684628 /* DrawUtils.h */,
+				AF15E752182AA70200684628 /* DrawUtils.m */,
 			);
 			path = Forestia;
 			sourceTree = "<group>";
@@ -948,6 +949,23 @@
 			path = Maps;
 			sourceTree = "<group>";
 		};
+		AF15E74D182A917600684628 /* Path */ = {
+			isa = PBXGroup;
+			children = (
+				AFDE34AD182317B10028A7DD /* PathGraph.h */,
+				AFDE34AE182317B10028A7DD /* PathGraph.m */,
+				AFDE34B0182317BE0028A7DD /* PathNode.h */,
+				AFDE34B1182317BE0028A7DD /* PathNode.m */,
+				AFDE34B318231DB10028A7DD /* PathEdge.h */,
+				AFDE34B418231DB10028A7DD /* PathEdge.m */,
+				AFDE34B618232AD10028A7DD /* PathAStarNode.h */,
+				AFDE34B718232AD20028A7DD /* PathAStarNode.m */,
+				AF15E74E182A9EA600684628 /* PathDebugRenderer.h */,
+				AF15E74F182A9EA600684628 /* PathDebugRenderer.m */,
+			);
+			name = Path;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1144,6 +1162,8 @@
 				AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */,
 				AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */,
 				AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */,
+				AF15E750182A9EA700684628 /* PathDebugRenderer.m in Sources */,
+				AF15E753182AA70200684628 /* DrawUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

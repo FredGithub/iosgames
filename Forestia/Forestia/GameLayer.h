@@ -8,20 +8,21 @@
 
 #import "cocos2d.h"
 
+#import "PathGraph.h"
+
 @class Player;
 
-@interface GameLayer : CCLayerColor {
-    CCTMXTiledMap *_tileMap;
-    CCTMXLayer *_background;
-    Player *_player;
-    NSMutableArray *_enemies;
-    CCSpriteBatchNode *_enemyBatch;
-    
-    BOOL _mouseDown;
-    CGPoint _mousePos;
-}
+@interface GameLayer : CCLayerColor
 
-@property float time;
+@property (nonatomic, strong) CCTMXTiledMap *tileMap;
+@property (nonatomic, strong) CCTMXLayer *background;
+@property (nonatomic, strong) Player *player;
+@property (nonatomic, strong) NSMutableArray *enemies;
+@property (nonatomic, strong) CCSpriteBatchNode *enemyBatch;
+@property (nonatomic, strong) PathGraph *graph;
+@property (nonatomic) BOOL mouseDown;
+@property (nonatomic) CGPoint mousePos;
+@property (nonatomic) float time;
 
 + (CCScene *)scene;
 

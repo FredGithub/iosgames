@@ -16,9 +16,14 @@
     if (self != nil) {
         _col = col;
         _row = row;
+        _edges = [NSMutableArray array];
     }
     
     return self;
+}
+
+- (void)addEdge:(PathEdge *)edge {
+    [_edges addObject:edge];
 }
 
 @end

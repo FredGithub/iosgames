@@ -10,4 +10,15 @@
 
 @implementation PathEdge
 
+- (id)initWithNode:(PathNode *)node cost:(float)cost{
+    self = [super init];
+    
+    if (self != nil) {
+        _node = node;
+        _cost = cost;
+    }
+    
+    return self;
+}
+
 @end
