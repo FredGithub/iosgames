@@ -24,3 +24,10 @@ void drawArrow(CGPoint start, CGPoint end, float size) {
     arrow = ccpSub(ccpSub(end, dir), nor);
     ccDrawLine(end, arrow);
 }
+
+void drawArrowShrinked(CGPoint start, CGPoint end, float size, float shrink) {
+    CGPoint mid = ccpMult(ccpAdd(start, end), 0.5f);
+    start = ccpAdd(mid, ccpMult(ccpSub(start, mid), shrink));
+    end = ccpAdd(mid, ccpMult(ccpSub(end, mid), shrink));
+    drawArrow(start, end, size);
+}

@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *nodes;
 
 - (id)initWithMap:(CCTMXTiledMap *)map tileLayer:(CCTMXLayer *)layer;
+- (PathNode *)nodeForIndex:(int)index;
 - (NSArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB;
 
 @end

@@ -9,3 +9,4 @@
 #import "cocos2d.h"
 
 void drawArrow(CGPoint start, CGPoint end, float size);
+void drawArrowShrinked(CGPoint start, CGPoint end, float size, float shrink);

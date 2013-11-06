@@ -35,7 +35,7 @@
             for (PathEdge *edge in node.edges) {
                 CGPoint p1 = ccp(node.col * _tileSize.width + _tileSize.width / 2, node.row * _tileSize.height + _tileSize.height / 2);
                 CGPoint p2 = ccp(edge.node.col * _tileSize.width + _tileSize.width / 2, edge.node.row * _tileSize.height + _tileSize.height / 2);
-                drawArrow(p1, p2, 10);
+                drawArrowShrinked(p1, p2, 6, 0.6f);
             }
         }
     }

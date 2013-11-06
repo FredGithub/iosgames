@@ -13,9 +13,12 @@
 
 @interface Player : GameObject
 
+@property (nonatomic, weak) GameLayer *layer;
 @property (nonatomic) float speed;
 @property (nonatomic) CGPoint targetPoint;
 @property (nonatomic) int state;
+@property (nonatomic, strong) NSArray *currentPath;
+@property (nonatomic) int currentPathIndex;
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)update:(ccTime)delta;

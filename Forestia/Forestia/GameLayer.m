@@ -116,6 +116,18 @@
     }
 }
 
+- (CGPoint)cellCoordForPosition:(CGPoint)pos {
+    int col = pos.x / _tileMap.tileSize.width;
+    int row = pos.y / _tileMap.tileSize.height;
+    return ccp(col, row);
+}
+
+- (int)cellIndexForPosition:(CGPoint)pos {
+    int col = pos.x / _tileMap.tileSize.width;
+    int row = pos.y / _tileMap.tileSize.height;
+    return col * _tileMap.mapSize.height + row;
+}
+
 /* Private methods */
 
 - (void)setViewPointCenter:(CGPoint)position {

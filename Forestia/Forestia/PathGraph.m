@@ -67,7 +67,20 @@
     return self;
 }
 
+- (PathNode *)nodeForIndex:(int)index {
+    if (index >= 0 || index < [_nodes count]) {
+        return _nodes[index];
+    }
+    return nil;
+}
+
 - (NSArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB {
+    // check to see if we try to find a path out of the graph
+    if (nodeA == nil || nodeA == (id)[NSNull null] || nodeB == nil || nodeB == (id)[NSNull null]) {
+        return nil;
+    }
+    
+    // init lists and lowest node
     NSMutableArray *openedList = [NSMutableArray array];
     NSMutableArray *closedList = [NSMutableArray array];
     PathAStarNode *lowestNode = nil;
@@ -75,7 +88,7 @@
     // add initial node to opened list
     [openedList addObject:[[PathAStarNode alloc] initWithNode:nodeA g:0 h:[self calcH:nodeA dest:nodeB] parent:nil]];
     
-    while (lowestNode.node != nodeB || [openedList count] > 0) {
+    while (lowestNode.node != nodeB && [openedList count] > 0) {
         // get node with lowest f
         lowestNode = [self nodeWithLowestF:openedList];
         
@@ -101,15 +114,20 @@
         }
     }
     
-    // get the node path if we reached destination
+    // if we reached destination
     if (lowestNode.node == nodeB) {
+        // get the node path
         NSMutableArray *path = [NSMutableArray array];
         while (lowestNode.parent != nil) {
             [path addObject:lowestNode.node];
             lowestNode = lowestNode.parent;
         }
+        [path addObject:lowestNode.node];
+        
+        // reverse the path
         NSArray *orderedPath = [[path reverseObjectEnumerator] allObjects];
         [self printPath:orderedPath];
+        
         return orderedPath;
     } else {
         return nil;
@@ -144,10 +162,13 @@
 }
 
 - (void)printPath:(NSArray *)path {
-    NSLog(@"%@", path);
+    NSMutableString *str = [NSMutableString string];
+    [str appendString:@"(\n"];
     for (PathNode *node in path) {
-        
+        [str appendFormat:@"\t[%d %d]\n", node.col, node.row];
     }
+    [str appendString:@")"];
+    NSLog(@"%@", str);
 }
 
 @end

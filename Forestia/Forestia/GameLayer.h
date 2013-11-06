@@ -26,4 +26,7 @@
 
 + (CCScene *)scene;
 
+- (CGPoint)cellCoordForPosition:(CGPoint)pos;
+- (int)cellIndexForPosition:(CGPoint)pos;
+
 @end
