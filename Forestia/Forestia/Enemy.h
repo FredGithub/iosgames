@@ -1,17 +1,15 @@
 //
-//  Player.h
-//  Tale
+//  Enemy.h
+//  Forestia
 //
-//  Created by AdminMacLC04 on 10/24/13.
+//  Created by AdminMacLC04 on 11/7/13.
 //  Copyright (c) 2013 AdminMacLC04. All rights reserved.
 //
-
-#import "cocos2d.h"
 
 #import "GameObject.h"
 #import "GameLayer.h"
 
-@interface Player : GameObject
+@interface Enemy : GameObject
 
 @property (nonatomic, weak) GameLayer *layer;
 @property (nonatomic) float speed;
@@ -25,6 +23,5 @@
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)update:(ccTime)delta;
-- (void)targetWithPoint:(CGPoint)target;
 
 @end

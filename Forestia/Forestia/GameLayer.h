@@ -18,7 +18,7 @@
 @property (nonatomic, strong) CCTMXLayer *background;
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) NSMutableArray *enemies;
-@property (nonatomic, strong) CCSpriteBatchNode *enemyBatch;
+@property (nonatomic, strong) CCSpriteBatchNode *gameBatch;
 @property (nonatomic, strong) PathGraph *graph;
 @property (nonatomic) BOOL mouseDown;
 @property (nonatomic) CGPoint mousePos;

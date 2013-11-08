@@ -8,14 +8,15 @@
 
 #import "Player.h"
 
-#define PLAYER_TARGET_REACH_DIST 1
 #define PLAYER_STATE_IDLE 1
-#define PLAYER_STATE_CHASING 2
+#define PLAYER_STATE_WALK 2
+#define PLAYER_STATE_WAITING_FOR_ATTACK 3
+#define PLAYER_STATE_ATTACK 4
 
 @implementation Player
 
 - (id)initWithLayer:(GameLayer *)layer {
-    self = [super initWithFile:@"bullet.png"];
+    self = [super init];
     
     if (self != nil) {
         _layer = layer;
@@ -23,22 +24,43 @@
         _targetPoint = ccp(0, 0);
         _state = PLAYER_STATE_IDLE;
         _currentPath = nil;
+        _currentAnimAction = nil;
+        
+        // build animations
+        NSMutableArray *frames = [NSMutableArray array];
+		for(int i = 1; i < 5; i++) {
+			CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"elf_walk_%04d.png", i]];
+			[frames addObject:frame];
+		}
+        _walkAnim = [CCAnimation animationWithSpriteFrames:frames delay:0.1f];
+        
+        frames = [NSMutableArray array];
+		for(int i = 1; i < 8; i++) {
+			CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"elf_attack_%04d.png", i]];
+			[frames addObject:frame];
+		}
+        _attackAnim = [CCAnimation animationWithSpriteFrames:frames delay:0.2f];
+        
+        [self startIdleState];
     }
     
     return self;
 }
 
 - (void)update:(ccTime)delta {
-    if (_state == PLAYER_STATE_CHASING) {
+    if (_state == PLAYER_STATE_WALK) {
         // move towards target
         CGPoint dir = ccpSub(_targetPoint, self.position);
         if (ccpLengthSQ(dir) > 0) {
             dir = ccpNormalize(dir);
         }
         self.position = ccp(self.position.x + dir.x * _speed, self.position.y + dir.y * _speed);
+        if (ccpLengthSQ(dir) > 0) {
+            self.rotation = -ccpAngleSigned(ccp(1, 0), dir) * 180 / M_PI;
+        }
         
-        // change state if we reached target
-        if (ccpFuzzyEqual(self.position, _targetPoint, PLAYER_TARGET_REACH_DIST)) {
+        // pick next target if we reached the current target
+        if (ccpFuzzyEqual(self.position, _targetPoint, 1)) {
             // if we have nodes left in our current path
             if (_currentPathIndex < [_currentPath count] - 1) {
                 _currentPathIndex++;
@@ -46,7 +68,7 @@
                 NSLog(@"%f %f", _targetPoint.x, _targetPoint.y);
             } else {
                 NSLog(@"reached end of path");
-                _state = PLAYER_STATE_IDLE;
+                [self startIdleState];
             }
         }
     }
@@ -58,14 +80,32 @@
     NSArray *path = [_layer.graph calcPathFrom:[_layer.graph nodeForIndex:indexStart] to:[_layer.graph nodeForIndex:indexDest]];
     
     if (path == nil) {
-        _state = PLAYER_STATE_IDLE;
+        [self startIdleState];
         NSLog(@"path not found");
     } else {
+        [self startWalkState];
         _currentPath = path;
-        _state = PLAYER_STATE_CHASING;
         _currentPathIndex = 0;
         _targetPoint = [self currentPathTargetPoint];
         NSLog(@"first point %f %f", _targetPoint.x, _targetPoint.y);
+    }
+}
+
+- (void)startIdleState {
+    _state = PLAYER_STATE_IDLE;
+    [self stopAnimation];
+    [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"elf_idle.png"]];
+}
+
+- (void)startWalkState {
+    _state = PLAYER_STATE_WALK;
+    [self stopAnimation];
+    _currentAnimAction = [self runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:_walkAnim]]];
+}
+
+- (void)stopAnimation {
+    if (_currentAnimAction != nil) {
+        [self stopAction:_currentAnimAction];
     }
 }
 

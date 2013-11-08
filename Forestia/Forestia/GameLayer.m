@@ -44,10 +44,16 @@
         _graph = [[PathGraph alloc] initWithMap:_tileMap tileLayer:_background];
         PathDebugRenderer *renderer = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_tileMap.tileSize];
         [self addChild:renderer];
+        renderer.visible = NO;
+        
+        // setup the sprite sheets
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game.plist"];
+        _gameBatch = [CCSpriteBatchNode batchNodeWithFile:@"game.png"];
+        [self addChild:_gameBatch];
         
         // create the player
         _player = [[Player alloc] initWithLayer:self];
-        [self addChild:_player];
+        [_gameBatch addChild:_player];
         
         // position the player at spawn point
         NSDictionary *spawnPoint = [objectGroup objectNamed:@"spawn"];

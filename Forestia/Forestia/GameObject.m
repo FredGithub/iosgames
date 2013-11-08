@@ -10,6 +10,16 @@
 
 @implementation GameObject
 
+- (id)init {
+    self = [super init];
+    
+    if (self != nil) {
+        _active = true;
+    }
+    
+    return self;
+}
+
 - (id)initWithFile:(NSString *)filename {
     self = [super initWithFile:filename];
     

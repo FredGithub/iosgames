@@ -154,6 +154,9 @@
 		AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B1182317BE0028A7DD /* PathNode.m */; };
 		AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B418231DB10028A7DD /* PathEdge.m */; };
 		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
+		AFFE0CB5182C1C5D00764970 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB3182C1C5D00764970 /* game.plist */; };
+		AFFE0CB6182C1C5D00764970 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB4182C1C5D00764970 /* game.png */; };
+		AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE0CB8182C37DF00764970 /* Enemy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -459,6 +462,10 @@
 		AFDE34B418231DB10028A7DD /* PathEdge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathEdge.m; sourceTree = "<group>"; };
 		AFDE34B618232AD10028A7DD /* PathAStarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAStarNode.h; sourceTree = "<group>"; };
 		AFDE34B718232AD20028A7DD /* PathAStarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAStarNode.m; sourceTree = "<group>"; };
+		AFFE0CB3182C1C5D00764970 /* game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game.plist; sourceTree = "<group>"; };
+		AFFE0CB4182C1C5D00764970 /* game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game.png; sourceTree = "<group>"; };
+		AFFE0CB7182C37DF00764970 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
+		AFFE0CB8182C37DF00764970 /* Enemy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Enemy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -922,6 +929,8 @@
 		AF012F721819D0E200904A04 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				AFFE0CB3182C1C5D00764970 /* game.plist */,
+				AFFE0CB4182C1C5D00764970 /* game.png */,
 				AF012F7D1819F09B00904A04 /* bullet.png */,
 			);
 			path = Images;
@@ -934,6 +943,8 @@
 				AF012F771819D7FE00904A04 /* GameObject.m */,
 				AF012F7F1819F0D600904A04 /* Player.h */,
 				AF012F801819F0D600904A04 /* Player.m */,
+				AFFE0CB7182C37DF00764970 /* Enemy.h */,
+				AFFE0CB8182C37DF00764970 /* Enemy.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -1034,6 +1045,8 @@
 				AFDE34A6182303810028A7DD /* tmw_desert_spacing.png in Resources */,
 				AFDE34A8182308320028A7DD /* map0.tmx in Resources */,
 				AFDE34AC182309290028A7DD /* forest.png in Resources */,
+				AFFE0CB5182C1C5D00764970 /* game.plist in Resources */,
+				AFFE0CB6182C1C5D00764970 /* game.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1164,6 +1177,7 @@
 				AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */,
 				AF15E750182A9EA700684628 /* PathDebugRenderer.m in Sources */,
 				AF15E753182AA70200684628 /* DrawUtils.m in Sources */,
+				AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
