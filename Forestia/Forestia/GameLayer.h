@@ -7,6 +7,7 @@
 //
 
 #import "cocos2d.h"
+#import "ObjectiveChipmunk.h"
 
 #import "PathGraph.h"
 
@@ -23,6 +24,7 @@
 @property (nonatomic) BOOL mouseDown;
 @property (nonatomic) CGPoint mousePos;
 @property (nonatomic) float time;
+@property (nonatomic, strong) ChipmunkSpace *space;
 
 + (CCScene *)scene;
 

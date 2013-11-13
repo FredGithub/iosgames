@@ -31,6 +31,11 @@
     if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
+        // init physics and the debug node
+        _space = [[ChipmunkSpace alloc] init];
+        CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
+        [self addChild:physicsDebugNode];
+        
         // load the map
         _tileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"map0.tmx"];
         [self addChild:_tileMap];
@@ -40,11 +45,11 @@
         CCTMXObjectGroup *objectGroup = [_tileMap objectGroupNamed:@"objects"];
         NSAssert(objectGroup != nil, @"the map needs an object layer");
         
-        // init the graph and the debug renderer
+        // init the graph and the debug node
         _graph = [[PathGraph alloc] initWithMap:_tileMap tileLayer:_background];
-        PathDebugRenderer *renderer = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_tileMap.tileSize];
-        [self addChild:renderer];
-        renderer.visible = NO;
+        PathDebugRenderer *pathDebugNode = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_tileMap.tileSize];
+        [self addChild:pathDebugNode];
+        pathDebugNode.visible = NO;
         
         // setup the sprite sheets
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game.plist"];
@@ -118,8 +123,12 @@
         if ([gameObject isKindOfClass:[GameObject class]]) {
             [_enemies removeObject:gameObject];
             [self removeChild:gameObject cleanup:YES];
+            // TODO: remove from space
         }
     }
+    
+    // update physics
+    [_space step:dt];
 }
 
 - (CGPoint)cellCoordForPosition:(CGPoint)pos {

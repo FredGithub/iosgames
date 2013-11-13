@@ -22,6 +22,8 @@
 @property (nonatomic, strong) CCAction *currentAnimAction;
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
+@property (nonatomic, strong) ChipmunkBody *body;
+@property (nonatomic, strong) ChipmunkShape *shape;
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)update:(ccTime)delta;

@@ -41,6 +41,13 @@
 		}
         _attackAnim = [CCAnimation animationWithSpriteFrames:frames delay:0.2f];
         
+        // setup physic body
+        _body = [ChipmunkBody bodyWithMass:1 andMoment:INFINITY];
+        _shape = [ChipmunkCircleShape circleWithBody:_body radius:32 offset:cpvzero];
+        _shape.friction = 0.1f;
+        [layer.space addBody:_body];
+        [layer.space addShape:_shape];
+        
         [self startIdleState];
     }
     
