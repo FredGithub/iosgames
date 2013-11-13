@@ -15,7 +15,7 @@
 
 @interface GameLayer : CCLayerColor
 
-@property (nonatomic, strong) CCTMXTiledMap *tileMap;
+@property (nonatomic, strong) CCTMXTiledMap *map;
 @property (nonatomic, strong) CCTMXLayer *background;
 @property (nonatomic, strong) Player *player;
 @property (nonatomic, strong) NSMutableArray *enemies;

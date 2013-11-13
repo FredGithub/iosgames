@@ -31,25 +31,20 @@
     if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
         
-        // init physics and the debug node
-        _space = [[ChipmunkSpace alloc] init];
-        CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
-        [self addChild:physicsDebugNode];
-        
         // load the map
-        _tileMap = [CCTMXTiledMap tiledMapWithTMXFile:@"map0.tmx"];
-        [self addChild:_tileMap];
-        _background = [_tileMap layerNamed:@"background"];
+        _map = [CCTMXTiledMap tiledMapWithTMXFile:@"map0.tmx"];
+        [self addChild:_map];
+        _background = [_map layerNamed:@"background"];
+        
+        // init physics
+        _space = [[ChipmunkSpace alloc] init];
         
         // load the object layer
-        CCTMXObjectGroup *objectGroup = [_tileMap objectGroupNamed:@"objects"];
+        CCTMXObjectGroup *objectGroup = [_map objectGroupNamed:@"objects"];
         NSAssert(objectGroup != nil, @"the map needs an object layer");
         
-        // init the graph and the debug node
-        _graph = [[PathGraph alloc] initWithMap:_tileMap tileLayer:_background];
-        PathDebugRenderer *pathDebugNode = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_tileMap.tileSize];
-        [self addChild:pathDebugNode];
-        pathDebugNode.visible = NO;
+        // init the graph
+        _graph = [[PathGraph alloc] initWithMap:_map tileLayer:_background];
         
         // setup the sprite sheets
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game.plist"];
@@ -64,10 +59,18 @@
         NSDictionary *spawnPoint = [objectGroup objectNamed:@"spawn"];
         int x = [spawnPoint[@"x"] integerValue];
         int y = [spawnPoint[@"y"] integerValue];
-        _player.position = ccp(x, y);
+        _player.body.pos = cpv(x, y);
         
         // init the game object arrays
         _enemies = [[NSMutableArray alloc] init];
+        
+        // add the debug nodes
+        CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
+        [self addChild:physicsDebugNode];
+        
+        PathDebugRenderer *pathDebugNode = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_map.tileSize];
+        [self addChild:pathDebugNode];
+        pathDebugNode.visible = NO;
         
         // set the intervals
         [self schedule:@selector(update:)];
@@ -132,15 +135,15 @@
 }
 
 - (CGPoint)cellCoordForPosition:(CGPoint)pos {
-    int col = pos.x / _tileMap.tileSize.width;
-    int row = pos.y / _tileMap.tileSize.height;
+    int col = pos.x / _map.tileSize.width;
+    int row = pos.y / _map.tileSize.height;
     return ccp(col, row);
 }
 
 - (int)cellIndexForPosition:(CGPoint)pos {
-    int col = pos.x / _tileMap.tileSize.width;
-    int row = pos.y / _tileMap.tileSize.height;
-    return col * _tileMap.mapSize.height + row;
+    int col = pos.x / _map.tileSize.width;
+    int row = pos.y / _map.tileSize.height;
+    return col * _map.mapSize.height + row;
 }
 
 /* Private methods */
@@ -150,8 +153,8 @@
     
     int x = MAX(position.x, winSize.width / 2);
     int y = MAX(position.y, winSize.height / 2);
-    x = MIN(x, (_tileMap.mapSize.width * _tileMap.tileSize.width) - winSize.width / 2);
-    y = MIN(y, (_tileMap.mapSize.height * _tileMap.tileSize.height) - winSize.height / 2);
+    x = MIN(x, (_map.mapSize.width * _map.tileSize.width) - winSize.width / 2);
+    y = MIN(y, (_map.mapSize.height * _map.tileSize.height) - winSize.height / 2);
     CGPoint actualPosition = ccp(x, y);
     
     CGPoint centerOfView = ccp(winSize.width / 2, winSize.height / 2);

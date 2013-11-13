@@ -51,8 +51,8 @@
 
 - (CGPoint)currentPathTargetPoint {
     PathNode *node = _currentPath[_currentPathIndex];
-    float x = node.col * _layer.tileMap.tileSize.width + _layer.tileMap.tileSize.width / 2;
-    float y = node.row * _layer.tileMap.tileSize.height + _layer.tileMap.tileSize.height / 2;
+    float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
+    float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
     return ccp(x, y);
 }
 

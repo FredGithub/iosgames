@@ -43,7 +43,7 @@
         
         // setup physic body
         _body = [ChipmunkBody bodyWithMass:1 andMoment:INFINITY];
-        _shape = [ChipmunkCircleShape circleWithBody:_body radius:32 offset:cpvzero];
+        _shape = [ChipmunkCircleShape circleWithBody:_body radius:18 offset:cpvzero];
         _shape.friction = 0.1f;
         [layer.space addBody:_body];
         [layer.space addShape:_shape];
@@ -57,17 +57,15 @@
 - (void)update:(ccTime)delta {
     if (_state == PLAYER_STATE_WALK) {
         // move towards target
-        CGPoint dir = ccpSub(_targetPoint, self.position);
+        CGPoint dir = ccpSub(_targetPoint, _body.pos);
         if (ccpLengthSQ(dir) > 0) {
             dir = ccpNormalize(dir);
+            [_body setAngle:ccpToAngle(dir)];
         }
-        self.position = ccp(self.position.x + dir.x * _speed, self.position.y + dir.y * _speed);
-        if (ccpLengthSQ(dir) > 0) {
-            self.rotation = -ccpAngleSigned(ccp(1, 0), dir) * 180 / M_PI;
-        }
+        _body.pos = ccp(_body.pos.x + dir.x * _speed, _body.pos.y + dir.y * _speed);
         
         // pick next target if we reached the current target
-        if (ccpFuzzyEqual(self.position, _targetPoint, 1)) {
+        if (ccpFuzzyEqual(_body.pos, _targetPoint, 1)) {
             // if we have nodes left in our current path
             if (_currentPathIndex < [_currentPath count] - 1) {
                 _currentPathIndex++;
@@ -79,10 +77,14 @@
             }
         }
     }
+    
+    // update the sprite
+    self.position = _body.pos;
+    self.rotation = -ccpToAngle(_body.rot) * 180 / M_PI;
 }
 
 - (void)targetWithPoint:(CGPoint)target {
-    int indexStart = [_layer cellIndexForPosition:self.position];
+    int indexStart = [_layer cellIndexForPosition:_body.pos];
     int indexDest = [_layer cellIndexForPosition:target];
     NSArray *path = [_layer.graph calcPathFrom:[_layer.graph nodeForIndex:indexStart] to:[_layer.graph nodeForIndex:indexDest]];
     
@@ -118,8 +120,8 @@
 
 - (CGPoint)currentPathTargetPoint {
     PathNode *node = _currentPath[_currentPathIndex];
-    float x = node.col * _layer.tileMap.tileSize.width + _layer.tileMap.tileSize.width / 2;
-    float y = node.row * _layer.tileMap.tileSize.height + _layer.tileMap.tileSize.height / 2;
+    float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
+    float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
     return ccp(x, y);
 }
 
