@@ -40,4 +40,7 @@
     return self;
 }
 
+- (void)updateAfterPhysics:(ccTime)delta {
+}
+
 @end

@@ -110,20 +110,26 @@
     
     NSMutableArray *inactive = [[NSMutableArray alloc] init];
     
-    // update player
+    // update all game objects
     [_player update:dt];
-    
-    // center camera on player
-    [self setViewPointCenter:_player.position];
-    
-    // update enemies
     for (GameObject *enemy in _enemies) {
         [enemy update:dt];
-        
+    }
+    
+    // update physics
+    [_space step:dt];
+    
+    // update after physics
+    [_player updateAfterPhysics:dt];
+    for (GameObject *enemy in _enemies) {
+        [enemy updateAfterPhysics:dt];
         if (!enemy.active) {
             [inactive addObject:enemy];
         }
     }
+    
+    // center camera on player
+    [self setViewPointCenter:_player.position];
     
     // remove inactive game objects
     for (GameObject *gameObject in inactive) {
@@ -133,9 +139,6 @@
             // TODO: remove from space
         }
     }
-    
-    // update physics
-    [_space step:dt];
 }
 
 - (CGPoint)cellCoordForPosition:(CGPoint)pos {

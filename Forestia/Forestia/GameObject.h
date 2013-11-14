@@ -15,5 +15,6 @@
 - (id)init;
 - (id)initWithFile:(NSString *)filename;
 - (id)initWithSpriteFrameName:(NSString *)spriteFrameName;
+- (void)updateAfterPhysics:(ccTime)delta;
 
 @end

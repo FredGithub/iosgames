@@ -117,16 +117,13 @@
     // get the node path
     NSMutableArray *path = [NSMutableArray array];
     while (lowestNode.parent != nil) {
-        [path addObject:lowestNode.node];
+        [path insertObject:lowestNode.node atIndex:0];
         lowestNode = lowestNode.parent;
     }
-    [path addObject:lowestNode.node];
+    [path insertObject:lowestNode.node atIndex:0];
     
-    // reverse the path
-    NSArray *orderedPath = [[path reverseObjectEnumerator] allObjects];
-    
-    [self printPath:orderedPath];
-    return orderedPath;
+    [self printPath:path];
+    return path;
 }
 
 - (PathAStarNode *)nodeWithLowestF:(NSMutableArray *)list {

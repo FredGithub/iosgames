@@ -82,8 +82,9 @@
     
     // apply friction
     _body.vel = ccpMult(_body.vel, 0.9f);
-    
-    // update the sprite
+}
+
+- (void)updateAfterPhysics:(ccTime)delta {
     self.position = _body.pos;
     self.rotation = -ccpToAngle(_body.rot) * 180 / M_PI;
 }
