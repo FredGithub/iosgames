@@ -20,7 +20,7 @@
     
     if (self != nil) {
         _layer = layer;
-        _speed = 2;
+        _walkForce = 1000;
         _targetPoint = ccp(0, 0);
         _state = PLAYER_STATE_IDLE;
         _currentPath = nil;
@@ -55,6 +55,8 @@
 }
 
 - (void)update:(ccTime)delta {
+    [_body resetForces];
+    
     if (_state == PLAYER_STATE_WALK) {
         // move towards target
         CGPoint dir = ccpSub(_targetPoint, _body.pos);
@@ -62,10 +64,10 @@
             dir = ccpNormalize(dir);
             [_body setAngle:ccpToAngle(dir)];
         }
-        _body.pos = ccp(_body.pos.x + dir.x * _speed, _body.pos.y + dir.y * _speed);
+        [_body applyForce:ccpMult(dir, _walkForce) offset:cpvzero];
         
         // pick next target if we reached the current target
-        if (ccpFuzzyEqual(_body.pos, _targetPoint, 1)) {
+        if (ccpFuzzyEqual(_body.pos, _targetPoint, 10)) {
             // if we have nodes left in our current path
             if (_currentPathIndex < [_currentPath count] - 1) {
                 _currentPathIndex++;
@@ -78,26 +80,45 @@
         }
     }
     
+    // apply friction
+    _body.vel = ccpMult(_body.vel, 0.9f);
+    
     // update the sprite
     self.position = _body.pos;
     self.rotation = -ccpToAngle(_body.rot) * 180 / M_PI;
 }
 
 - (void)targetWithPoint:(CGPoint)target {
-    int indexStart = [_layer cellIndexForPosition:_body.pos];
-    int indexDest = [_layer cellIndexForPosition:target];
-    NSArray *path = [_layer.graph calcPathFrom:[_layer.graph nodeForIndex:indexStart] to:[_layer.graph nodeForIndex:indexDest]];
+    // get the start and end nodes
+    PathNode *startNode = [_layer.graph nodeForIndex:[_layer cellIndexForPosition:_body.pos]];
+    PathNode *endNode = [_layer.graph nodeForIndex:[_layer cellIndexForPosition:target]];
     
-    if (path == nil) {
+    // stop if we start outside of graph
+    if (startNode == nil || startNode == (id)[NSNull null]) {
         [self startIdleState];
-        NSLog(@"path not found");
-    } else {
-        [self startWalkState];
-        _currentPath = path;
-        _currentPathIndex = 0;
-        _targetPoint = [self currentPathTargetPoint];
-        NSLog(@"first point %f %f", _targetPoint.x, _targetPoint.y);
+        NSLog(@"starting out of graph");
+        return;
     }
+    
+    // if destination is outside of the graph, create an isolated node
+    if (endNode == nil || endNode == (id)[NSNull null]) {
+        CGPoint endCell = [_layer cellCoordForPosition:target];
+        endNode = [[PathNode alloc] initWithCol:endCell.x row:endCell.y];
+    }
+    
+    // calculate the path
+    NSArray *path = [_layer.graph calcPathFrom:startNode to:endNode];
+    
+    // start to follow the path
+    [self startWalkState];
+    _currentPath = path;
+    _currentPathIndex = 0;
+    _targetPoint = [self currentPathTargetPoint];
+    NSLog(@"first point %f %f", _targetPoint.x, _targetPoint.y);
+    
+    /*_targetPoint = target;
+    _currentPathIndex = [_currentPath count] - 1;
+    [self startWalkState];*/
 }
 
 - (void)startIdleState {

@@ -68,18 +68,13 @@
 }
 
 - (PathNode *)nodeForIndex:(int)index {
-    if (index >= 0 || index < [_nodes count]) {
+    if (index >= 0 && index < [_nodes count]) {
         return _nodes[index];
     }
     return nil;
 }
 
 - (NSArray *)calcPathFrom:(PathNode *)nodeA to:(PathNode *)nodeB {
-    // check to see if we try to find a path out of the graph
-    if (nodeA == nil || nodeA == (id)[NSNull null] || nodeB == nil || nodeB == (id)[NSNull null]) {
-        return nil;
-    }
-    
     // init lists and lowest node
     NSMutableArray *openedList = [NSMutableArray array];
     NSMutableArray *closedList = [NSMutableArray array];
@@ -114,24 +109,24 @@
         }
     }
     
-    // if we reached destination
-    if (lowestNode.node == nodeB) {
-        // get the node path
-        NSMutableArray *path = [NSMutableArray array];
-        while (lowestNode.parent != nil) {
-            [path addObject:lowestNode.node];
-            lowestNode = lowestNode.parent;
-        }
-        [path addObject:lowestNode.node];
-        
-        // reverse the path
-        NSArray *orderedPath = [[path reverseObjectEnumerator] allObjects];
-        [self printPath:orderedPath];
-        
-        return orderedPath;
-    } else {
-        return nil;
+    // if we could not find the destination, find the closest point
+    if (lowestNode.node != nodeB) {
+        lowestNode = [self nodeWithLowestH:closedList];
     }
+    
+    // get the node path
+    NSMutableArray *path = [NSMutableArray array];
+    while (lowestNode.parent != nil) {
+        [path addObject:lowestNode.node];
+        lowestNode = lowestNode.parent;
+    }
+    [path addObject:lowestNode.node];
+    
+    // reverse the path
+    NSArray *orderedPath = [[path reverseObjectEnumerator] allObjects];
+    
+    [self printPath:orderedPath];
+    return orderedPath;
 }
 
 - (PathAStarNode *)nodeWithLowestF:(NSMutableArray *)list {
@@ -142,6 +137,20 @@
         if (node.g + node.h < min ) {
             foundNode = node;
             min = node.g + node.h;
+        }
+    }
+    
+    return foundNode;
+}
+
+- (PathAStarNode *)nodeWithLowestH:(NSMutableArray *)list {
+    PathAStarNode *foundNode = nil;
+    float min = INFINITY;
+    
+    for (PathAStarNode *node in list) {
+        if (node.h < min ) {
+            foundNode = node;
+            min = node.h;
         }
     }
     

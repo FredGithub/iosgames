@@ -14,7 +14,7 @@
 @interface Player : GameObject
 
 @property (nonatomic, weak) GameLayer *layer;
-@property (nonatomic) float speed;
+@property (nonatomic) float walkForce;
 @property (nonatomic) CGPoint targetPoint;
 @property (nonatomic) int state;
 @property (nonatomic, strong) NSArray *currentPath;

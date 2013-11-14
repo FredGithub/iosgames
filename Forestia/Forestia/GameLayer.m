@@ -11,6 +11,7 @@
 #import "GameObject.h"
 #import "Player.h"
 #import "PathDebugRenderer.h"
+#import "ChipmunkAutoGeometry.h"
 
 @implementation GameLayer
 
@@ -71,6 +72,9 @@
         PathDebugRenderer *pathDebugNode = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_map.tileSize];
         [self addChild:pathDebugNode];
         pathDebugNode.visible = NO;
+        
+        // create terrain static bodies
+        [self createTerrainGeometry];
         
         // set the intervals
         [self schedule:@selector(update:)];
@@ -160,6 +164,44 @@
     CGPoint centerOfView = ccp(winSize.width / 2, winSize.height / 2);
     CGPoint viewPoint = ccpSub(centerOfView, actualPosition);
     self.position = viewPoint;
+}
+
+- (void)createTerrainGeometry {
+    int tileCountW = _background.layerSize.width;
+    int tileCountH = _background.layerSize.height;
+    
+    // create the sampler
+    ChipmunkBlockSampler *sampler = [[ChipmunkBlockSampler alloc] initWithBlock:^(cpVect point){
+        point = cpBBClampVect(cpBBNew(0.5, 0.5, tileCountW - 0.5, tileCountH - 0.5), point);
+        int x = point.x;
+        int y = point.y;
+        y = tileCountH - 1 - y;
+        NSDictionary *properties = [_map propertiesForGID:[_background tileGIDAt:ccp(x, y)]];
+        BOOL walkable = [[properties valueForKey:@"walkable"] isEqualToString:@"true"];
+        return (walkable ? 0.0f : 1.0f);
+    }];
+    
+    // execute marching algorithm
+    cpBB sampleRect = cpBBNew(-0.5, -0.5, tileCountW + 0.5, tileCountH + 0.5);
+    ChipmunkPolylineSet *polylines = [sampler march:sampleRect xSamples:tileCountW + 2 ySamples:tileCountH + 2 hard:TRUE];
+    cpFloat s = _map.tileSize.height;
+    
+    // add polylines to space
+    for(ChipmunkPolyline * line in polylines) {
+        ChipmunkPolyline * simplified = [line simplifyCurves:0.0f];
+        for(int i = 0; i < simplified.count - 1; i++) {
+            cpVect a = cpvmult(simplified.verts[i], s);
+            cpVect b = cpvmult(simplified.verts[i + 1], s);
+            ChipmunkShape *seg = [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:a to:b radius:1.0f]];
+            seg.friction = 1.0;
+        }
+    }
+    
+    // add external walls
+    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, 0) to:cpv(0, tileCountH * s) radius:1.0f]];
+    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, tileCountH * s) to:cpv(tileCountW * s, tileCountH * s) radius:1.0f]];
+    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, tileCountH * s) to:cpv(tileCountW * s, 0) radius:1.0f]];
+    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, 0) to:cpv(0, 0) radius:1.0f]];
 }
 
 - (void)win {
