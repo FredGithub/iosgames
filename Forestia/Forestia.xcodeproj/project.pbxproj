@@ -145,7 +145,7 @@
 		AF012F7C1819EF2900904A04 /* map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7B1819EF2900904A04 /* map1.tmx */; };
 		AF012F7E1819F09B00904A04 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7D1819F09B00904A04 /* bullet.png */; };
 		AF012F811819F0D600904A04 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F801819F0D600904A04 /* Player.m */; };
-		AF15E750182A9EA700684628 /* PathDebugRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E74F182A9EA600684628 /* PathDebugRenderer.m */; };
+		AF15E750182A9EA700684628 /* DebugRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E74F182A9EA600684628 /* DebugRenderer.m */; };
 		AF15E753182AA70200684628 /* DrawUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E752182AA70200684628 /* DrawUtils.m */; };
 		AFADEDEC1833D83400A510D3 /* LICENSE_Chipmunk.txt in Resources */ = {isa = PBXBuildFile; fileRef = AFADEDEB1833D83400A510D3 /* LICENSE_Chipmunk.txt */; };
 		AFADEE4A1833E90A00A510D3 /* libChipmunkPro-iPhone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFADEE481833E90A00A510D3 /* libChipmunkPro-iPhone.a */; };
@@ -157,6 +157,7 @@
 		AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B1182317BE0028A7DD /* PathNode.m */; };
 		AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B418231DB10028A7DD /* PathEdge.m */; };
 		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
+		AFE561D918359570005494FF /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE561D81835956F005494FF /* Vector.m */; };
 		AFFE0CB5182C1C5D00764970 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB3182C1C5D00764970 /* game.plist */; };
 		AFFE0CB6182C1C5D00764970 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB4182C1C5D00764970 /* game.png */; };
 		AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE0CB8182C37DF00764970 /* Enemy.m */; };
@@ -450,8 +451,8 @@
 		AF012F7D1819F09B00904A04 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		AF012F7F1819F0D600904A04 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AF012F801819F0D600904A04 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
-		AF15E74E182A9EA600684628 /* PathDebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathDebugRenderer.h; sourceTree = "<group>"; };
-		AF15E74F182A9EA600684628 /* PathDebugRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathDebugRenderer.m; sourceTree = "<group>"; };
+		AF15E74E182A9EA600684628 /* DebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugRenderer.h; sourceTree = "<group>"; };
+		AF15E74F182A9EA600684628 /* DebugRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugRenderer.m; sourceTree = "<group>"; };
 		AF15E751182AA70100684628 /* DrawUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawUtils.h; sourceTree = "<group>"; };
 		AF15E752182AA70200684628 /* DrawUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawUtils.m; sourceTree = "<group>"; };
 		AFADEDEB1833D83400A510D3 /* LICENSE_Chipmunk.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE_Chipmunk.txt; sourceTree = "<group>"; };
@@ -509,6 +510,8 @@
 		AFDE34B418231DB10028A7DD /* PathEdge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathEdge.m; sourceTree = "<group>"; };
 		AFDE34B618232AD10028A7DD /* PathAStarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAStarNode.h; sourceTree = "<group>"; };
 		AFDE34B718232AD20028A7DD /* PathAStarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAStarNode.m; sourceTree = "<group>"; };
+		AFE561D71835956F005494FF /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		AFE561D81835956F005494FF /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
 		AFFE0CB3182C1C5D00764970 /* game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game.plist; sourceTree = "<group>"; };
 		AFFE0CB4182C1C5D00764970 /* game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game.png; sourceTree = "<group>"; };
 		AFFE0CB7182C37DF00764970 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
@@ -576,6 +579,8 @@
 		AF012DD31819D02600904A04 /* Forestia */ = {
 			isa = PBXGroup;
 			children = (
+				AF15E74E182A9EA600684628 /* DebugRenderer.h */,
+				AF15E74F182A9EA600684628 /* DebugRenderer.m */,
 				AF15E74D182A917600684628 /* Path */,
 				AF012F7A1819EF2900904A04 /* Maps */,
 				AF012F751819D7B200904A04 /* GameObjects */,
@@ -591,6 +596,8 @@
 				AF012F601819D02900904A04 /* Supporting Files */,
 				AF15E751182AA70100684628 /* DrawUtils.h */,
 				AF15E752182AA70200684628 /* DrawUtils.m */,
+				AFE561D71835956F005494FF /* Vector.h */,
+				AFE561D81835956F005494FF /* Vector.m */,
 			);
 			path = Forestia;
 			sourceTree = "<group>";
@@ -1023,8 +1030,6 @@
 				AFDE34B418231DB10028A7DD /* PathEdge.m */,
 				AFDE34B618232AD10028A7DD /* PathAStarNode.h */,
 				AFDE34B718232AD20028A7DD /* PathAStarNode.m */,
-				AF15E74E182A9EA600684628 /* PathDebugRenderer.h */,
-				AF15E74F182A9EA600684628 /* PathDebugRenderer.m */,
 			);
 			name = Path;
 			sourceTree = "<group>";
@@ -1294,9 +1299,10 @@
 				AFDE34B2182317BE0028A7DD /* PathNode.m in Sources */,
 				AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */,
 				AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */,
-				AF15E750182A9EA700684628 /* PathDebugRenderer.m in Sources */,
+				AF15E750182A9EA700684628 /* DebugRenderer.m in Sources */,
 				AF15E753182AA70200684628 /* DrawUtils.m in Sources */,
 				AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */,
+				AFE561D918359570005494FF /* Vector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

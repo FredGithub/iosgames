@@ -10,10 +10,12 @@
 
 #import "PathGraph.h"
 
-@interface PathDebugRenderer : CCNode
+@interface DebugRenderer : CCNode
 
 @property (nonatomic, weak) PathGraph *graph;
 @property (nonatomic) CGSize tileSize;
+@property (nonatomic, strong) NSMutableArray *points;
+@property (nonatomic) BOOL drawGraph;
 
 - (id)initWithGraph:(PathGraph *)graph tileSize:(CGSize)tileSize;
 - (void)draw;

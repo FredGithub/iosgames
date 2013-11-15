@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "Vector.h"
 
 #define PLAYER_STATE_IDLE 1
 #define PLAYER_STATE_WALK 2
@@ -23,7 +24,7 @@
         _walkForce = 1000;
         _targetPoint = ccp(0, 0);
         _state = PLAYER_STATE_IDLE;
-        _currentPath = nil;
+        _currentPath = [NSMutableArray array];
         _currentAnimAction = nil;
         
         // build animations
@@ -71,7 +72,8 @@
             // if we have nodes left in our current path
             if (_currentPathIndex < [_currentPath count] - 1) {
                 _currentPathIndex++;
-                _targetPoint = [self currentPathTargetPoint];
+                Vector *vector = _currentPath[_currentPathIndex];
+                _targetPoint = ccp(vector.x, vector.y);
                 NSLog(@"%f %f", _targetPoint.x, _targetPoint.y);
             } else {
                 NSLog(@"reached end of path");
@@ -82,6 +84,8 @@
     
     // apply friction
     _body.vel = ccpMult(_body.vel, 0.9f);
+    
+    [_layer.debugRenderer.points addObjectsFromArray:_currentPath];
 }
 
 - (void)updateAfterPhysics:(ccTime)delta {
@@ -107,14 +111,28 @@
         endNode = [[PathNode alloc] initWithCol:endCell.x row:endCell.y];
     }
     
-    // calculate the path
+    // calculate the node path
     NSArray *path = [_layer.graph calcPathFrom:startNode to:endNode];
+    [_currentPath removeAllObjects];
+    Vector *last = [[Vector alloc] initWithX:_body.pos.x y:_body.pos.y];
+    Vector *current = nil;
+    for (int i = 0; i < [path count]; i++) {
+        PathNode *node = path[i];
+        float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
+        float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
+        current = [[Vector alloc] initWithX:x y:y];
+        BOOL hit = YES;
+        if (hit || i == [path count] - 1) {
+            [_currentPath addObject:current];
+            last = current;
+        }
+    }
     
     // start to follow the path
     [self startWalkState];
-    _currentPath = path;
     _currentPathIndex = 0;
-    _targetPoint = [self currentPathTargetPoint];
+    Vector *vector = _currentPath[_currentPathIndex];
+    _targetPoint = ccp(vector.x, vector.y);
     NSLog(@"first point %f %f", _targetPoint.x, _targetPoint.y);
     
     /*_targetPoint = target;
@@ -140,11 +158,11 @@
     }
 }
 
-- (CGPoint)currentPathTargetPoint {
+/*- (CGPoint)currentPathTargetPoint {
     PathNode *node = _currentPath[_currentPathIndex];
     float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
     float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
     return ccp(x, y);
-}
+}*/
 
 @end

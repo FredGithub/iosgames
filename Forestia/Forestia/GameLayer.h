@@ -10,6 +10,7 @@
 #import "ObjectiveChipmunk.h"
 
 #import "PathGraph.h"
+#import "DebugRenderer.h"
 
 @class Player;
 
@@ -25,6 +26,7 @@
 @property (nonatomic) CGPoint mousePos;
 @property (nonatomic) float time;
 @property (nonatomic, strong) ChipmunkSpace *space;
+@property (nonatomic, strong) DebugRenderer *debugRenderer;
 
 + (CCScene *)scene;
 

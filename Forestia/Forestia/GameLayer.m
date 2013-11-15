@@ -7,10 +7,8 @@
 //
 
 #import "GameLayer.h"
-#import "AppDelegate.h"
 #import "GameObject.h"
 #import "Player.h"
-#import "PathDebugRenderer.h"
 #import "ChipmunkAutoGeometry.h"
 
 @implementation GameLayer
@@ -69,9 +67,9 @@
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
         [self addChild:physicsDebugNode];
         
-        PathDebugRenderer *pathDebugNode = [[PathDebugRenderer alloc] initWithGraph:_graph tileSize:_map.tileSize];
-        [self addChild:pathDebugNode];
-        pathDebugNode.visible = NO;
+        _debugRenderer = [[DebugRenderer alloc] initWithGraph:_graph tileSize:_map.tileSize];
+        _debugRenderer.drawGraph = NO;
+        [self addChild:_debugRenderer];
         
         // create terrain static bodies
         [self createTerrainGeometry];

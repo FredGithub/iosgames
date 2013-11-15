@@ -17,7 +17,7 @@
 @property (nonatomic) float walkForce;
 @property (nonatomic) CGPoint targetPoint;
 @property (nonatomic) int state;
-@property (nonatomic, strong) NSArray *currentPath;
+@property (nonatomic, strong) NSMutableArray *currentPath;
 @property (nonatomic) int currentPathIndex;
 @property (nonatomic, strong) CCAction *currentAnimAction;
 @property (nonatomic, strong) CCAnimation *walkAnim;
