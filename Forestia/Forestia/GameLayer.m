@@ -10,6 +10,7 @@
 #import "GameObject.h"
 #import "Player.h"
 #import "ChipmunkAutoGeometry.h"
+#import "Vector.h"
 
 @implementation GameLayer
 
@@ -102,7 +103,7 @@
     _mousePos = [self convertTouchToNodeSpace:touch];
     _mouseDown = NO;
     
-    [_player targetWithPoint:_mousePos];
+    [_player inputWithPoint:_mousePos];
 }
 
 - (void)update:(ccTime)dt {
@@ -151,6 +152,57 @@
     int col = pos.x / _map.tileSize.width;
     int row = pos.y / _map.tileSize.height;
     return col * _map.mapSize.height + row;
+}
+
+- (NSArray *)pathFrom:(CGPoint)start to:(CGPoint)end {
+    // get the start and end nodes
+    PathNode *startNode = [_graph nodeForIndex:[self cellIndexForPosition:start]];
+    PathNode *endNode = [_graph nodeForIndex:[self cellIndexForPosition:end]];
+    BOOL destInGraph = YES;
+    
+    // stop if we start outside of graph
+    if (startNode == nil || startNode == (id)[NSNull null]) {
+        NSLog(@"starting out of graph");
+        return nil;
+    }
+    
+    // if destination is outside of the graph, create an isolated node
+    if (endNode == nil || endNode == (id)[NSNull null]) {
+        CGPoint endCell = [self cellCoordForPosition:end];
+        endNode = [[PathNode alloc] initWithCol:endCell.x row:endCell.y];
+        destInGraph = NO;
+    }
+    
+    // calculate the node path
+    NSArray *path = [_graph calcPathFrom:startNode to:endNode];
+    
+    // get the simplified vector path
+    NSMutableArray *vecPath = [NSMutableArray array];
+    Vector *init = [[Vector alloc] initWithX:start.x y:start.y];
+    Vector *current = nil;
+    Vector *prev = nil;
+    for (int i = 0; i < [path count]; i++) {
+        PathNode *node = path[i];
+        float x = node.col * _map.tileSize.width + _map.tileSize.width / 2;
+        float y = node.row * _map.tileSize.height + _map.tileSize.height / 2;
+        prev = current;
+        current = [[Vector alloc] initWithX:x y:y];
+        NSArray *hitObjects = [_space segmentQueryAllFrom:ccp(init.x, init.y) to:ccp(current.x, current.y) layers:COLLISION_TERRAIN_ONLY group:CP_NO_GROUP];
+        BOOL hit = [hitObjects count] > 0;
+        if (hit) {
+            [vecPath addObject:prev];
+            init = prev;
+        }
+    }
+    
+    // add final node
+    if (destInGraph) {
+        [vecPath addObject:[[Vector alloc] initWithX:end.x y:end.y]];
+    } else {
+        [vecPath addObject:current];
+    }
+    
+    return vecPath;
 }
 
 /* Private methods */

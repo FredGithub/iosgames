@@ -38,5 +38,6 @@
 
 - (CGPoint)cellCoordForPosition:(CGPoint)pos;
 - (int)cellIndexForPosition:(CGPoint)pos;
+- (NSArray *)pathFrom:(CGPoint)start to:(CGPoint)end;
 
 @end

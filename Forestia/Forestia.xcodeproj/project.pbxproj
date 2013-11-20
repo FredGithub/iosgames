@@ -158,6 +158,7 @@
 		AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B418231DB10028A7DD /* PathEdge.m */; };
 		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
 		AFE561D918359570005494FF /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE561D81835956F005494FF /* Vector.m */; };
+		AFF993DB183D602800720DD5 /* PathFollower.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF993DA183D602800720DD5 /* PathFollower.m */; };
 		AFFE0CB5182C1C5D00764970 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB3182C1C5D00764970 /* game.plist */; };
 		AFFE0CB6182C1C5D00764970 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB4182C1C5D00764970 /* game.png */; };
 		AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE0CB8182C37DF00764970 /* Enemy.m */; };
@@ -512,6 +513,8 @@
 		AFDE34B718232AD20028A7DD /* PathAStarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAStarNode.m; sourceTree = "<group>"; };
 		AFE561D71835956F005494FF /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		AFE561D81835956F005494FF /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
+		AFF993D9183D602800720DD5 /* PathFollower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathFollower.h; sourceTree = "<group>"; };
+		AFF993DA183D602800720DD5 /* PathFollower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathFollower.m; sourceTree = "<group>"; };
 		AFFE0CB3182C1C5D00764970 /* game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game.plist; sourceTree = "<group>"; };
 		AFFE0CB4182C1C5D00764970 /* game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game.png; sourceTree = "<group>"; };
 		AFFE0CB7182C37DF00764970 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
@@ -544,7 +547,6 @@
 		AF012DB31819D02600904A04 = {
 			isa = PBXGroup;
 			children = (
-				AFADEE4B1833EBC500A510D3 /* ImageIO.framework */,
 				AF012DD31819D02600904A04 /* Forestia */,
 				AF012DBE1819D02600904A04 /* Frameworks */,
 				AF012DBD1819D02600904A04 /* Products */,
@@ -562,6 +564,7 @@
 		AF012DBE1819D02600904A04 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AFADEE4B1833EBC500A510D3 /* ImageIO.framework */,
 				AF012DBF1819D02600904A04 /* QuartzCore.framework */,
 				AF012DC11819D02600904A04 /* OpenGLES.framework */,
 				AF012DC31819D02600904A04 /* OpenAL.framework */,
@@ -1004,6 +1007,8 @@
 				AF012F801819F0D600904A04 /* Player.m */,
 				AFFE0CB7182C37DF00764970 /* Enemy.h */,
 				AFFE0CB8182C37DF00764970 /* Enemy.m */,
+				AFF993D9183D602800720DD5 /* PathFollower.h */,
+				AFF993DA183D602800720DD5 /* PathFollower.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -1303,6 +1308,7 @@
 				AF15E753182AA70200684628 /* DrawUtils.m in Sources */,
 				AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */,
 				AFE561D918359570005494FF /* Vector.m in Sources */,
+				AFF993DB183D602800720DD5 /* PathFollower.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

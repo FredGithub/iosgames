@@ -40,6 +40,9 @@
     return self;
 }
 
+- (void)update:(ccTime)delta {
+}
+
 - (void)updateAfterPhysics:(ccTime)delta {
 }
 

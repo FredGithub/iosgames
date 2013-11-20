@@ -8,25 +8,18 @@
 
 #import "cocos2d.h"
 
-#import "GameObject.h"
+#import "PathFollower.h"
 #import "GameLayer.h"
 
-@interface Player : GameObject
+@interface Player : PathFollower
 
-@property (nonatomic, weak) GameLayer *layer;
-@property (nonatomic) float walkForce;
-@property (nonatomic) CGPoint targetPoint;
 @property (nonatomic) int state;
-@property (nonatomic, strong) NSMutableArray *currentPath;
-@property (nonatomic) int currentPathIndex;
 @property (nonatomic, strong) CCAction *currentAnimAction;
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
-@property (nonatomic, strong) ChipmunkBody *body;
-@property (nonatomic, strong) ChipmunkShape *shape;
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)update:(ccTime)delta;
-- (void)targetWithPoint:(CGPoint)target;
+- (void)inputWithPoint:(CGPoint)target;
 
 @end
