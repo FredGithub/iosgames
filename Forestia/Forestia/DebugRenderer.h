@@ -16,6 +16,7 @@
 @property (nonatomic) CGSize tileSize;
 @property (nonatomic, strong) NSMutableArray *points;
 @property (nonatomic) BOOL drawGraph;
+@property (nonatomic) BOOL drawPoints;
 
 - (id)initWithGraph:(PathGraph *)graph tileSize:(CGSize)tileSize;
 - (void)draw;

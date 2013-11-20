@@ -65,10 +65,12 @@
         
         // add the debug nodes
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
+        physicsDebugNode.visible = NO;
         [self addChild:physicsDebugNode];
         
         _debugRenderer = [[DebugRenderer alloc] initWithGraph:_graph tileSize:_map.tileSize];
         _debugRenderer.drawGraph = NO;
+        _debugRenderer.drawPoints = NO;
         [self addChild:_debugRenderer];
         
         // create terrain static bodies
@@ -195,14 +197,29 @@
             cpVect b = cpvmult(simplified.verts[i + 1], s);
             ChipmunkShape *seg = [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:a to:b radius:1.0f]];
             seg.friction = 1.0;
+            seg.layers = COLLISION_TERRAIN_ONLY | COLLISION_TERRAIN;
         }
     }
     
-    // add external walls
-    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, 0) to:cpv(0, tileCountH * s) radius:1.0f]];
-    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, tileCountH * s) to:cpv(tileCountW * s, tileCountH * s) radius:1.0f]];
-    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, tileCountH * s) to:cpv(tileCountW * s, 0) radius:1.0f]];
-    [_space add:[ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, 0) to:cpv(0, 0) radius:1.0f]];
+    // add left wall
+    ChipmunkShape *segLeft = [ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, 0) to:cpv(0, tileCountH * s) radius:1.0f];
+    segLeft.layers = COLLISION_TERRAIN_ONLY | COLLISION_TERRAIN;
+    [_space add:segLeft];
+    
+    // add top wall
+    ChipmunkShape *segTop = [ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(0, tileCountH * s) to:cpv(tileCountW * s, tileCountH * s) radius:1.0f];
+    segTop.layers = COLLISION_TERRAIN_ONLY | COLLISION_TERRAIN;
+    [_space add:segTop];
+    
+    // add right wall
+    ChipmunkShape *segRight = [ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, tileCountH * s) to:cpv(tileCountW * s, 0) radius:1.0f];
+    segRight.layers = COLLISION_TERRAIN_ONLY | COLLISION_TERRAIN;
+    [_space add:segRight];
+    
+    // add bottom wall
+    ChipmunkShape *segBottom = [ChipmunkSegmentShape segmentWithBody:_space.staticBody from:cpv(tileCountW * s, 0) to:cpv(0, 0) radius:1.0f];
+    segBottom.layers = COLLISION_TERRAIN_ONLY | COLLISION_TERRAIN;
+    [_space add:segBottom];
 }
 
 - (void)win {

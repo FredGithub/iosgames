@@ -22,6 +22,7 @@
         _tileSize = tileSize;
         _points = [NSMutableArray array];
         _drawGraph = YES;
+        _drawPoints = YES;
     }
     
     return self;
@@ -44,10 +45,12 @@
         }
     }
     
-    ccDrawColor4B(255, 0, 0, 255);
-    for (Vector *point in _points) {
-        ccDrawPoint(ccp(point.x, point.y));
-        ccDrawSolidCircle(ccp(point.x, point.y), 5, 10);
+    if (_drawPoints) {
+        ccDrawColor4B(255, 0, 0, 255);
+        for (Vector *point in _points) {
+            ccDrawPoint(ccp(point.x, point.y));
+            ccDrawSolidCircle(ccp(point.x, point.y), 5, 10);
+        }
     }
     
     [_points removeAllObjects];

@@ -122,7 +122,6 @@
     }
     [path insertObject:lowestNode.node atIndex:0];
     
-    [self printPath:path];
     return path;
 }
 

@@ -13,6 +13,8 @@
 #define PLAYER_STATE_WALK 2
 #define PLAYER_STATE_WAITING_FOR_ATTACK 3
 #define PLAYER_STATE_ATTACK 4
+#define PLAYER_RADIUS 18
+#define PLAYER_TARGET_REACH_DIST 20
 
 @implementation Player
 
@@ -44,8 +46,9 @@
         
         // setup physic body
         _body = [ChipmunkBody bodyWithMass:1 andMoment:INFINITY];
-        _shape = [ChipmunkCircleShape circleWithBody:_body radius:18 offset:cpvzero];
+        _shape = [ChipmunkCircleShape circleWithBody:_body radius:PLAYER_RADIUS offset:cpvzero];
         _shape.friction = 0.1f;
+        _shape.layers = COLLISION_TERRAIN | COLLISION_PLAYER | COLLISION_ENEMY_BULLET;
         [layer.space addBody:_body];
         [layer.space addShape:_shape];
         
@@ -68,15 +71,13 @@
         [_body applyForce:ccpMult(dir, _walkForce) offset:cpvzero];
         
         // pick next target if we reached the current target
-        if (ccpFuzzyEqual(_body.pos, _targetPoint, 10)) {
+        if (ccpFuzzyEqual(_body.pos, _targetPoint, PLAYER_TARGET_REACH_DIST)) {
             // if we have nodes left in our current path
             if (_currentPathIndex < [_currentPath count] - 1) {
                 _currentPathIndex++;
                 Vector *vector = _currentPath[_currentPathIndex];
                 _targetPoint = ccp(vector.x, vector.y);
-                NSLog(@"%f %f", _targetPoint.x, _targetPoint.y);
             } else {
-                NSLog(@"reached end of path");
                 [self startIdleState];
             }
         }
@@ -94,6 +95,9 @@
 }
 
 - (void)targetWithPoint:(CGPoint)target {
+    // clear current graph
+    [_currentPath removeAllObjects];
+    
     // get the start and end nodes
     PathNode *startNode = [_layer.graph nodeForIndex:[_layer cellIndexForPosition:_body.pos]];
     PathNode *endNode = [_layer.graph nodeForIndex:[_layer cellIndexForPosition:target]];
@@ -106,26 +110,39 @@
     }
     
     // if destination is outside of the graph, create an isolated node
+    BOOL destInGraph = YES;
     if (endNode == nil || endNode == (id)[NSNull null]) {
         CGPoint endCell = [_layer cellCoordForPosition:target];
         endNode = [[PathNode alloc] initWithCol:endCell.x row:endCell.y];
+        destInGraph = NO;
     }
     
     // calculate the node path
     NSArray *path = [_layer.graph calcPathFrom:startNode to:endNode];
-    [_currentPath removeAllObjects];
-    Vector *last = [[Vector alloc] initWithX:_body.pos.x y:_body.pos.y];
+    
+    // get the simplified vector path
+    Vector *start = [[Vector alloc] initWithX:_body.pos.x y:_body.pos.y];
     Vector *current = nil;
+    Vector *prev = nil;
     for (int i = 0; i < [path count]; i++) {
         PathNode *node = path[i];
         float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
         float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
+        prev = current;
         current = [[Vector alloc] initWithX:x y:y];
-        BOOL hit = YES;
-        if (hit || i == [path count] - 1) {
-            [_currentPath addObject:current];
-            last = current;
+        NSArray *hitObjects = [_layer.space segmentQueryAllFrom:ccp(start.x, start.y) to:ccp(current.x, current.y) layers:COLLISION_TERRAIN_ONLY group:CP_NO_GROUP];
+        BOOL hit = [hitObjects count] > 0;
+        if (hit) {
+            [_currentPath addObject:prev];
+            start = prev;
         }
+    }
+    
+    // add final node
+    if (destInGraph) {
+        [_currentPath addObject:[[Vector alloc] initWithX:target.x y:target.y]];
+    } else {
+        [_currentPath addObject:current];
     }
     
     // start to follow the path
@@ -133,11 +150,6 @@
     _currentPathIndex = 0;
     Vector *vector = _currentPath[_currentPathIndex];
     _targetPoint = ccp(vector.x, vector.y);
-    NSLog(@"first point %f %f", _targetPoint.x, _targetPoint.y);
-    
-    /*_targetPoint = target;
-    _currentPathIndex = [_currentPath count] - 1;
-    [self startWalkState];*/
 }
 
 - (void)startIdleState {
@@ -157,12 +169,5 @@
         [self stopAction:_currentAnimAction];
     }
 }
-
-/*- (CGPoint)currentPathTargetPoint {
-    PathNode *node = _currentPath[_currentPathIndex];
-    float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
-    float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
-    return ccp(x, y);
-}*/
 
 @end

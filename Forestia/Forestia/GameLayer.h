@@ -12,6 +12,12 @@
 #import "PathGraph.h"
 #import "DebugRenderer.h"
 
+#define COLLISION_TERRAIN_ONLY 1
+#define COLLISION_TERRAIN 2
+#define COLLISION_PLAYER 4
+#define COLLISION_PLAYER_BULLET 8
+#define COLLISION_ENEMY_BULLET 16
+
 @class Player;
 
 @interface GameLayer : CCLayerColor
