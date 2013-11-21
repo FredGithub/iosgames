@@ -19,7 +19,6 @@
 @property (nonatomic, strong) CCAnimation *attackAnim;
 
 - (id)initWithLayer:(GameLayer *)layer;
-- (void)update:(ccTime)delta;
 - (void)inputWithPoint:(CGPoint)target;
 
 @end

@@ -65,6 +65,7 @@
 }
 
 - (void)updateAfterPhysics:(ccTime)delta {
+    NSLog(@"after %f %f", _body.pos.x, _body.pos.y);
     self.position = _body.pos;
     self.rotation = -ccpToAngle(_body.rot) * 180 / M_PI;
 }

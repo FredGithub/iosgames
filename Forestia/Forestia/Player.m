@@ -21,9 +21,8 @@
     self = [super initWithLayer:layer radius:PLAYER_RADIUS];
     
     if (self != nil) {
-        self.shape.layers = COLLISION_TERRAIN | COLLISION_PLAYER | COLLISION_ENEMY_BULLET;
+        self.shape.layers = COLLISION_TERRAIN | COLLISION_UNITS;
         
-        _state = PLAYER_STATE_IDLE;
         _currentAnimAction = nil;
         
         // build animations

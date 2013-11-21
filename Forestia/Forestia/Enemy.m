@@ -7,11 +7,14 @@
 //
 
 #import "Enemy.h"
+#import "Player.h"
 
 #define ENEMY_STATE_IDLE 1
-#define ENEMY_STATE_WALK 2
+#define ENEMY_STATE_CHASE 2
 #define ENEMY_STATE_WAITING_FOR_ATTACK 3
 #define ENEMY_STATE_ATTACK 4
+
+#define ENEMY_RELOAD_TIME 1.4f
 
 @implementation Enemy
 
@@ -19,12 +22,10 @@
     self = [super init];
     
     if (self != nil) {
-        _layer = layer;
-        _speed = 2;
-        _targetPoint = ccp(0, 0);
-        _state = ENEMY_STATE_IDLE;
-        _currentPath = nil;
+        self.shape.layers = COLLISION_TERRAIN | COLLISION_UNITS;
+        
         _currentAnimAction = nil;
+        _lastAttackTime = 0;
         
         // build animations
         NSMutableArray *frames = [NSMutableArray array];
@@ -40,20 +41,76 @@
 			[frames addObject:frame];
 		}
         _attackAnim = [CCAnimation animationWithSpriteFrames:frames delay:0.2f];
+        
+        [self startIdleState];
     }
     
     return self;
 }
 
 - (void)update:(ccTime)delta {
+    [super update:delta];
     
+    if (_state == ENEMY_STATE_IDLE) {
+        //[self startChaseState];
+    }
+    
+    if (_state == ENEMY_STATE_CHASE) {
+        BOOL inRange = NO;
+        if (inRange) {
+            [self startWaitingForAttackState];
+        } else if (self.currentPath == nil) {
+            [self targetWithPoint:self.layer.player.body.pos];
+        }
+    }
+    
+    if (_state == ENEMY_STATE_WAITING_FOR_ATTACK) {
+        BOOL outOfRange = NO;
+        if (outOfRange) {
+            
+        } else if (_lastAttackTime + ENEMY_RELOAD_TIME <= self.layer.time) {
+            _lastAttackTime = self.layer.time;
+            [self startAttackState];
+        }
+    }
+    
+    if (_state == ENEMY_STATE_ATTACK) {
+        if ([_currentAnimAction isDone]) {
+            [self startWaitingForAttackState];
+        }
+    }
 }
 
-- (CGPoint)currentPathTargetPoint {
-    PathNode *node = _currentPath[_currentPathIndex];
-    float x = node.col * _layer.map.tileSize.width + _layer.map.tileSize.width / 2;
-    float y = node.row * _layer.map.tileSize.height + _layer.map.tileSize.height / 2;
-    return ccp(x, y);
+/* Private methods */
+
+- (void)startIdleState {
+    _state = ENEMY_STATE_IDLE;
+    [self stopAnimation];
+    [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"orc_idle.png"]];
+}
+
+- (void)startChaseState {
+    _state = ENEMY_STATE_CHASE;
+    [self stopAnimation];
+    _currentAnimAction = [self runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:_walkAnim]]];
+}
+
+- (void)startWaitingForAttackState {
+    _state = ENEMY_STATE_WAITING_FOR_ATTACK;
+    [self stopAnimation];
+    [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"orc_idle.png"]];
+}
+
+- (void)startAttackState {
+    _state = ENEMY_STATE_ATTACK;
+    [self stopAnimation];
+    _currentAnimAction = [self runAction:[CCAnimate actionWithAnimation:_attackAnim]];
+}
+
+- (void)stopAnimation {
+    if (_currentAnimAction != nil) {
+        [self stopAction:_currentAnimAction];
+    }
 }
 
 @end

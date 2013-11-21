@@ -6,22 +6,19 @@
 //  Copyright (c) 2013 AdminMacLC04. All rights reserved.
 //
 
-#import "GameObject.h"
+#import "cocos2d.h"
+
+#import "PathFollower.h"
 #import "GameLayer.h"
 
-@interface Enemy : GameObject
+@interface Enemy : PathFollower
 
-@property (nonatomic, weak) GameLayer *layer;
-@property (nonatomic) float speed;
-@property (nonatomic) CGPoint targetPoint;
 @property (nonatomic) int state;
-@property (nonatomic, strong) NSArray *currentPath;
-@property (nonatomic) int currentPathIndex;
 @property (nonatomic, strong) CCAction *currentAnimAction;
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
+@property (nonatomic) float lastAttackTime;
 
 - (id)initWithLayer:(GameLayer *)layer;
-- (void)update:(ccTime)delta;
 
 @end

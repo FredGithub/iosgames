@@ -11,6 +11,7 @@
 #import "Player.h"
 #import "ChipmunkAutoGeometry.h"
 #import "Vector.h"
+#import "Enemy.h"
 
 @implementation GameLayer
 
@@ -39,6 +40,9 @@
         // init physics
         _space = [[ChipmunkSpace alloc] init];
         
+        // create terrain static bodies
+        [self createTerrainGeometry];
+        
         // load the object layer
         CCTMXObjectGroup *objectGroup = [_map objectGroupNamed:@"objects"];
         NSAssert(objectGroup != nil, @"the map needs an object layer");
@@ -51,18 +55,29 @@
         _gameBatch = [CCSpriteBatchNode batchNodeWithFile:@"game.png"];
         [self addChild:_gameBatch];
         
-        // create the player
+        // create the player at spawn point
         _player = [[Player alloc] initWithLayer:self];
+        NSDictionary *spawn = [objectGroup objectNamed:@"spawn"];
+        _player.body.pos = ccp([spawn[@"x"] integerValue], [spawn[@"y"] integerValue]);
         [_gameBatch addChild:_player];
         
-        // position the player at spawn point
-        NSDictionary *spawnPoint = [objectGroup objectNamed:@"spawn"];
-        int x = [spawnPoint[@"x"] integerValue];
-        int y = [spawnPoint[@"y"] integerValue];
-        _player.body.pos = cpv(x, y);
-        
-        // init the game object arrays
+        // add enemies
         _enemies = [[NSMutableArray alloc] init];
+        for (NSDictionary *obj in [objectGroup objects]) {
+            if ([obj[@"name"] isEqualToString:@"enemy"]) {
+                //NSLog(@"enemy=%@", obj);
+                Enemy *enemy = [[Enemy alloc] initWithLayer:self];
+                enemy.body.pos = ccp([obj[@"x"] integerValue], [obj[@"y"] integerValue]);
+                enemy.body.pos = cpv(50, 50);
+                NSLog(@"%f %f", enemy.body.pos.x, enemy.body.pos.y);
+                [_gameBatch addChild:enemy];
+                [_enemies addObject:enemy];
+            }
+        }
+        
+        Player *enemy = [[Player alloc] initWithLayer:self];
+        enemy.body.pos = cpv(50, 50);
+        NSLog(@"%f %f", enemy.body.pos.x, enemy.body.pos.y);
         
         // add the debug nodes
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
@@ -73,9 +88,6 @@
         _debugRenderer.drawGraph = NO;
         _debugRenderer.drawPoints = NO;
         [self addChild:_debugRenderer];
-        
-        // create terrain static bodies
-        [self createTerrainGeometry];
         
         // set the intervals
         [self schedule:@selector(update:)];
