@@ -21,7 +21,7 @@
 @property (nonatomic, strong) ChipmunkBody *body;
 @property (nonatomic, strong) ChipmunkCircleShape *shape;
 
-- (id)initWithLayer:(GameLayer *)layer radius:(float)radius;
+- (id)initWithLayer:(GameLayer *)layer radius:(float)radius mass:(float)mass;
 - (void)targetWithPoint:(CGPoint)target;
 
 @end

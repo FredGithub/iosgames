@@ -18,6 +18,10 @@
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
 @property (nonatomic) float lastAttackTime;
+@property (nonatomic) float lastPathTime;
+@property (nonatomic) BOOL damageApplied;
+@property (nonatomic) float life;
+@property (nonatomic) float maxLife;
 
 - (id)initWithLayer:(GameLayer *)layer;
 

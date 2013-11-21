@@ -13,16 +13,17 @@
 #define PLAYER_STATE_WALK 2
 #define PLAYER_STATE_WAITING_FOR_ATTACK 3
 #define PLAYER_STATE_ATTACK 4
-#define PLAYER_RADIUS 18
+
+#define PLAYER_RADIUS 14
+#define PLAYER_MASS 10
+#define PLAYER_WALK_FORCE 1400
 
 @implementation Player
 
 - (id)initWithLayer:(GameLayer *)layer {
-    self = [super initWithLayer:layer radius:PLAYER_RADIUS];
+    self = [super initWithLayer:layer radius:PLAYER_RADIUS mass:PLAYER_MASS];
     
     if (self != nil) {
-        self.shape.layers = COLLISION_TERRAIN | COLLISION_UNITS;
-        
         _currentAnimAction = nil;
         
         // build animations
@@ -40,6 +41,14 @@
 		}
         _attackAnim = [CCAnimation animationWithSpriteFrames:frames delay:0.2f];
         
+        _maxLife = 100;
+        _life = _maxLife;
+        
+        self.anchorPoint = ccp(0.35f, 0.5f);
+        self.shape.layers = COLLISION_TERRAIN | COLLISION_UNITS;
+        self.walkForce = PLAYER_WALK_FORCE;
+        
+        [self updateUI];
         [self startIdleState];
     }
     
@@ -65,6 +74,11 @@
     }
 }
 
+- (void)damageWithAmount:(float)amount {
+    _life -= amount;
+    [self updateUI];
+}
+
 /* Private methods */
 
 - (void)startIdleState {
@@ -83,6 +97,10 @@
     if (_currentAnimAction != nil) {
         [self stopAction:_currentAnimAction];
     }
+}
+
+- (void)updateUI {
+    self.layer.lifeBar.percentage = 100 * _life / _maxLife;
 }
 
 @end

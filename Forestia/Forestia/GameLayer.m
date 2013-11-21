@@ -17,20 +17,37 @@
 
 + (CCScene *)scene {
     CCScene *scene = [CCScene node];
-    GameLayer *layer = [GameLayer node];
     
-    // add layer as a child to scene
+    CCLayer *hudLayer = [[CCLayer alloc] init];
+    [scene addChild:hudLayer z:1];
+    
+    GameLayer *layer = [[GameLayer alloc] initWithHudLayer:hudLayer];
     [scene addChild: layer];
     
-    // return the scene
     return scene;
 }
 
-- (id)init {
+- (id)initWithHudLayer:(CCLayer *)hudLayer {
     self = [super initWithColor:ccc4(255,255,255,255)];
     
     if (self != nil) {
         CGSize winSize = [CCDirector sharedDirector].winSize;
+        _hudLayer = hudLayer;
+        
+        // setup the sprite sheet
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game.plist"];
+        
+        // create the ui
+        CCSprite *uiBar = [CCSprite spriteWithSpriteFrameName:@"uibar.png"];
+        uiBar.position = ccp(5 + uiBar.contentSize.width / 2, winSize.height - 5 - uiBar.contentSize.height / 2);
+        [hudLayer addChild:uiBar];
+        
+        _lifeBar = [CCProgressTimer progressWithSprite:[CCSprite spriteWithSpriteFrameName:@"lifebar.png"]];
+        _lifeBar.type = kCCProgressTimerTypeBar;
+        _lifeBar.barChangeRate = ccp(1, 0);
+        _lifeBar.midpoint = ccp(0, 0.5f);
+        _lifeBar.position = ccp(62 + _lifeBar.contentSize.width / 2, winSize.height - 20 - _lifeBar.contentSize.height);
+        [hudLayer addChild:_lifeBar];
         
         // load the map
         _map = [CCTMXTiledMap tiledMapWithTMXFile:@"map0.tmx"];
@@ -50,8 +67,7 @@
         // init the graph
         _graph = [[PathGraph alloc] initWithMap:_map tileLayer:_background];
         
-        // setup the sprite sheets
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game.plist"];
+        // setup the sprite batch
         _gameBatch = [CCSpriteBatchNode batchNodeWithFile:@"game.png"];
         [self addChild:_gameBatch];
         
@@ -65,19 +81,12 @@
         _enemies = [[NSMutableArray alloc] init];
         for (NSDictionary *obj in [objectGroup objects]) {
             if ([obj[@"name"] isEqualToString:@"enemy"]) {
-                //NSLog(@"enemy=%@", obj);
                 Enemy *enemy = [[Enemy alloc] initWithLayer:self];
                 enemy.body.pos = ccp([obj[@"x"] integerValue], [obj[@"y"] integerValue]);
-                enemy.body.pos = cpv(50, 50);
-                NSLog(@"%f %f", enemy.body.pos.x, enemy.body.pos.y);
                 [_gameBatch addChild:enemy];
                 [_enemies addObject:enemy];
             }
         }
-        
-        Player *enemy = [[Player alloc] initWithLayer:self];
-        enemy.body.pos = cpv(50, 50);
-        NSLog(@"%f %f", enemy.body.pos.x, enemy.body.pos.y);
         
         // add the debug nodes
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
@@ -88,7 +97,7 @@
         _debugRenderer.drawGraph = NO;
         _debugRenderer.drawPoints = NO;
         [self addChild:_debugRenderer];
-        
+
         // set the intervals
         [self schedule:@selector(update:)];
         

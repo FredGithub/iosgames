@@ -20,6 +20,7 @@
 
 @interface GameLayer : CCLayerColor
 
+@property (nonatomic, weak) CCLayer *hudLayer;
 @property (nonatomic, strong) CCTMXTiledMap *map;
 @property (nonatomic, strong) CCTMXLayer *background;
 @property (nonatomic, strong) Player *player;
@@ -31,9 +32,11 @@
 @property (nonatomic) float time;
 @property (nonatomic, strong) ChipmunkSpace *space;
 @property (nonatomic, strong) DebugRenderer *debugRenderer;
+@property (nonatomic, strong) CCProgressTimer *lifeBar;
 
 + (CCScene *)scene;
 
+- (id)initWithHudLayer:(CCLayer *)hudLayer;
 - (CGPoint)cellCoordForPosition:(CGPoint)pos;
 - (int)cellIndexForPosition:(CGPoint)pos;
 - (NSArray *)pathFrom:(CGPoint)start to:(CGPoint)end;

@@ -14,7 +14,7 @@
 
 @implementation PathFollower
 
-- (id)initWithLayer:(GameLayer *)layer radius:(float)radius {
+- (id)initWithLayer:(GameLayer *)layer radius:(float)radius mass:(float)mass {
     self = [super init];
     
     if (self != nil) {
@@ -24,7 +24,7 @@
         _currentPath = nil;
         
         // setup physic body
-        _body = [ChipmunkBody bodyWithMass:1 andMoment:INFINITY];
+        _body = [ChipmunkBody bodyWithMass:mass andMoment:INFINITY];
         _shape = [ChipmunkCircleShape circleWithBody:_body radius:radius offset:cpvzero];
         _shape.friction = 0.1f;
         [layer.space addBody:_body];
@@ -45,7 +45,7 @@
             float rotation = [_body angle];
             [_body setAngle:rotation + [self angleMoveFrom:rotation to:ccpToAngle(dir)] * PATH_FOLLOWER_ANGLE_SMOOTH];
         }
-        [_body applyForce:ccpMult(dir, _walkForce) offset:cpvzero];
+        [_body applyForce:ccpMult(dir, _walkForce * _body.mass) offset:cpvzero];
         
         // pick next target if we reached the current target
         if (ccpFuzzyEqual(_body.pos, _targetPoint, _shape.radius + 2)) {
@@ -65,7 +65,6 @@
 }
 
 - (void)updateAfterPhysics:(ccTime)delta {
-    NSLog(@"after %f %f", _body.pos.x, _body.pos.y);
     self.position = _body.pos;
     self.rotation = -ccpToAngle(_body.rot) * 180 / M_PI;
 }

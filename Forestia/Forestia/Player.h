@@ -17,8 +17,11 @@
 @property (nonatomic, strong) CCAction *currentAnimAction;
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
+@property (nonatomic) float life;
+@property (nonatomic) float maxLife;
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)inputWithPoint:(CGPoint)target;
+- (void)damageWithAmount:(float)amount;
 
 @end
