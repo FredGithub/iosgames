@@ -143,7 +143,6 @@
 		AF012F6C1819D02900904A04 /* IntroLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F6B1819D02900904A04 /* IntroLayer.m */; };
 		AF012F781819E13200904A04 /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F771819D7FE00904A04 /* GameObject.m */; };
 		AF012F7C1819EF2900904A04 /* map1.tmx in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7B1819EF2900904A04 /* map1.tmx */; };
-		AF012F7E1819F09B00904A04 /* bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = AF012F7D1819F09B00904A04 /* bullet.png */; };
 		AF012F811819F0D600904A04 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = AF012F801819F0D600904A04 /* Player.m */; };
 		AF15E750182A9EA700684628 /* DebugRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E74F182A9EA600684628 /* DebugRenderer.m */; };
 		AF15E753182AA70200684628 /* DrawUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = AF15E752182AA70200684628 /* DrawUtils.m */; };
@@ -158,7 +157,7 @@
 		AFDE34B518231DB10028A7DD /* PathEdge.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B418231DB10028A7DD /* PathEdge.m */; };
 		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
 		AFE561D918359570005494FF /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE561D81835956F005494FF /* Vector.m */; };
-		AFF993DB183D602800720DD5 /* PathFollower.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF993DA183D602800720DD5 /* PathFollower.m */; };
+		AFF993DB183D602800720DD5 /* Unit.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF993DA183D602800720DD5 /* Unit.m */; };
 		AFFE0CB5182C1C5D00764970 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB3182C1C5D00764970 /* game.plist */; };
 		AFFE0CB6182C1C5D00764970 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB4182C1C5D00764970 /* game.png */; };
 		AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */ = {isa = PBXBuildFile; fileRef = AFFE0CB8182C37DF00764970 /* Enemy.m */; };
@@ -449,7 +448,6 @@
 		AF012F761819D7FD00904A04 /* GameObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObject.h; sourceTree = "<group>"; };
 		AF012F771819D7FE00904A04 /* GameObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameObject.m; sourceTree = "<group>"; };
 		AF012F7B1819EF2900904A04 /* map1.tmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = map1.tmx; sourceTree = "<group>"; };
-		AF012F7D1819F09B00904A04 /* bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bullet.png; sourceTree = "<group>"; };
 		AF012F7F1819F0D600904A04 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		AF012F801819F0D600904A04 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		AF15E74E182A9EA600684628 /* DebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugRenderer.h; sourceTree = "<group>"; };
@@ -513,8 +511,8 @@
 		AFDE34B718232AD20028A7DD /* PathAStarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathAStarNode.m; sourceTree = "<group>"; };
 		AFE561D71835956F005494FF /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		AFE561D81835956F005494FF /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
-		AFF993D9183D602800720DD5 /* PathFollower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathFollower.h; sourceTree = "<group>"; };
-		AFF993DA183D602800720DD5 /* PathFollower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathFollower.m; sourceTree = "<group>"; };
+		AFF993D9183D602800720DD5 /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
+		AFF993DA183D602800720DD5 /* Unit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Unit.m; sourceTree = "<group>"; };
 		AFFE0CB3182C1C5D00764970 /* game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game.plist; sourceTree = "<group>"; };
 		AFFE0CB4182C1C5D00764970 /* game.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game.png; sourceTree = "<group>"; };
 		AFFE0CB7182C37DF00764970 /* Enemy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Enemy.h; sourceTree = "<group>"; };
@@ -993,7 +991,6 @@
 			children = (
 				AFFE0CB3182C1C5D00764970 /* game.plist */,
 				AFFE0CB4182C1C5D00764970 /* game.png */,
-				AF012F7D1819F09B00904A04 /* bullet.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -1007,8 +1004,8 @@
 				AF012F801819F0D600904A04 /* Player.m */,
 				AFFE0CB7182C37DF00764970 /* Enemy.h */,
 				AFFE0CB8182C37DF00764970 /* Enemy.m */,
-				AFF993D9183D602800720DD5 /* PathFollower.h */,
-				AFF993DA183D602800720DD5 /* PathFollower.m */,
+				AFF993D9183D602800720DD5 /* Unit.h */,
+				AFF993DA183D602800720DD5 /* Unit.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -1169,7 +1166,6 @@
 				AF012DEB1819D02600904A04 /* iTunesArtwork in Resources */,
 				AF012F441819D02900904A04 /* ChangeLog in Resources */,
 				AF012F7C1819EF2900904A04 /* map1.tmx in Resources */,
-				AF012F7E1819F09B00904A04 /* bullet.png in Resources */,
 				AFDE34A6182303810028A7DD /* tmw_desert_spacing.png in Resources */,
 				AFDE34A8182308320028A7DD /* map0.tmx in Resources */,
 				AFDE34AC182309290028A7DD /* forest.png in Resources */,
@@ -1308,7 +1304,7 @@
 				AF15E753182AA70200684628 /* DrawUtils.m in Sources */,
 				AFFE0CB9182C37DF00764970 /* Enemy.m in Sources */,
 				AFE561D918359570005494FF /* Vector.m in Sources */,
-				AFF993DB183D602800720DD5 /* PathFollower.m in Sources */,
+				AFF993DB183D602800720DD5 /* Unit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

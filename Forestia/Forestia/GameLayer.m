@@ -71,12 +71,6 @@
         _gameBatch = [CCSpriteBatchNode batchNodeWithFile:@"game.png"];
         [self addChild:_gameBatch];
         
-        // create the player at spawn point
-        _player = [[Player alloc] initWithLayer:self];
-        NSDictionary *spawn = [objectGroup objectNamed:@"spawn"];
-        _player.body.pos = ccp([spawn[@"x"] integerValue], [spawn[@"y"] integerValue]);
-        [_gameBatch addChild:_player];
-        
         // add enemies
         _enemies = [[NSMutableArray alloc] init];
         for (NSDictionary *obj in [objectGroup objects]) {
@@ -87,6 +81,12 @@
                 [_enemies addObject:enemy];
             }
         }
+        
+        // create the player at spawn point
+        _player = [[Player alloc] initWithLayer:self];
+        NSDictionary *spawn = [objectGroup objectNamed:@"spawn"];
+        _player.body.pos = ccp([spawn[@"x"] integerValue], [spawn[@"y"] integerValue]);
+        [_gameBatch addChild:_player];
         
         // add the debug nodes
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
@@ -124,7 +124,22 @@
     _mousePos = [self convertTouchToNodeSpace:touch];
     _mouseDown = NO;
     
-    [_player inputWithPoint:_mousePos];
+    // find closest hit ennemy
+    float minDist = INFINITY;
+    Enemy *closestHitEnemy = nil;
+    for (Enemy *enemy in _enemies) {
+        float dist = ccpDistance(enemy.body.pos, _mousePos);
+        if (dist < enemy.shape.radius + 15 && dist < minDist) {
+            minDist = dist;
+            closestHitEnemy = enemy;
+        }
+    }
+    
+    if (closestHitEnemy != nil) {
+        [_player inputWithEnemy:closestHitEnemy];
+    } else {
+        [_player inputWithPoint:_mousePos];
+    }
 }
 
 - (void)update:(ccTime)dt {
@@ -134,7 +149,7 @@
     
     // update all game objects
     [_player update:dt];
-    for (GameObject *enemy in _enemies) {
+    for (Enemy *enemy in _enemies) {
         [enemy update:dt];
     }
     
@@ -143,7 +158,7 @@
     
     // update after physics
     [_player updateAfterPhysics:dt];
-    for (GameObject *enemy in _enemies) {
+    for (Enemy *enemy in _enemies) {
         [enemy updateAfterPhysics:dt];
         if (!enemy.active) {
             [inactive addObject:enemy];
@@ -155,7 +170,7 @@
     
     // remove inactive game objects
     for (GameObject *gameObject in inactive) {
-        if ([gameObject isKindOfClass:[GameObject class]]) {
+        if ([gameObject isKindOfClass:[Enemy class]]) {
             [_enemies removeObject:gameObject];
             [self removeChild:gameObject cleanup:YES];
             // TODO: remove from space

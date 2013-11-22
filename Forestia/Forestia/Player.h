@@ -8,20 +8,14 @@
 
 #import "cocos2d.h"
 
-#import "PathFollower.h"
+#import "Unit.h"
 #import "GameLayer.h"
+#import "Enemy.h"
 
-@interface Player : PathFollower
-
-@property (nonatomic) int state;
-@property (nonatomic, strong) CCAction *currentAnimAction;
-@property (nonatomic, strong) CCAnimation *walkAnim;
-@property (nonatomic, strong) CCAnimation *attackAnim;
-@property (nonatomic) float life;
-@property (nonatomic) float maxLife;
+@interface Player : Unit
 
 - (id)initWithLayer:(GameLayer *)layer;
 - (void)inputWithPoint:(CGPoint)target;
-- (void)damageWithAmount:(float)amount;
+- (void)inputWithEnemy:(Enemy *)enemy;
 
 @end
