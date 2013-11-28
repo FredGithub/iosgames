@@ -133,7 +133,7 @@
     Enemy *closestHitEnemy = nil;
     for (Enemy *enemy in _enemies) {
         float dist = ccpDistance(enemy.body.pos, _mousePos);
-        if (dist < enemy.shape.radius + 15 && dist < minDist) {
+        if (dist < enemy.shape.radius + 20 && dist < minDist) {
             minDist = dist;
             closestHitEnemy = enemy;
         }

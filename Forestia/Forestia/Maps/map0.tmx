@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="10" height="6" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="16" height="16" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64">
   <image source="forest.png" width="128" height="256"/>
   <tile id="0">
@@ -28,16 +28,21 @@
    </properties>
   </tile>
  </tileset>
- <layer name="background" width="10" height="6">
+ <layer name="background" width="16" height="16">
   <data encoding="base64" compression="zlib">
-   eJx9jdEKACAIxEy9///lDBRGRA8DwWOTmUWhZgEBL/LaJbb+udWNuP7jG0/g5+gIDrrHqUd3/InO2W5SZACn
+   eJx9U0kOACEIY5H/f3nmAEltiofGKNIWwWNm+aMa0ciGN6LXgtiBvcN+OE4D851iSXwOmDuc6yInYA27/aKmU1zl+KJXsG48tXAk5B6hvWm8PLJffFelo3i4njlT3GV3T8Lu2VGeWBPrUz4RRdwzE5O/9U3Vje+TlMezgTOu3kzp4Zwm3UX/qn/89xx4VK3Yi5cf/p/IP/EPzTQCXg==
   </data>
  </layer>
- <objectgroup name="objects" width="10" height="6">
-  <object name="spawn" x="32" y="352"/>
-  <object name="enemy" x="595" y="162"/>
-  <object name="enemy" x="530" y="91"/>
-  <object name="enemy" x="595" y="104"/>
-  <object name="enemy" x="181" y="343"/>
+ <objectgroup name="objects" width="16" height="16">
+  <object name="spawn" x="32" y="992"/>
+  <object name="enemy" x="595" y="802"/>
+  <object name="enemy" x="530" y="731"/>
+  <object name="enemy" x="595" y="744"/>
+  <object name="enemy" x="353" y="928"/>
+  <object name="enemy" x="399" y="163"/>
+  <object name="enemy" x="304" y="158"/>
+  <object name="enemy" x="979" y="494"/>
+  <object name="enemy" x="914" y="423"/>
+  <object name="enemy" x="916" y="833"/>
  </objectgroup>
 </map>
