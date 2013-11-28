@@ -18,7 +18,7 @@
     
     if (self != nil) {
         _target = target;
-        _speed = 5;
+        _speed = 7;
         _damage = damage;
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"arrow.png"]];
     }

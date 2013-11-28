@@ -59,7 +59,7 @@
             <key>elf_attack_0003.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,42},{66,38}}</string>
+                <string>{{212,2},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +72,7 @@
             <key>elf_attack_0004.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{70,42},{66,38}}</string>
+                <string>{{280,2},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +85,7 @@
             <key>elf_attack_0005.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{138,42},{66,38}}</string>
+                <string>{{348,2},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +98,7 @@
             <key>elf_attack_0006.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,82},{66,38}}</string>
+                <string>{{416,2},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +111,7 @@
             <key>elf_attack_0007.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{70,82},{66,38}}</string>
+                <string>{{2,42},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -163,7 +163,7 @@
             <key>elf_walk_0002.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{138,82},{66,38}}</string>
+                <string>{{70,42},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +189,7 @@
             <key>elf_walk_0004.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,122},{66,38}}</string>
+                <string>{{138,42},{66,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -199,10 +199,23 @@
                 <key>sourceSize</key>
                 <string>{66,38}</string>
             </dict>
+            <key>game_over.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,82},{480,320}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{480,320}}</string>
+                <key>sourceSize</key>
+                <string>{480,320}</string>
+            </dict>
             <key>lifebar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{70,122},{88,14}}</string>
+                <string>{{2,404},{88,14}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,7 +228,7 @@
             <key>orc_attack_0001.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{160,122},{40,38}}</string>
+                <string>{{92,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +241,7 @@
             <key>orc_attack_0002.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{202,122},{40,38}}</string>
+                <string>{{134,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +254,7 @@
             <key>orc_attack_0003.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,162},{40,38}}</string>
+                <string>{{176,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -254,7 +267,7 @@
             <key>orc_attack_0004.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{44,162},{40,38}}</string>
+                <string>{{218,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -267,7 +280,7 @@
             <key>orc_idle.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{160,122},{40,38}}</string>
+                <string>{{92,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +293,7 @@
             <key>orc_walk_0001.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{160,122},{40,38}}</string>
+                <string>{{92,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -293,7 +306,7 @@
             <key>orc_walk_0002.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{86,162},{40,38}}</string>
+                <string>{{260,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -306,7 +319,7 @@
             <key>orc_walk_0003.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{160,122},{40,38}}</string>
+                <string>{{92,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -319,7 +332,7 @@
             <key>orc_walk_0004.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{128,162},{40,38}}</string>
+                <string>{{302,404},{40,38}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -332,7 +345,7 @@
             <key>uibar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,202},{150,59}}</string>
+                <string>{{344,404},{150,59}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -342,6 +355,19 @@
                 <key>sourceSize</key>
                 <string>{150,59}</string>
             </dict>
+            <key>you_win.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,465},{480,320}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{480,320}}</string>
+                <key>sourceSize</key>
+                <string>{480,320}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -350,9 +376,9 @@
             <key>realTextureFileName</key>
             <string>game.png</string>
             <key>size</key>
-            <string>{256,512}</string>
+            <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6d5bde26c8e7628da466de41b20d922f$</string>
+            <string>$TexturePacker:SmartUpdate:83cb651136e1aed5936c04e018d003ae$</string>
             <key>textureFileName</key>
             <string>game.png</string>
         </dict>

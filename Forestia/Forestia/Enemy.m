@@ -15,7 +15,7 @@
 #define ENEMY_ATTACK_RANGE 35
 #define ENEMY_RELOAD_TIME 1.8f
 #define ENEMY_DAMAGE 10
-#define ENEMY_DAMAGE_DELAY 0.2f
+#define ENEMY_ATTACK_DELAY 0.2f
 #define ENEMY_MAX_LIFE 80
 
 @implementation Enemy
@@ -31,7 +31,7 @@
         self.attackRange = ENEMY_ATTACK_RANGE;
         self.reloadTime = ENEMY_RELOAD_TIME;
         self.damage = ENEMY_DAMAGE;
-        self.attackDelay = ENEMY_DAMAGE_DELAY;
+        self.attackDelay = ENEMY_ATTACK_DELAY;
         self.maxLife = ENEMY_MAX_LIFE;
         self.life = self.maxLife;
         

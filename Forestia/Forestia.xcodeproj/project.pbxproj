@@ -158,6 +158,7 @@
 		AFDE34B818232AD20028A7DD /* PathAStarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = AFDE34B718232AD20028A7DD /* PathAStarNode.m */; };
 		AFE561D918359570005494FF /* Vector.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE561D81835956F005494FF /* Vector.m */; };
 		AFE84A781847AEE000DC8E9E /* Projectile.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE84A771847AEE000DC8E9E /* Projectile.m */; };
+		AFE84A7B1847D42C00DC8E9E /* GameOverLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AFE84A7A1847D42C00DC8E9E /* GameOverLayer.m */; };
 		AFF993DB183D602800720DD5 /* Unit.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF993DA183D602800720DD5 /* Unit.m */; };
 		AFFE0CB5182C1C5D00764970 /* game.plist in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB3182C1C5D00764970 /* game.plist */; };
 		AFFE0CB6182C1C5D00764970 /* game.png in Resources */ = {isa = PBXBuildFile; fileRef = AFFE0CB4182C1C5D00764970 /* game.png */; };
@@ -514,6 +515,8 @@
 		AFE561D81835956F005494FF /* Vector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vector.m; sourceTree = "<group>"; };
 		AFE84A761847AEE000DC8E9E /* Projectile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projectile.h; sourceTree = "<group>"; };
 		AFE84A771847AEE000DC8E9E /* Projectile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Projectile.m; sourceTree = "<group>"; };
+		AFE84A791847D42C00DC8E9E /* GameOverLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameOverLayer.h; sourceTree = "<group>"; };
+		AFE84A7A1847D42C00DC8E9E /* GameOverLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameOverLayer.m; sourceTree = "<group>"; };
 		AFF993D9183D602800720DD5 /* Unit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Unit.h; sourceTree = "<group>"; };
 		AFF993DA183D602800720DD5 /* Unit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Unit.m; sourceTree = "<group>"; };
 		AFFE0CB3182C1C5D00764970 /* game.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = game.plist; sourceTree = "<group>"; };
@@ -590,6 +593,8 @@
 				AF012F671819D02900904A04 /* GameLayer.h */,
 				AF012F681819D02900904A04 /* GameLayer.m */,
 				AF012F751819D7B200904A04 /* GameObjects */,
+				AFE84A791847D42C00DC8E9E /* GameOverLayer.h */,
+				AFE84A7A1847D42C00DC8E9E /* GameOverLayer.m */,
 				AF012F721819D0E200904A04 /* Images */,
 				AF012F6A1819D02900904A04 /* IntroLayer.h */,
 				AF012F6B1819D02900904A04 /* IntroLayer.m */,
@@ -1311,6 +1316,7 @@
 				AFE561D918359570005494FF /* Vector.m in Sources */,
 				AFF993DB183D602800720DD5 /* Unit.m in Sources */,
 				AFE84A781847AEE000DC8E9E /* Projectile.m in Sources */,
+				AFE84A7B1847D42C00DC8E9E /* GameOverLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

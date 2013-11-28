@@ -16,7 +16,7 @@
 #define PLAYER_ATTACK_RANGE 200
 #define PLAYER_RELOAD_TIME 1.1f
 #define PLAYER_DAMAGE 50
-#define PLAYER_DAMAGE_DELAY 0.2f
+#define PLAYER_ATTACK_DELAY 0.5f
 #define PLAYER_MAX_LIFE 100
 
 @implementation Player
@@ -32,7 +32,7 @@
         self.attackRange = PLAYER_ATTACK_RANGE;
         self.reloadTime = PLAYER_RELOAD_TIME;
         self.damage = PLAYER_DAMAGE;
-        self.attackDelay = PLAYER_DAMAGE_DELAY;
+        self.attackDelay = PLAYER_ATTACK_DELAY;
         self.maxLife = PLAYER_MAX_LIFE;
         self.life = self.maxLife;
         

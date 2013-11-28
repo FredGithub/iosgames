@@ -13,6 +13,7 @@
 #import "Vector.h"
 #import "Enemy.h"
 #import "Projectile.h"
+#import "GameOverLayer.h"
 
 @implementation GameLayer
 
@@ -164,6 +165,9 @@
     
     // update after physics
     [_player updateAfterPhysics:dt];
+    if (!_player.active) {
+        [self lose];
+    }
     for (Enemy *enemy in _enemies) {
         [enemy updateAfterPhysics:dt];
         if (!enemy.active) {
@@ -190,6 +194,11 @@
             [_projectiles removeObject:gameObject];
             [_gameBatch removeChild:gameObject cleanup:YES];
         }
+    }
+    
+    // handle winning
+    if ([_enemies count] == 0) {
+        [self win];
     }
 }
 
@@ -331,8 +340,13 @@
 }
 
 - (void)win {
-    //CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
-    //[[CCDirector sharedDirector] replaceScene:gameOverScene];
+    CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
+    [[CCDirector sharedDirector] replaceScene:gameOverScene];
+}
+
+- (void)lose {
+    CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
+    [[CCDirector sharedDirector] replaceScene:gameOverScene];
 }
 
 @end
