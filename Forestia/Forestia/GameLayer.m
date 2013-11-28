@@ -341,12 +341,12 @@
 
 - (void)win {
     CCScene *gameOverScene = [GameOverLayer sceneWithWon:YES];
-    [[CCDirector sharedDirector] replaceScene:gameOverScene];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:gameOverScene]];
 }
 
 - (void)lose {
     CCScene *gameOverScene = [GameOverLayer sceneWithWon:NO];
-    [[CCDirector sharedDirector] replaceScene:gameOverScene];
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:1.0 scene:gameOverScene]];
 }
 
 @end
