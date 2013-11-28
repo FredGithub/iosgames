@@ -31,7 +31,7 @@
         self.attackRange = ENEMY_ATTACK_RANGE;
         self.reloadTime = ENEMY_RELOAD_TIME;
         self.damage = ENEMY_DAMAGE;
-        self.damageDelay = ENEMY_DAMAGE_DELAY;
+        self.attackDelay = ENEMY_DAMAGE_DELAY;
         self.maxLife = ENEMY_MAX_LIFE;
         self.life = self.maxLife;
         

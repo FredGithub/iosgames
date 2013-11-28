@@ -17,6 +17,7 @@
 #define COLLISION_UNITS 4
 
 @class Player;
+@class Projectile;
 
 @interface GameLayer : CCLayerColor
 
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) ChipmunkSpace *space;
 @property (nonatomic, strong) DebugRenderer *debugRenderer;
 @property (nonatomic, strong) CCProgressTimer *lifeBar;
+@property (nonatomic, strong) NSMutableArray *projectiles;
 
 + (CCScene *)scene;
 
@@ -40,5 +42,6 @@
 - (CGPoint)cellCoordForPosition:(CGPoint)pos;
 - (int)cellIndexForPosition:(CGPoint)pos;
 - (NSArray *)pathFrom:(CGPoint)start to:(CGPoint)end;
+- (void)addProjectile:(Projectile *)projectile;
 
 @end

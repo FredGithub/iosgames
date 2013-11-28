@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 AdminMacLC04. All rights reserved.
 //
 
-#import "DrawUtils.h"
+#import "Utils.h"
 
 void drawArrow(CGPoint start, CGPoint end, float size) {
     // get the arrow dir and normal
@@ -30,4 +30,24 @@ void drawArrowShrinked(CGPoint start, CGPoint end, float size, float shrink) {
     start = ccpAdd(mid, ccpMult(ccpSub(start, mid), shrink));
     end = ccpAdd(mid, ccpMult(ccpSub(end, mid), shrink));
     drawArrow(start, end, size);
+}
+
+float angleMove(float rotation, float targetRotation) {
+    float angleMove = fmodf(targetRotation - rotation, 2 * M_PI);
+    if (angleMove > M_PI) {
+        angleMove -= 2 * M_PI;
+    } else if (angleMove < -M_PI) {
+        angleMove += 2 * M_PI;
+    }
+    return angleMove;
+}
+
+float angleMoveDeg(float rotation, float targetRotation) {
+    float angleMove = fmodf(targetRotation - rotation, 360);
+    if (angleMove > 180) {
+        angleMove -= 360;
+    } else if (angleMove < -180) {
+        angleMove += 360;
+    }
+    return angleMove;
 }

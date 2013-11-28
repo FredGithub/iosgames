@@ -9,7 +9,7 @@
 #import "DebugRenderer.h"
 #import "PathNode.h"
 #import "PathEdge.h"
-#import "DrawUtils.h"
+#import "Utils.h"
 #import "Vector.h"
 
 @implementation DebugRenderer

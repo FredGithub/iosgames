@@ -8,6 +8,7 @@
 
 #import "Unit.h"
 #import "Vector.h"
+#import "Utils.h"
 
 #define UNIT_FRICTION 0.8f
 #define UNIT_ANGLE_SMOOTH 0.2f
@@ -33,8 +34,8 @@
         _reloadTime = 2;
         _lastAttackTime = 0;
         _damage = 10;
-        _damageApplied = NO;
-        _damageDelay = 0;
+        _attackApplied = NO;
+        _attackDelay = 0;
         _maxLife = 100;
         _life = _maxLife;
         
@@ -54,6 +55,8 @@
 }
 
 - (void)update:(ccTime)delta {
+    [super update:delta];
+    
     [_body resetForces];
     
     if (_state == UNIT_STATE_CHASE) {
@@ -76,6 +79,7 @@
             [self startChaseState];
         } else if (_lastAttackTime + _reloadTime <= self.layer.time) {
             _lastAttackTime = self.layer.time;
+            _attackApplied = NO;
             [self startAttackState];
         } else {
             // face the target unit
@@ -91,9 +95,9 @@
             [self.body setAngle:ccpToAngle(ccpSub(_targetUnit.body.pos, self.body.pos))];
             
             // apply damage
-            if (!_damageApplied && (_lastAttackTime + _damageDelay <= self.layer.time || [_currentAnimAction isDone])) {
-                [_targetUnit damageWithAmount:_damage];
-                _damageApplied = YES;
+            if (!_attackApplied && (_lastAttackTime + _attackDelay <= self.layer.time || [_currentAnimAction isDone])) {
+                _attackApplied = YES;
+                [self applyAttack];
             }
         }
     }
@@ -104,7 +108,7 @@
         if (ccpLengthSQ(dir) > 0) {
             dir = ccpNormalize(dir);
             float rotation = [_body angle];
-            [_body setAngle:rotation + [self angleMoveFrom:rotation to:ccpToAngle(dir)] * UNIT_ANGLE_SMOOTH];
+            [_body setAngle:rotation + angleMove(rotation, ccpToAngle(dir)) * UNIT_ANGLE_SMOOTH];
         }
         [_body applyForce:ccpMult(dir, _walkForce * _body.mass) offset:cpvzero];
         
@@ -141,6 +145,9 @@
 
 - (void)damageWithAmount:(float)amount {
     _life -= amount;
+    if (_life <= 0) {
+        self.active = NO;
+    }
 }
 
 - (void)startIdleState {
@@ -185,14 +192,8 @@
 
 /* Private methods */
 
-- (float) angleMoveFrom:(float)rotation to:(float)targetRotation {
-    float angleMove = fmodf(targetRotation - rotation, 2 * M_PI);
-    if (angleMove > M_PI) {
-        angleMove -= 2 * M_PI;
-    } else if (angleMove < -M_PI) {
-        angleMove += 2 * M_PI;
-    }
-    return angleMove;
+- (void)applyAttack {
+    [_targetUnit damageWithAmount:_damage];
 }
 
 - (void)stopAnimation {

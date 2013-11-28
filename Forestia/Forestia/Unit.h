@@ -33,8 +33,8 @@
 @property (nonatomic) float reloadTime;
 @property (nonatomic) float lastAttackTime;
 @property (nonatomic) float damage;
-@property (nonatomic) BOOL damageApplied;
-@property (nonatomic) float damageDelay;
+@property (nonatomic) BOOL attackApplied;
+@property (nonatomic) float attackDelay;
 @property (nonatomic) float maxLife;
 @property (nonatomic) float life;
 

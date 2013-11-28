@@ -10,3 +10,5 @@
 
 void drawArrow(CGPoint start, CGPoint end, float size);
 void drawArrowShrinked(CGPoint start, CGPoint end, float size, float shrink);
+float angleMove(float rotation, float targetRotation);
+float angleMoveDeg(float rotation, float targetRotation);

@@ -12,6 +12,7 @@
 #import "ChipmunkAutoGeometry.h"
 #import "Vector.h"
 #import "Enemy.h"
+#import "Projectile.h"
 
 @implementation GameLayer
 
@@ -88,6 +89,8 @@
         _player.body.pos = ccp([spawn[@"x"] integerValue], [spawn[@"y"] integerValue]);
         [_gameBatch addChild:_player];
         
+        _projectiles = [NSMutableArray array];
+        
         // add the debug nodes
         CCPhysicsDebugNode *physicsDebugNode = [CCPhysicsDebugNode debugNodeForChipmunkSpace:_space];
         physicsDebugNode.visible = NO;
@@ -152,6 +155,9 @@
     for (Enemy *enemy in _enemies) {
         [enemy update:dt];
     }
+    for (Projectile *projectile in _projectiles) {
+        [projectile update:dt];
+    }
     
     // update physics
     [_space step:dt];
@@ -164,6 +170,12 @@
             [inactive addObject:enemy];
         }
     }
+    for (Projectile *projectile in _projectiles) {
+        [projectile updateAfterPhysics:dt];
+        if (!projectile.active) {
+            [inactive addObject:projectile];
+        }
+    }
     
     // center camera on player
     [self setViewPointCenter:_player.position];
@@ -172,8 +184,11 @@
     for (GameObject *gameObject in inactive) {
         if ([gameObject isKindOfClass:[Enemy class]]) {
             [_enemies removeObject:gameObject];
-            [self removeChild:gameObject cleanup:YES];
+            [_gameBatch removeChild:gameObject cleanup:YES];
             // TODO: remove from space
+        } else if ([gameObject isKindOfClass:[Projectile class]]) {
+            [_projectiles removeObject:gameObject];
+            [_gameBatch removeChild:gameObject cleanup:YES];
         }
     }
 }
@@ -239,6 +254,11 @@
     }
     
     return vecPath;
+}
+
+- (void)addProjectile:(Projectile *)projectile {
+    [_projectiles addObject:projectile];
+    [_gameBatch addChild:projectile];
 }
 
 /* Private methods */

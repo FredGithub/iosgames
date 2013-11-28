@@ -8,6 +8,7 @@
 
 #import "Player.h"
 #import "Vector.h"
+#import "Projectile.h"
 
 #define PLAYER_RADIUS 14
 #define PLAYER_MASS 10
@@ -31,7 +32,7 @@
         self.attackRange = PLAYER_ATTACK_RANGE;
         self.reloadTime = PLAYER_RELOAD_TIME;
         self.damage = PLAYER_DAMAGE;
-        self.damageDelay = PLAYER_DAMAGE_DELAY;
+        self.attackDelay = PLAYER_DAMAGE_DELAY;
         self.maxLife = PLAYER_MAX_LIFE;
         self.life = self.maxLife;
         
@@ -93,6 +94,13 @@
 }
 
 /* Private methods */
+
+- (void)applyAttack {
+    Projectile *projectile = [[Projectile alloc] initWithLayer:self.layer target:self.targetUnit damage:self.damage];
+    projectile.position = self.position;
+    projectile.rotation = self.rotation;
+    [self.layer addProjectile:projectile];
+}
 
 - (void)updateUI {
     self.layer.lifeBar.percentage = 100 * self.life / self.maxLife;
