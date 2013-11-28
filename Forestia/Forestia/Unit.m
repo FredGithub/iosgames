@@ -65,6 +65,16 @@
     
     [_body resetForces];
     
+    // reset target unit if it died
+    if (_targetUnit != nil && !_targetUnit.active) {
+        _targetUnit = nil;
+    }
+    
+    // switch to idle state if we have no more target
+    if (_targetUnit == nil && (_state == UNIT_STATE_CHASE || _state == UNIT_STATE_WAITING_FOR_ATTACK)) {
+        [self startIdleState];
+    }
+    
     if (_state == UNIT_STATE_CHASE) {
         BOOL inRange = ccpDistanceSQ(_body.pos, _targetUnit.body.pos) <= _attackRange * _attackRange;
         if (inRange) {
@@ -80,7 +90,7 @@
     }
     
     if (_state == UNIT_STATE_WAITING_FOR_ATTACK) {
-        BOOL outOfRange = ccpDistanceSQ(self.body.pos, _targetUnit.body.pos) > _attackRange * _attackRange;;
+        BOOL outOfRange = ccpDistanceSQ(self.body.pos, _targetUnit.body.pos) > _attackRange * _attackRange;
         if (outOfRange) {
             [self startChaseState];
         } else if (_lastAttackTime + _reloadTime <= self.layer.time) {
@@ -98,7 +108,9 @@
             [self startWaitingForAttackState];
         } else {
             // face the target unit
-            [self.body setAngle:ccpToAngle(ccpSub(_targetUnit.body.pos, self.body.pos))];
+            if (_targetUnit != nil) {
+                [self.body setAngle:ccpToAngle(ccpSub(_targetUnit.body.pos, self.body.pos))];
+            }
             
             // apply damage
             if (!_attackApplied && (_lastAttackTime + _attackDelay <= self.layer.time || [_currentAnimAction isDone])) {
@@ -207,7 +219,9 @@
 /* Private methods */
 
 - (void)applyAttack {
-    [_targetUnit damageWithAmount:_damage];
+    if (_targetUnit != nil) {
+        [_targetUnit damageWithAmount:_damage];
+    }
 }
 
 - (void)stopAnimation {
