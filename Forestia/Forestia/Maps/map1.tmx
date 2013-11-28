@@ -1,27 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
- <tileset firstgid="1" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
-  <image source="tmw_desert_spacing.png" width="265" height="199"/>
-  <tile id="20">
+<map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="forest" tilewidth="64" tileheight="64">
+  <image source="forest.png" width="128" height="256"/>
+  <tile id="0">
    <properties>
-    <property name="walkable" value="NO"/>
+    <property name="walkable" value="true"/>
    </properties>
   </tile>
-  <tile id="24">
+  <tile id="1">
    <properties>
-    <property name="walkable" value="NO"/>
+    <property name="walkable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="walkable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="walkable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="walkable" value="false"/>
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="49" name="forest" tilewidth="96" tileheight="96">
-  <image source="../Images/forest.png" width="192" height="96"/>
- </tileset>
- <layer name="Background" width="50" height="50">
+ <layer name="background" width="30" height="30">
   <data encoding="base64" compression="zlib">
-   eJztl91KAzEQRoMXtlK1KhX/S4sKWrXq+7+cE4g4hCQ7s5NsZtdcHFpIdvc7+ZLSXRtj1o4b4JbBHbpWC1/AFngCdgSegUfgU0F2n63LlnvuUD1IPbR1YrO9m/De98/Oh7I+LC/u89X87f834BCYAXNvDM+pnb3LaQ+cAkvgDI1hamfFzBKcOI/jyPhcQf5floUZyuNKwDVhjeznNyI2NzXGxd//Kahd+1lDeXM69GHjoHrEMufy2ASgzuf0EcpcuwsKoX1VqovmwfcI5R67B+W3WAsxj7HkT3mMkeahiyE9VsCFkEsFHosM9zhS5uE7UR2n7mHZj9hjhb5zzpjkfObyOED0OXOpTinXluhjKh73Xj8pQvfg7KmSHn060NhHLg9qpw8FPLqeuYhcp6EPDlP0wJwb/vnW6CHhv3rEOk7998+dOZStRh+UdUmtj0YPyR5sHvL33677c9axZh/No3lM3UNyzqVeVI+hyfXs2h65sB6cd2mt2PfBH7XdCeA=
+   eJyNl0mOwzAMBLVY///y5BACNeWmnYOARJa4dbNNX2OM/VlXWOe71mfN71r6X+vCs/W1WXaT/Qn7JzynnwUbB3t8lvxess+73Ke9lGPZdC2c8xz3vM+4x1zPnKN9n+Z+d4f5b9ybP9x3DcpGh3fiBu+lOjpOn/HZdM85lc+Kx9gTI2JCniU/lWPKPeFPmwlb1iXlaK6m2rB3iENns8OXfsjX1Sz7MLcYr+Njr5GbnZaknrJv9lrq3zP63jHWjKvrBd/ZWl2sbxrJGInNFXxas4ideWWMU01T351w7mifONgf69FpGu+R02fcMUg1SBqV8nnCjzr8pgPeNz7uNb4nulo/6W0XT9k171hHa1/HzSWf5ErS8zdNoR3HxrolrUt65zo/1ZsxpHPmVZ3tONpxxzGmecdatMd/bFIcO/i2FqT+Szy3XlMnkjamd6T55P2nmcL64fj8jmY9PCOaX7RtDfkVy6SXnteMuedg86fySbNCV4tUkyW/XUzmG+9yPkg1edLGGez4rOcF4p7eoXNkTUm87X4n/nZ5nXHPM81SXT3M/zfd8XcBsUnzjnWJvqh53czib7M97vGyp5MuuPf9/w/HsghK
   </data>
  </layer>
- <objectgroup name="Objects" width="50" height="50">
-  <object name="SpawnPoint" x="59" y="259" width="32" height="26"/>
+ <objectgroup name="objects" width="30" height="30">
+  <object name="spawn" x="32" y="1888"/>
+  <object name="enemy" x="595" y="1698"/>
+  <object name="enemy" x="530" y="1627"/>
+  <object name="enemy" x="595" y="1640"/>
+  <object name="enemy" x="278" y="1882"/>
+  <object name="enemy" x="277" y="1351"/>
+  <object name="enemy" x="331" y="1288"/>
+  <object name="enemy" x="775" y="1123"/>
+  <object name="enemy" x="856" y="1116"/>
+  <object name="enemy" x="361" y="225"/>
+  <object name="enemy" x="415" y="162"/>
+  <object name="enemy" x="1160" y="1898"/>
+  <object name="enemy" x="1231" y="1894"/>
+  <object name="enemy" x="1292" y="1892"/>
+  <object name="enemy" x="1334" y="1836"/>
+  <object name="enemy" x="1279" y="1517"/>
+  <object name="enemy" x="1279" y="1575"/>
+  <object name="enemy" x="1191" y="1552"/>
+  <object name="enemy" x="1012" y="696"/>
+  <object name="enemy" x="1012" y="754"/>
+  <object name="enemy" x="947" y="683"/>
+  <object name="enemy" x="1366" y="540"/>
+  <object name="enemy" x="1366" y="598"/>
+  <object name="enemy" x="927" y="745"/>
+  <object name="enemy" x="1635" y="1117"/>
+  <object name="enemy" x="1635" y="1175"/>
+  <object name="enemy" x="1570" y="1104"/>
+  <object name="enemy" x="1800" y="1000"/>
+  <object name="enemy" x="1754" y="1071"/>
+  <object name="enemy" x="1735" y="987"/>
+  <object name="enemy" x="1074" y="87"/>
+  <object name="enemy" x="1152" y="92"/>
+  <object name="enemy" x="1009" y="74"/>
+  <object name="enemy" x="1802" y="1566"/>
+  <object name="enemy" x="1802" y="1624"/>
+  <object name="enemy" x="1321" y="907"/>
+  <object name="enemy" x="158" y="572"/>
+  <object name="enemy" x="158" y="630"/>
+  <object name="enemy" x="93" y="559"/>
+  <object name="enemy" x="1768" y="288"/>
+  <object name="enemy" x="1686" y="295"/>
+  <object name="enemy" x="1629" y="219"/>
+  <object name="enemy" x="1882" y="621"/>
+  <object name="enemy" x="1882" y="679"/>
+  <object name="enemy" x="1817" y="608"/>
  </objectgroup>
 </map>
