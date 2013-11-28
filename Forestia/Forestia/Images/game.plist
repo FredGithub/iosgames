@@ -342,10 +342,23 @@
                 <key>sourceSize</key>
                 <string>{40,38}</string>
             </dict>
+            <key>selection.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{344,404},{100,100}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,100}}</string>
+                <key>sourceSize</key>
+                <string>{100,100}</string>
+            </dict>
             <key>uibar.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{344,404},{150,59}}</string>
+                <string>{{2,506},{150,59}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -358,7 +371,7 @@
             <key>you_win.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,465},{480,320}}</string>
+                <string>{{2,567},{480,320}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -378,7 +391,7 @@
             <key>size</key>
             <string>{512,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:83cb651136e1aed5936c04e018d003ae$</string>
+            <string>$TexturePacker:SmartUpdate:4c6445f933be944d92fdc9d7b1b903f7$</string>
             <key>textureFileName</key>
             <string>game.png</string>
         </dict>

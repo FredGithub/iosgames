@@ -76,6 +76,7 @@
 - (void)inputWithPoint:(CGPoint)target {
     [super targetWithPoint:target];
     if (self.currentPath != nil) {
+        [self removeTargetUnitSelection];
         self.targetUnit = nil;
         [self startWalkState];
     }
@@ -83,7 +84,9 @@
 
 - (void)inputWithEnemy:(Unit *)unit {
     if (self.targetUnit != unit) {
+        [self removeTargetUnitSelection];
         self.targetUnit = unit;
+        [unit showSelection];
         [self startChaseState];
     }
 }
@@ -102,6 +105,11 @@
     [self.layer addProjectile:projectile];
 }
 
+- (void)removeTargetUnitSelection {
+    if (self.targetUnit != nil) {
+        [self.targetUnit hideSelection];
+    }
+}
 - (void)updateUI {
     self.layer.lifeBar.percentage = 100 * self.life / self.maxLife;
 }

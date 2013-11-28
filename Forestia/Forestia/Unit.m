@@ -44,6 +44,12 @@
         _walkAnim = nil;
         _attackAnim = nil;
         
+        _selection = [CCSprite spriteWithSpriteFrameName:@"selection.png"];
+        _selection.scale = radius / 30;
+        _selection.anchorPoint = ccp(0, 0);
+        _selection.visible = NO;
+        [self addChild:_selection];
+        
         _body = [ChipmunkBody bodyWithMass:mass andMoment:INFINITY];
         _shape = [ChipmunkCircleShape circleWithBody:_body radius:radius offset:cpvzero];
         _shape.friction = 0.1f;
@@ -188,6 +194,14 @@
     if (_attackAnim != nil) {
         _currentAnimAction = [self runAction:[CCAnimate actionWithAnimation:_attackAnim]];
     }
+}
+
+- (void)showSelection {
+    _selection.visible = YES;
+}
+
+- (void)hideSelection {
+    _selection.visible = NO;
 }
 
 /* Private methods */

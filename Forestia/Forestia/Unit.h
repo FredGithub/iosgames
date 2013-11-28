@@ -43,6 +43,8 @@
 @property (nonatomic, strong) CCAnimation *walkAnim;
 @property (nonatomic, strong) CCAnimation *attackAnim;
 
+@property (nonatomic, weak) CCSprite *selection;
+
 @property (nonatomic, strong) ChipmunkBody *body;
 @property (nonatomic, strong) ChipmunkCircleShape *shape;
 
@@ -54,5 +56,7 @@
 - (void)startChaseState;
 - (void)startWaitingForAttackState;
 - (void)startAttackState;
+- (void)showSelection;
+- (void)hideSelection;
 
 @end
