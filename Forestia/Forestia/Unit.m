@@ -60,6 +60,12 @@
     return self;
 }
 
+- (void)cleanup {
+    [super cleanup];
+    [_layer.space removeBody:_body];
+    [_layer.space removeShape:_shape];
+}
+
 - (void)update:(ccTime)delta {
     [super update:delta];
     
